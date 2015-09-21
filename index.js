@@ -39,7 +39,37 @@ app.post('/archive', function(request, result) {
 app.get('/', function(request, result) {
   result.send('coming soon')
 })
-
+app.get('/archive', function(request, result) {
+  result.send(
+    "<script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>" +
+    "<div>" +
+    "  Paste your JSON below: (it might take a 10-20 seconds to paste the json if it is large, please be patient)<br />" +
+    "  <textarea id='scraped_status' rows='20' cols='50'></textarea>" +
+    "  <button id='submitButton' value='submit'>submit</button>" +
+    "</div>" +
+    "<script>" +
+    "  $(function() {" +
+    "    $('#submitButton').click(function() {" +
+    "      var json = $('#scraped_status').val();" +
+    "      if (json === '') { return; };" +
+    "      var POST_URL = '/archive';" +
+    "      $.ajax(POST_URL, {" +
+    "        method: 'POST'," +
+    "        data: json," +
+    "        contentType: 'application/json'," +
+    "        complete: function(xhr, status) {" +
+    // "          $('#scraped_status').val('');" +
+    "          alert(status);" +
+    "        }," +
+    "        error: function(xhr, statuss, err) {" +
+    "          alert(status + ' ' + err)" +
+    "        }" +
+    "      });" +
+    "    });" +
+    "  });" +
+    "</script>"
+  )
+})
 app.get('/list', function(request, result) {
   pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
     if (err) {
