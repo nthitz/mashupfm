@@ -5,7 +5,9 @@ var pg = require('pg')
 var bodyParser = require('body-parser')
 var app = express();
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json({
+  limit: '10mb'
+}));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
