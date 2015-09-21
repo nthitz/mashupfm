@@ -40,7 +40,7 @@ app.get('/', function(request, result) {
   result.send('coming soon')
 })
 
-app.get('/archive', function(request, result) {
+app.get('/list', function(request, result) {
   pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
     if (err) {
       console.error(err)
