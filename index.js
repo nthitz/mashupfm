@@ -70,7 +70,8 @@ app.get('/archive', function(request, result) {
     "</script>"
   )
 })
-app.get('/list', function(request, result) {
+
+app.get('/list/:username', function(request, result) {
   pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
     if (err) {
       console.error(err)
@@ -78,7 +79,8 @@ app.get('/list', function(request, result) {
       done()
       return
     }
-    var query = client.query('SELECT * FROM  "Entry"')
+    var usernameQuery = JSON.stringify({username: request.params.username});
+    var query = client.query('SELECT * FROM  "Entry" WHERE data @> $1', [usernameQuery])
     var results = []
     query.on('row', function(row) {
         results.push(row);
