@@ -52,13 +52,13 @@ app.get('/list/:username', function(request, result) {
     var query = client.query('SELECT * FROM  "Entry" WHERE data @> $1', [usernameQuery])
     var results = []
     query.on('row', function(row) {
-        results.push(row);
+      results.push(row);
     });
 
     // After all data is returned, close connection and return results
     query.on('end', function() {
-        done()
-        result.json(results);
+      done()
+      result.json(results);
     });
 
   })
