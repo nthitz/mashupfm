@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config({path: '../.env'})
 var pg = require('pg')
 var _ = require ('lodash')
 
