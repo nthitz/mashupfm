@@ -61,7 +61,40 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
     console.log('done');
     process.exit(0)
   }
+  function insertSongs(songs) {
+    var numInserted = 0
+    insertSong();
+    function insertSong() {
+      var nextSong = songs[numInserted];
+      var params = [
+        nextSong['plugId'],
+        nextSong['image'],
+        nextSong['title'],
+        nextSong['author'],
+        nextSong['format'],
+        nextSong['duration'],
+      ];
+      client.query(
+        'INSERT INTO "Song" (plugId, image, title, author, format, duration) VALUES ($1, $2, $3, $4, $5, $6)',
+        params,
+        function(err) {
+          if(err) {
+            console.log('error');
+            console.log(err)
+            return;
+          }
+          numInserted++
+          if (numInserted === songs.length) {
+            insertFinished()
+          } else {
+            insertSong
+          }
+        }
+      )
+    }
+    function insertFinished() {
+      console.log('insert finished')
+      // should do something with a promise here.
+    }
+  }
 });
-function insertSongs(songs) {
-
-}
