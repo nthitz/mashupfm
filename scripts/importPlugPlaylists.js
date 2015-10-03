@@ -22,7 +22,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
 
   function insertResults(results) {
 
-    var mergedPlaylists = _(results).map(function(entry) {
+    var entriesByUser = _(results).map(function(entry) {
       // strip the extra db data we don't need
       return entry.data
     }).filter(function(data) {
@@ -31,71 +31,37 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
     }).groupBy(function(data) {
       // group playlists by their username
       return data.username
-    })
-      .values()
-      .map(function(user) {
-        //combine a users entries together
-        return _(user).reduce(mergeArrayReduction)
+    }).value()
+
+    var users = Object.keys(entriesByUser);
+    var lastUserEntry = _(users)
+        .map(function(user) {
+          var lastUserEntryIndex = entriesByUser[user].length - 1
+          return entriesByUser[user][lastUserEntryIndex]
+        }).value()
+
+    // we now have the last entry that each user submitted. that's a good thing
+
+    var songs = _(lastUserEntry)
+      .map(function(entry) {
+        // get just the playlists
+        return entry.playlists
       })
-      .each(function(user) {
-        user.playlists = _(user.playlists).groupBy(function(playlist) {
-          return playlist.name
-        }).value()//.reduce(mergeArrayReduction)
+      .flatten() //merge arrays
+      .map(function(playlist) {
+        // get just the songs
+        return playlist.songs.data
       })
-      .value()
-    //should modify this to just return the first playlist
-    console.log(mergedPlaylists[0].playlists['admin'])
-    return
-    var songsFromPlaylists = _(results).groupBy(function(entry) {
-      return entry.data.username
-    }).map(function(entry) {
-      return entry.data.playlists
-    })
-      .compact()
-      .value()
-    console.log(songsFromPlaylists)
-    return
-    importSongs()
-
-
-
-
-    return
-    console.log(results)
-    var users = _(results).map(function(entry) {
-
-      var playlistNames = _(entry.data.playlists)
-
-      return {
-        username: entry.data.username
-      }
-    })
-      .uniq()
+      .flatten() //merge arrays
+      .uniq() //remove dupes
       .value()
 
-
-
-    console.log(users)
-
-    return
-    // merge all songs into one array removing dupes
-    if (typeof entry.data.song !== 'undefined') {
-
-    } else if (typeof entry.data.playlists !== 'undefined') {
-
-    }
-    importUsers()
-    importPlaylists()
+    insertSongs(songs)
+    done()
+    console.log('done');
+    process.exit(0)
   }
 });
+function insertSongs(songs) {
 
-function mergeArrayReduction(object, current) {
-  return _.merge(object, current, mergeArrays)
 }
-
-function mergeArrays(a, b) {
-  if (_.isArray(a)) {
-    return a.concat(b);
-  }
-}
-
