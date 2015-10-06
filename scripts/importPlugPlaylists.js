@@ -5,7 +5,6 @@ var _ = require ('lodash')
 pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
   if (err) {
     console.error(err)
-    result.send('db connection error')
     done()
     return
   }
@@ -57,44 +56,58 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
       .value()
 
     insertSongs(songs)
-    done()
-    console.log('done');
-    process.exit(0)
+      .then(function() {
+         done()
+         console.log('done');
+         process.exit(0)
+      })
   }
   function insertSongs(songs) {
-    var numInserted = 0
-    insertSong();
-    function insertSong() {
-      var nextSong = songs[numInserted];
-      var params = [
-        nextSong['plugId'],
-        nextSong['image'],
-        nextSong['title'],
-        nextSong['author'],
-        nextSong['format'],
-        nextSong['duration'],
-      ];
-      client.query(
-        'INSERT INTO "Song" (plugId, image, title, author, format, duration) VALUES ($1, $2, $3, $4, $5, $6)',
-        params,
-        function(err) {
-          if(err) {
-            console.log('error');
-            console.log(err)
-            return;
+    return new Promise(function(resolve, reject) {
+      var numInserted = 0
+      deleteSongs()
+      function deleteSongs() {
+        client.query('DELETE FROM song', function() {
+          client.query('ALTER SEQUENCE song_id_seq RESTART WITH 1', insertSong)
+        })
+      }
+      function insertSong() {
+        console.log('inserting' + numInserted)
+        var nextSong = songs[numInserted];
+        var params = [
+          nextSong['id'],
+          nextSong['image'],
+          nextSong['title'],
+          nextSong['author'],
+          nextSong['format'],
+          nextSong['duration'],
+        ];
+        nextSong['plugId'] = nextSong['id'];
+        var a = client.query({
+          text: 'INSERT INTO "song" ("plugId", image, title, author, format, duration) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+          values: params,
+          callback: function(err, result) {
+            if(err) {
+              console.log('error');
+              console.log(err)
+              reject(err)
+              return;
+            }
+            nextSong['id'] = result.rows[0]['id']
+            numInserted++
+            if (numInserted === songs.length) {
+              insertFinished()
+            } else {
+              insertSong()
+            }
           }
-          numInserted++
-          if (numInserted === songs.length) {
-            insertFinished()
-          } else {
-            insertSong
-          }
-        }
-      )
-    }
-    function insertFinished() {
-      console.log('insert finished')
-      // should do something with a promise here.
-    }
+        })
+      }
+      function insertFinished() {
+        console.log('insert finished')
+        // should do something with a promise here.
+        resolve()
+      }
+    })
   }
 });
