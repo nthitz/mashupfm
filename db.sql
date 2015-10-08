@@ -16,6 +16,7 @@ CREATE TABLE "user" (
 CREATE TABLE "song" (
   "id" serial PRIMARY KEY,
   "plugId" integer,
+  "cid" text,
   "image" text,
   "title" text NOT NULL,
   "author" text NOT NULL,

@@ -208,6 +208,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
         var nextSong = songs[numInserted];
         var params = [
           nextSong['id'],
+          nextSong['cid'],
           nextSong['image'],
           nextSong['title'],
           nextSong['author'],
@@ -216,7 +217,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
         ];
         nextSong['plugId'] = nextSong['id'];
         var a = client.query({
-          text: 'INSERT INTO "song" ("plugId", image, title, author, format, duration) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+          text: 'INSERT INTO "song" ("plugId", cid, image, title, author, format, duration) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
           values: params,
           callback: function(err, result) {
             if(err) {
