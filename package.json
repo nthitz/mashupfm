@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-   "scripts": {
+  "scripts": {
     "production": "NODE_ENV='production' node index.js",
     "webpack": "webpack --progress --colors",
     "build": "webpack -p --progress --colors",
@@ -22,11 +22,12 @@
     "html-webpack-plugin": "^1.6.2",
     "lodash": "^3.10.1",
     "node-sass": "^3.3.3",
+    "pg": "^4.4.2",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-router": "1.0.0-rc3",
     "sass-loader": "^3.0.0",
-    "pg": "^4.4.2",
+    "superagent": "^1.4.0",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "1.2.0"
   }
