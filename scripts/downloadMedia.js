@@ -3,6 +3,23 @@ var spawn = require('child_process').spawn;
 var pg = require('pg')
 var _ = require ('lodash')
 
+var OUTPUT_FOLDER = '../media/';
+var OUTPUT_FOLDER_REGEX = /^\.\.\/media\//
+var OUTPUT_FORMAT = OUTPUT_FOLDER + '%(title)s-%(id)s.%(ext)s'
+var youtubeDL = 'youtube-dl'
+var DELAY_BETWEEN_SONGS = 500;
+var COPYRIGHT_INFRINGEMENT = 'The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement.';
+var COPYRIGHT_INFRINGEMENT2 = /who has blocked it on copyright grounds/
+var SIGNIN_ERROR = 'Please sign in to view this video.'
+var songErrorStatuses = {};
+songErrorStatuses[COPYRIGHT_INFRINGEMENT] = 'gone';
+
+var defaultYoutubeDLArgs = [
+  '--extract-audio',
+  '--restrict-filenames',
+  '--write-thumbnail',
+  '-o', OUTPUT_FORMAT,
+]
 var songFormats = {
   youtube: {
     id: 1,
@@ -40,15 +57,87 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
   }
   function downloadSong(song) {
     return new Promise(function(resolve, reject) {
-      var args = [song.url]
-      var p = spawn(
-        'youtube-dl',
-        args
-      )
-      p.stderr.on('data', log)
-      p.stdout.on('data', log)
-      p.on('error', log)
-      p.on('close', log)
+
+      var filename = null;
+      getFilename();
+
+      function getFilename() {
+        var filenameArgs = defaultYoutubeDLArgs.slice(0)
+          .concat(['--get-filename', song.url])
+        var filenameProcess = spawn(youtubeDL, filenameArgs)
+        // filenameProcess.stderr.on('data', log)
+        filenameProcess.stdout.on('data', function(data) {
+          data = data.toString()
+          if (data.match(OUTPUT_FOLDER_REGEX)) {
+            filename = data.replace(OUTPUT_FOLDER_REGEX, '').trim();
+          } else {
+            console.log('filename output')
+            console.log(data)
+          }
+        })
+        var skipped = false;
+        filenameProcess.stderr.on('data', function(error) {
+
+          function skipSong(status) {
+            client.query('UPDATE "song" SET status=$1 WHERE id=$2',
+              [status, song.id],
+              function(error, result) {
+                if (error) {
+                  console.log(error)
+                  process.exit(1)
+                }
+                skipped = true;
+                setTimeout(attemptDownload, DELAY_BETWEEN_SONGS);
+              })
+          }
+          error = error.toString()
+          if (error.indexOf(COPYRIGHT_INFRINGEMENT) !== -1
+            || error.match(COPYRIGHT_INFRINGEMENT2)) {
+            skipSong('gone')
+          } else if(error.indexOf(SIGNIN_ERROR)) {
+            skipSong('signInNeeded');
+          } else {
+            console.error('unknown error')
+            console.log(error.toString())
+          }
+        })
+        // filenameProcess.on('error', log)
+        filenameProcess.on('close', function(code) {
+          if (skipped) {
+            return;
+          }
+          if (code === 0 && filename !== null) {
+            getMedia()
+          } else {
+            console.log('invalid state')
+            console.log(code.toString())
+          }
+        })
+      }
+
+      function getMedia() {
+        var args = defaultYoutubeDLArgs.slice(0)
+          .concat([song.url])
+        var mediaProcess = spawn(youtubeDL, args);
+        mediaProcess.stderr.on('data', log)
+        mediaProcess.on('error', log)
+
+        mediaProcess.on('close', function(code) {
+          if(code === 0) {
+            client.query('UPDATE "song" SET path=$1, status=$2 WHERE id=$3',
+              [filename, 'valid', song.id],
+              function(error, result) {
+                if (error) {
+                  console.log(error);
+                  process.exit(1)
+                }
+                console.log(filename);
+                setTimeout(attemptDownload, DELAY_BETWEEN_SONGS);
+              })
+          }
+        })
+      }
+
     })
   }
   function getNextSong(type) {

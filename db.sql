@@ -23,6 +23,7 @@ CREATE TABLE "song" (
   "format" integer NOT NULL,
   "duration" integer NOT NULL,
   "status" text NOT NULL DEFAULT 'unknown'
+  "path" text,
 );
 
 CREATE TABLE "playlist" (
