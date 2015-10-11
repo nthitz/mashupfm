@@ -70,6 +70,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
           data = data.toString()
           if (data.match(OUTPUT_FOLDER_REGEX)) {
             filename = data.replace(OUTPUT_FOLDER_REGEX, '').trim();
+            console.log('f: ' + filename)
           } else {
             console.log('filename output')
             console.log(data)
