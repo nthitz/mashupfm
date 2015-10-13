@@ -14,5 +14,14 @@ router.post(
   }
 )
 
+router.get(
+  '/user',
+  function(request, result) {
+    if (request.user) {
+      result.json(request.user)
+    }
+    result.json(null)
+  }
+)
 
 module.exports = router;
