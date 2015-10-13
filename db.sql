@@ -10,6 +10,7 @@ CREATE TABLE "Entry" (
 CREATE TABLE "user" (
   "id" serial PRIMARY KEY,
   "username" text NOT NULL,
+  "hash" text
 );
 
 #{"id":308196380,"cid":"221529349","image":"https://i1.sndcdn.com/artworks-000127941413-69fefn-large.jpg","title":"Fuck Shit Track","author":"Cryptrik's Vault","format":2,"duration":201},
@@ -22,8 +23,8 @@ CREATE TABLE "song" (
   "author" text NOT NULL,
   "format" integer NOT NULL,
   "duration" integer NOT NULL,
-  "status" text NOT NULL DEFAULT 'unknown'
-  "path" text,
+  "status" text NOT NULL DEFAULT 'unknown',
+  "path" text
 );
 
 CREATE TABLE "playlist" (
