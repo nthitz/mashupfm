@@ -10,8 +10,9 @@ var webpackConfig = require('./webpack.config')
 var app = express();
 
 var db = require('./db')
-var archiveRoutes = require('./archiveRoutes')
-var playback = require('./playbackRoutes')
+var routes = require('./routes')
+
+var playback = require('./routes/playback')
 
 var isProduction = process.env.NODE_ENV === 'production'
 
@@ -31,8 +32,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(archiveRoutes)
-app.use(playback.routes)
+app.use(routes)
 
 if (!isProduction) {
   app.use(webpackMiddleware(webpack(webpackConfig)))
