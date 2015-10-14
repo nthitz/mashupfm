@@ -19,6 +19,7 @@ router.get(
   function(request, result) {
     if (request.user) {
       result.json(request.user)
+      return
     }
     result.json(null)
   }

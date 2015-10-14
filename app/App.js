@@ -3,6 +3,7 @@ var request = require('superagent')
 
 var AudioPlayer = require('./AudioPlayer')
 var LoginForm = require('./LoginForm')
+var Chat = require('./Chat/Chat')
 
 export default class App extends React.Component {
     constructor() {
@@ -31,6 +32,7 @@ export default class App extends React.Component {
         loginForm = (
           <div>
             You are logged in as {this.state.user.username}
+            <Chat />
           </div>
         );
       }
