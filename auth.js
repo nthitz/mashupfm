@@ -19,7 +19,9 @@ passport.use(new LocalStrategy(
           }
         })
       })
-      .catch(done)
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 ));
 
