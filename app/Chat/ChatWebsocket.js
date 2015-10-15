@@ -1,3 +1,4 @@
+import RefluxActions from '../RefluxActions'
 
 var socket = null
 var address = [
@@ -22,6 +23,15 @@ function handleMessage(message) {
   switch (message.type) {
     case "chat":
       chatMessageCallback(message.data)
+      break;
+    case 'userJoin':
+    case 'userLeave':
+    case 'userList':
+      RefluxActions[message.type](message.data)
+      break;
+    default:
+      console.log('unhandled message type')
+      console.log(message)
       break;
   }
 }
