@@ -5,7 +5,6 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var passport = require('passport')
-var expressWs = require('express-ws')
 
 var webpack = require('webpack')
 var webpackMiddleware = require("webpack-dev-middleware");
@@ -46,7 +45,6 @@ function initApp() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  expressWs = expressWs(app)
   chat.useChatWebsocket(app)
 
   app.use(function(req, res, next) {

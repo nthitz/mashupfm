@@ -8,25 +8,39 @@ var address = [
   '/chatWs'
 ].join('')
 
-var messageCallback = function() {}
+var chatMessageCallback = function() {}
 
 function connect() {
   socket = new WebSocket(address)
-  console.log(socket)
+  socket.onmessage = function(message) {
+    var messageObject = JSON.parse(message.data)
+    handleMessage(messageObject)
+  }
 }
 
+function handleMessage(message) {
+  switch (message.type) {
+    case "chat":
+      chatMessageCallback(message.data)
+      break;
+  }
+}
 
 function send(userId, message) {
   if (socket === null) {
     return
   }
-  console.log(arguments)
-
-  // ws.send()
+  socket.send(JSON.stringify({
+    type: 'chat',
+    data: {
+      userId: userId,
+      message: message,
+    }
+  }))
 }
 
-function setMessageCallback(callback) {
-  messageCallback = callback
+function setChatMessageCallback(callback) {
+  chatMessageCallback = callback
 }
 
 connect()
@@ -34,5 +48,5 @@ connect()
 
 module.exports = {
   send: send,
-  setMessageCallback: setMessageCallback,
+  setChatMessageCallback: setChatMessageCallback,
 }

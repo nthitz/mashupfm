@@ -12,6 +12,7 @@ export default class LoginForm extends React.Component {
       submitting: false,
     }
   }
+
   _changeStateProperty(property) {
     return function(value) {
       var stateUpdate = {};
@@ -19,6 +20,7 @@ export default class LoginForm extends React.Component {
       this.setState(stateUpdate)
     }.bind(this);
   }
+
   _onSubmit(event) {
     if (this.state.submitting) {
       return
@@ -35,8 +37,6 @@ export default class LoginForm extends React.Component {
           alert('invalid login probably')
         } else if (error) {
           alert('something went wrong - ' + error)
-          console.log(error)
-          console.log(result)
           return;
         }
 
@@ -51,7 +51,6 @@ export default class LoginForm extends React.Component {
   }
 
   render(){
-    console.log(this.state)
     return (
       <form ref='form' action={action} method="post">
         <div>

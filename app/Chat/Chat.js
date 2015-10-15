@@ -16,8 +16,8 @@ export default class Chat extends React.Component {
     componentDidMount() {
 
     }
-    render(){
 
+    render() {
       return (
         <div>
           <ChatMessages />

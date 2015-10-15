@@ -1,4 +1,5 @@
 var React = require('react')
+var ChatWebsocket = require('./ChatWebsocket')
 
 
 export default class ChatMessages extends React.Component {
@@ -6,19 +7,31 @@ export default class ChatMessages extends React.Component {
       super()
 
       this.state = {
+        messages: []
       }
     }
 
-    componentDidMount() {
-
+    _onChatMessage(message) {
+      this.setState({
+        messages: this.state.messages.slice(0).concat([message])
+      })
     }
-    render(){
 
+    componentDidMount() {
+      ChatWebsocket.setChatMessageCallback(this._onChatMessage.bind(this))
+    }
+
+    render(){
+      var messages = this.state.messages.map((chat, chatIndex) => {
+        return (
+          <div key={chatIndex} className='message'>
+            {chat.userId}: {chat.message}
+          </div>
+        )
+      })
       return (
         <div>
-          <div className="message">
-            Alfred The Botler: ¯\_(ツ)_/¯
-          </div>
+          {messages}
         </div>
       )
     }

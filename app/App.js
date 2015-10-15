@@ -5,6 +5,8 @@ var AudioPlayer = require('./AudioPlayer')
 var LoginForm = require('./LoginForm')
 var Chat = require('./Chat/Chat')
 
+var userAuth = require('./userAuth')
+
 export default class App extends React.Component {
     constructor() {
       super()
@@ -15,16 +17,15 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-      request.get('/user')
-        .end((error, result) => {
-          console.log(result)
+      userAuth.getUser()
+        .then((user) => {
           this.setState({
-            user: JSON.parse(result.text)
+            user: user,
           })
         })
     }
+
     render(){
-      console.log(this.state)
       var loginForm = null;
       if (this.state.user === null) {
         loginForm = <LoginForm />
