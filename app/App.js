@@ -41,6 +41,7 @@ export default class App extends React.Component {
         <div>
           <AudioPlayer />
           {loginForm}
+          {this.props.children}
         </div>
       )
     }

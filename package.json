@@ -23,6 +23,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "express-ws": "^0.2.6",
+    "history": "^1.12.5",
     "html-webpack-plugin": "^1.6.2",
     "lodash": "^3.10.1",
     "node-sass": "^3.3.3",
