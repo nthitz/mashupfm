@@ -1,4 +1,19 @@
 %link{:href=>'http://fonts.googleapis.com/css?family=Open+Sans:300,400,700', :rel=>'stylesheet', :type=>'text/css'}
+:css
+  @charset "UTF-8";
+
+  @font-face {
+    font-family: "mashupfm-icons";
+    src:url("mashupfm-icons.eot");
+    src:url("mashupfm-icons.eot?#iefix") format("embedded-opentype"),
+      url("mashupfm-icons.woff") format("woff"),
+      url("mashupfm-icons.ttf") format("truetype"),
+      url("mashupfm-icons.svg#mashupfm-icons") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+  }
+
 :sass
   $green: #8ab71b
   $blue: #155d80
@@ -40,6 +55,7 @@
     position: absolute
     top: 0px
     left: 0px
+    z-index: 10
   #header
     position: relative
     width: 100%
@@ -97,26 +113,49 @@
         float: left
         margin-left: 18px
         box-sizing: border-box
-        transition: border 0.1s linear
         opacity: 0.75
+        font-size: 15px
+        padding-left: 9px
+        padding-top: 8px
+        font-family: "mashupfm-icons"
+        content: attr(data-icon)
+        font-style: normal
+        font-weight: normal
+        font-variant: normal
+        text-transform: none 
+        speak: none
+        line-height: 1
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
       & > .circle:hover
         background-color: rgba(255,255,255, 0.05)
       & > .circle:active
+        padding-left: 11px
+        padding-top: 10px
         opacity: 0.95
         border: none
       .active
+        padding-left: 11px
+        padding-top: 10px
         opacity: 1
         border: none
       #upvote.active, #upvote:active
         background-color: $green
+      #downvote
+        padding-top: 10px
       #downvote.active, #downvote:active
+        padding-top: 12px
         background-color: $red
+        
       #grab.grab
+        padding-top: 9px
         ul
           display: none
           li.added
           li
-      #grab:active
+      #grab:active, #grab.active
+        background-color: $blue
+        padding-top: 11px
         ul
           display: block
       #downvote
@@ -266,8 +305,10 @@
       #progress-container
         #progress-bar
     #controls
-      #upvote.active.circle
+      #upvote.circle
+        a
       #grab.grab.circle
+        b
         %ul.playlist-dropdown
           %li.added
             Slams
@@ -278,6 +319,7 @@
           %li
             Bruneaux
       #downvote.circle
+        d
       #user-controls
         #username
           wallpind
