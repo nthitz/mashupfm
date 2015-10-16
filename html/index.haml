@@ -23,21 +23,31 @@
     font-family: "Open Sans", sans-serif
     font-size: 16px
 
-  .circle
+  .circle, .avatar
     width: $circle-size
     height: $circle-size
     border-radius: $circle-size
 
+  .avatar
+    background-size: cover
+    background-color: #fff
+
+  #header-container
+    width: 100%
+    box-sizing: border-box
+    padding: 36px
+    padding-top: 30px
+    position: absolute
+    top: 0px
+    left: 0px
   #header
+    position: relative
     width: 100%
     padding-left: 60px
     padding-right: 344px
     box-sizing: border-box
-    position: relative
     
     #current-dj
-      background-color: #fff
-      background-size: cover
       position: absolute
       left: 0px
       top: 0px
@@ -145,6 +155,92 @@
             cursor: pointer
             border-radius: 12px
             background-color: #fff
+  #content
+    padding-top: 68px
+    display: flex
+    height: 100%
+    box-sizing: border-box
+    position: relative
+  #left-container
+    background-color: #000
+    border-radius: 4px
+    width: 100%
+    overflow: hidden
+  #right-container
+    flex-basis: 496px
+    flex-shrink: 0
+    padding-left: 36px
+    box-sizing: border-box
+    position: relative
+    #chat-container
+      height: 100%
+      position: relative
+      box-sizing: border-box
+      padding-bottom: 48px + 16px
+      .avatar
+        position: absolute
+        left: 0
+      #chat
+        overflow: scroll
+        height: 100%
+        -webkit-mask-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.00,  rgba(0,0,0,1)), color-stop(0.85,  rgba(0,0,0,1)), color-stop(1.00,  rgba(0,0,0,0)))
+      #chat-messages
+        padding-left: 18px + $circle-size
+        position: relative
+        ul
+          margin: 0
+          padding: 0
+          list-style: none
+          margin-bottom: 250px
+          li.message-container
+            margin-bottom: 16px
+            line-height: 1.4
+            position: relative
+            padding-bottom: 18px
+            .avatar
+              left: -18px - $circle-size
+            .username
+              color: $yellow
+              display: inline
+            .self
+              color: $green
+            .message
+              display: inline
+              clear: right
+              .timestamp
+                position: absolute
+                bottom: 0
+                font-size: 12px
+                color: #484746
+                background-color: $bg-color
+            .appended
+              margin-top: 4px
+              display: block
+      #chat-input
+        z-index: 20
+        padding-left: 18px + $circle-size
+        box-sizing: border-box
+        position: absolute
+        bottom: 0px
+        width: 100%
+        .avatar
+        textarea
+          background: none
+          padding: 0px 18px
+          height: 48px
+          -webkit-appearance: none
+          resize: none
+          color: $text-white
+          font-family: "Open Sans", sans-serif
+          font-size: 16px
+          padding-top: 12px
+          border-radius: 4px
+          float: left
+          border: 1px solid #22201f
+          width: 100%
+          outline: none
+          &::-webkit-input-placeholder 
+            opacity: 0.3
 
 
 
@@ -154,39 +250,41 @@
 
 
 
-#header
-  #current-dj.circle
-  #playhead
-    #song
-      %span.songname
-        Owner of a Funky Heart
-      %span.artist
-        ChipStack
-      #timestamp
-        3:06
-    #progress-container
-      #progress-bar
-  #controls
-    #upvote.active.circle
-    #grab.grab.circle
-      %ul.playlist-dropdown
-        %li.added
-          Slams
-        %li.added
-          Extra slammy slams
-        %li
-          Friday earbleeds
-        %li
-          Bruneaux
-    #downvote.circle
-    #user-controls
-      #username
-        wallpind
-      #log-controls
-        log out
-    #volume-container
-      #volume-bar
-        #volume-grabber
+
+#header-container
+  #header
+    #current-dj.avatar
+    #playhead
+      #song
+        %span.songname
+          Owner of a Funky Heart
+        %span.artist
+          ChipStack
+        #timestamp
+          3:06
+      #progress-container
+        #progress-bar
+    #controls
+      #upvote.active.circle
+      #grab.grab.circle
+        %ul.playlist-dropdown
+          %li.added
+            Slams
+          %li.added
+            Extra slammy slams
+          %li
+            Friday earbleeds
+          %li
+            Bruneaux
+      #downvote.circle
+      #user-controls
+        #username
+          wallpind
+        #log-controls
+          log out
+      #volume-container
+        #volume-bar
+          #volume-grabber
 #content
   #left-container
     #playlists
@@ -277,31 +375,42 @@
 
 
   #right-container
-    #chat
-      #chat-messages
-        %ul
-          %li.message-container
-            .avatar
-            .username
-              wallpind:
-            .message
-              wow nthitz is such a chump-o-rama
-              .timestamp
-                4:20pm
-          %li.message-container
-            .avatar
-            .username
-              pwnies:
-            .message
-              seriously. It's pretty embarassing.
-              .timestamp
-                4:20pm
-            .message
-              he's really dropped his game as of late
-              .timestamp
+    #chat-container
+      #chat
+        #chat-messages
+          %ul
+            - (1..10).each do |i|
+              %li.message-container
+                .avatar
+                .username.self
+                  wallpind:
+                .message
+                  wow nthitz is such a chump-o-rama
+                  .timestamp
+                    4:20pm
+              %li.message-container
+                .avatar
+                .username
+                  nthitz:
+                .message
+                  sometimes, i eat a whole tub of bagels
+                  .timestamp
+                    4:20pm
+              %li.message-container
+                .avatar
+                .username
+                  pwnies:
+                .message
+                  seriously. It's pretty embarassing. I need more words to try multi-line
+                  .timestamp
+                    4:20pm
+                .message.appended
+                  he's really dropped his game as of late
+                  .timestamp
+                    4:22pm
       #chat-input
         .avatar
-        %input{:type=>'text', :placeholder=>'Shitpost here'}
+        %textarea{:placeholder=>'Shitpost here'}
 
       
 
