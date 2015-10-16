@@ -158,7 +158,6 @@
         padding-top: 11px
         ul
           display: block
-      #downvote
       #user-controls
         float: left
         width: 120px
@@ -200,11 +199,102 @@
     height: 100%
     box-sizing: border-box
     position: relative
+
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+  li.song
+    position: relative
+    padding: 18px 22px
+    border-left: 4px solid $green
+    border-top: 1px solid #16181c 
+    .artist
+      font-weight: 300
+      color: $text-gray
+    .preview
+      font-size: 12px
+      float: left
+      color: $blue
+      cursor: pointer
+    .bottom
+      height: 17px
+    .dj-container
+      font-size: 12px
+      float: left
+      color: $text-gray
+      .dj
+        color: $yellow
+      &:before
+        margin-left: 8px
+        margin-right: 7px
+        content: "//"
+        color: $text-gray
+    .hover-controls
+      position: absolute
+      right: 32px
+      top: 28px
+      .playlist-dropdown
+        display: none
+      .circle
+        border: 2px solid $text-white
+        cursor: pointer
+        float: left
+        margin-left: 18px
+        box-sizing: border-box
+        opacity: 0.75
+        font-size: 15px
+        padding-left: 9px
+        padding-top: 9px
+        font-family: "mashupfm-icons"
+        content: attr(data-icon)
+        font-style: normal
+        font-weight: normal
+        font-variant: normal
+        text-transform: none 
+        speak: none
+        line-height: 1
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+      .circle:hover
+        background-color: rgba(255,255,255, 0.10)
+      .circle:active
+        padding-left: 11px
+        padding-top: 10px
+        opacity: 0.95
+        border: none
+      .active
+        padding-left: 11px
+        padding-top: 10px
+        opacity: 1
+        border: none
+        
+      #grab.grab
+        padding-top: 9px
+        ul
+          display: none
+          li.added
+          li
+      #grab:active, #grab.active
+        background-color: $blue
+        padding-top: 11px
+        ul
+          display: block
+  li.song:hover
+    .hover-controls
+      display: block
+    
+    
+
   #left-container
     background-color: #000
     border-radius: 4px
     width: 100%
     overflow: hidden
+
+
+
+
   #right-container
     flex-basis: 496px
     flex-shrink: 0
@@ -289,8 +379,6 @@
 
 
 
-
-
 #header-container
   #header
     #current-dj.avatar
@@ -339,15 +427,18 @@
               Owner of a Funky Heart (wallpind sux remix)
             .artist
               ChipStack
-            .preview
-              preview
-            .dj
-              Queued by
-              %span.dj
-                wallpind
+            .bottom
+              .preview
+                preview
+              .dj-container
+                queued by
+                %span.dj
+                  wallpind
             .hover-controls
-              %a.download
-              .grab
+              %a.download.circle
+                c
+              .grab.circle
+                b
                 %ul.playlist-dropdown
                   %li.added
                     Slams
@@ -363,15 +454,18 @@
             Owner of a Funky Heart (wallpind sux remix)
           .artist
             ChipStack
-          .preview
-            preview
-          .dj
-            Queued by
-            %span.dj
-              wallpind
+          .bottom
+            .preview
+              preview
+            .dj-container
+              Queued by
+              %span.dj
+                wallpind
           .hover-controls
-            %a.download
-            .grab
+            %a.download.circle
+              c
+            .grab.circle
+              b
               %ul.playlist-dropdown
                 %li.added
                   Slams
@@ -388,15 +482,18 @@
               Owner of a Funky Heart (wallpind sux remix)
             .artist
               ChipStack
-            .preview
-              preview
-            .dj
-              Queued by
-              %span.dj
-                wallpind
+            .bottom
+              .preview
+                preview
+              .dj-container
+                Queued by
+                %span.dj
+                  wallpind
             .hover-controls
-              %a.download
-              .grab
+              %a.download.circle
+                c
+              .grab.circle
+                b
                 %ul.playlist-dropdown
                   %li.added
                     Slams
