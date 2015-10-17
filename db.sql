@@ -14,7 +14,6 @@ CREATE TABLE "user" (
   "password_change_request_hash" text
 );
 
-#{"id":308196380,"cid":"221529349","image":"https://i1.sndcdn.com/artworks-000127941413-69fefn-large.jpg","title":"Fuck Shit Track","author":"Cryptrik's Vault","format":2,"duration":201},
 CREATE TABLE "song" (
   "id" serial PRIMARY KEY,
   "plugId" integer,
@@ -38,3 +37,36 @@ CREATE TABLE "playlist_has_song" (
   "playlist_id" integer REFERENCES "playlist" ("id"),
   "song_id" integer REFERENCES "song" ("id")
 );
+
+
+
+
+COPY "user" (id, username, hash, password_change_request_hash) FROM stdin;
+1	test		qdnhbl8n1vsfg292kz53zk8m0000gn
+\.
+
+COPY playlist (id, name, user_id) FROM stdin;
+1	mashup	1
+\.
+
+INSERT INTO song (id, "plugId", cid, image, title, author, format, duration, status, path) VALUES (1,	259336819,	'Sb3XfrCtjVU',	'http://i.ytimg.com/vi/Sb3XfrCtjVU/default.jpg',	'test1', '',	1,	160,	'valid',	'bensound-thejazzpiano.mp3');
+INSERT INTO song (id, "plugId", cid, image, title, author, format, duration, status, path) VALUES (2,	245909691,	'UzIxHtKrV9I',	'https://i.ytimg.com/vi/UzIxHtKrV9I/default.jpg',	'test2','',	1,	160,	'valid',	'bensound-thejazzpiano.mp3');
+INSERT INTO song (id, "plugId", cid, image, title, author, format, duration, status, path) VALUES (3,	193726453,	'svosd_KstEA',	'http://i.ytimg.com/vi/svosd_KstEA/default.jpg',	'test3','',	1,	160,	'valid',	'bensound-thejazzpiano.mp3');
+INSERT INTO song (id, "plugId", cid, image, title, author, format, duration, status, path) VALUES (4,	249748537,	'lLJyOMcFYeA',	'http://i.ytimg.com/vi/lLJyOMcFYeA/default.jpg',	'test4','',	1,	160,	'valid',	'bensound-thejazzpiano.mp3');
+INSERT INTO song (id, "plugId", cid, image, title, author, format, duration, status, path) VALUES (5,	193722421,	'SsmcReeKMyU',	'http://i.ytimg.com/vi/SsmcReeKMyU/default.jpg',	'test5','',	1,	160,	'valid',	'bensound-thejazzpiano.mp3');
+
+COPY playlist_has_song (playlist_id, song_id) FROM stdin;
+1	1
+1	2
+1	3
+1	4
+1	5
+\.
+
+SELECT pg_catalog.setval('playlist_id_seq', 1, true);
+
+
+
+SELECT pg_catalog.setval('song_id_seq', 5, true);
+
+SELECT pg_catalog.setval('user_id_seq', 1, true);

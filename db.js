@@ -6,7 +6,8 @@ function query() {
   return new Promise(function(resolve, reject) {
     var cb = function(error, result) {
       if (error) {
-        console.log('reject')
+        console.log(error)
+        console.log(args)
         reject(error);
       } else {
         resolve(result);

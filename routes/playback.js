@@ -8,7 +8,6 @@ var curSong = null;
 var userIDs = [1];
 
 function getNextSong() {
-  console.log('getNextSong')
   db.query('SELECT * FROM "playlist" WHERE user_id IN (' + userIDs.join(',') + ')')
     .then(function(result) {
       return result.rows.reduce(function(prev, next) {
