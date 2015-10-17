@@ -76,7 +76,6 @@ export default class LoginForm extends React.Component {
               value="Log In" />
           </div>
         </form>
-        <Link to="/changePassword">changePassword</Link>
       </div>
     );
   }

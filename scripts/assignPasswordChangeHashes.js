@@ -18,7 +18,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
           resolve(token)
         })
       }).then(function(hash) {
-        console.log(hash)
+        console.log(row.username+ ": " + '/#/changePassword?hash=' + hash)
         client.query(
           'UPDATE "user" SET "password_change_request_hash"=$1 WHERE id=$2',
           [hash, row.id],
