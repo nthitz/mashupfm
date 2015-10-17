@@ -1,7 +1,11 @@
 var React = require('react')
 var request = require('superagent')
 
-var AudioPlayer = require('./AudioPlayer')
+import './styles/app.sass'
+
+var Header = require('./Header')
+// var LeftSide = require('./LeftSide')
+
 var LoginForm = require('./LoginForm')
 var Chat = require('./Chat/Chat')
 
@@ -39,7 +43,7 @@ export default class App extends React.Component {
       }
       return (
         <div>
-          <AudioPlayer />
+          <Header />
           {loginForm}
           {this.props.children}
         </div>

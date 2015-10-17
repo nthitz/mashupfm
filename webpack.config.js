@@ -19,11 +19,12 @@ module.exports = {
         { test: /\.js$/, exclude: /node_modules|bower_components/, loader: 'babel-loader' },
         { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader' },
         {
-          test: /\.scss$/,
+          test: /\.sass$/,
           loaders: [
-            "css-loader",
-            "autoprefixer-loader?browsers=last 2 version",
-            "sass-loader"
+            "style",
+            "css",
+            "autoprefixer?browsers=last 2 version",
+            "sass?indentedSyntax",
           ],
         },
       ],

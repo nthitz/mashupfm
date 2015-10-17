@@ -31,6 +31,22 @@ export default class AudioPlayer extends React.Component {
     }
     return (
       <div>
+        <div id="playhead">
+            <div id="song">
+              <span className="songname">
+                Owner of a Funky Heart
+              </span>
+              <span className="artist">
+                ChipStack
+              </span>
+              <div id="timestamp">
+                3:06
+              </div>
+            </div>
+            <div id="progress-container">
+              <div id="progress-bar"></div>
+            </div>
+          </div>
         {audio}
       </div>
     );
