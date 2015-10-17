@@ -42,6 +42,8 @@
     width: $circle-size
     height: $circle-size
     border-radius: $circle-size
+    &::selection
+      background: none
 
   .avatar
     background-size: cover
@@ -234,6 +236,7 @@
       position: absolute
       right: 32px
       top: 28px
+      display: none
       .playlist-dropdown
         display: none
       .circle
@@ -256,33 +259,54 @@
         line-height: 1
         -webkit-font-smoothing: antialiased
         -moz-osx-font-smoothing: grayscale
+        transition: background-color 0.1s ease-in-out, opacity 0.1s ease-in-out 0.1s
       .circle:hover
         background-color: rgba(255,255,255, 0.10)
       .circle:active
         padding-left: 11px
-        padding-top: 10px
+        padding-top: 11px
         opacity: 0.95
         border: none
+        transition: none
       .active
         padding-left: 11px
         padding-top: 10px
         opacity: 1
         border: none
         
-      #grab.grab
+      .grab
         padding-top: 9px
         ul
           display: none
           li.added
           li
-      #grab:active, #grab.active
+      .grab:active, .grab.active
         background-color: $blue
         padding-top: 11px
         ul
           display: block
+
+      .download:active, .download.active
+        background-color: $yellow
+        
   li.song:hover
+    opacity: 1
+    transition: none
     .hover-controls
       display: block
+
+  li.song
+    transition: opacity 0.1s ease-in-out
+    opacity: 0.5
+  ul.past
+    .song
+      border-left: 4px solid $yellow
+  ul.future
+    .song
+      border-left: 4px solid $blue
+  ul.current
+    li.song
+      opacity: 1
     
     
 
@@ -291,9 +315,100 @@
     border-radius: 4px
     width: 100%
     overflow: hidden
+    position: relative
+    #queue, #playlists, #users, #chat
+      overflow: scroll
+      padding-bottom: 48px
+      box-sizing: border-box
+      display: none
 
+    #tab-bar
+      background-color: $panel-gray
+      height: 48px
+      position: absolute
+      bottom: 0
+      left: 0
+      width: 100%
+      #tabs
+        .tab
+          float: left
+          padding: 12px 24px
+          font-weight: 300
+          border-right: 1px solid rgba(255,255,255,0.1)
+          cursor: pointer
+          height: 48px
+          box-sizing: border-box
+          &::selection
+            background: none
+        .tab:hover
+          background-color: rgba(255,255,255,0.05)
+        .tab:active
+          background-color: rgba(255,255,255,0.03)
+        #playlist-button
+        #queue-button
+        #chat-button
+          display: none
+        #users-button
 
-
+      #queue-controls
+        float: right
+        #join-queue
+          background-color: $green
+          width: 100px
+          height: 48px
+          cursor: pointer
+          transition: width 0.1s ease-in-out
+          position: absolute
+          right: 0px
+          z-index: 1
+        #join-queue:hover
+          background-color: $green + #111
+        
+        #queue-info
+          width: 57px
+          position: absolute
+          right: 0px
+          transition: right 0.1s ease-in-out
+          #queue-position
+            font-size: 28px
+            position: absolute
+            top: 4px
+            left: 0px
+          #queue-total
+            font-size: 10px
+            position: absolute
+            top: 23px
+            left: 20px
+            &:before
+              margin: 0 2px
+              content: "/"
+      #queue-controls.active
+        #join-queue
+          width: 50px
+          background-color: $red
+        #join-queue:hover
+          background-color: $red + #111
+        #queue-info
+          right: 50px
+  #left-container.queue
+    #queue
+      display: block
+    #queue-button
+      border-bottom: 2px solid $green
+  #left-container.playlists
+    #playlists
+      display: block
+    #playlist-button
+      border-bottom: 2px solid $green
+  #left-container.chat
+    #chat-button
+      border-bottom: 2px solid $green
+  #left-container.users
+    #users
+      display: block
+    #users-button
+      border-bottom: 2px solid $green
+    
 
   #right-container
     flex-basis: 496px
@@ -311,6 +426,7 @@
         left: 0
       #chat
         overflow: scroll
+        overflow-x: hidden
         height: 100%
         -webkit-mask-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.00,  rgba(0,0,0,1)), color-stop(0.85,  rgba(0,0,0,1)), color-stop(1.00,  rgba(0,0,0,0)))
       #chat-messages
@@ -417,9 +533,93 @@
         #volume-bar
           #volume-grabber
 #content
-  #left-container
+  #left-container.queue
     #playlists
+      %ul
+        - (1..10).each do |i|
+          %li.message-container
+            .avatar
+            .username.self
+              wallpind:
+            .message
+              wow nthitz is such a chump-o-rama
+              .timestamp
+                4:20pm
+          %li.message-container
+            .avatar
+            .username
+              nthitz:
+            .message
+              sometimes, i eat a whole tub of bagels
+              .timestamp
+                4:20pm
+          %li.message-container
+            .avatar
+            .username
+              pwnies:
+            .message
+              seriously. It's pretty embarassing. I need more words to try multi-line
+              .timestamp
+                4:20pm
+            .message.appended
+              he's really dropped his game as of late
+              .timestamp
+                4:22pm
     #queue
+      %ul.future
+        %li.song
+          .title
+            Owner of a Funky Heart (wallpind sux remix)
+          .artist
+            ChipStack
+          .bottom
+            .preview
+              preview
+            .dj-container
+              Queued by
+              %span.dj
+                wallpind
+          .hover-controls
+            %a.download.circle
+              c
+            .grab.circle
+              b
+              %ul.playlist-dropdown
+                %li.added
+                  Slams
+                %li.added
+                  Extra slammy slams
+                %li
+                  Friday earbleeds
+                %li
+                  Bruneaux
+      %ul.current
+        %li.song
+          .title
+            Owner of a Funky Heart (wallpind sux remix)
+          .artist
+            ChipStack
+          .bottom
+            .preview
+              preview
+            .dj-container
+              Queued by
+              %span.dj
+                wallpind
+          .hover-controls
+            %a.download.circle
+              c
+            .grab.circle
+              b
+              %ul.playlist-dropdown
+                %li.added
+                  Slams
+                %li.added
+                  Extra slammy slams
+                %li
+                  Friday earbleeds
+                %li
+                  Bruneaux
       %ul.past
         - (1..10).each do |i|
           %li.song
@@ -448,70 +648,57 @@
                     Friday earbleeds
                   %li
                     Bruneaux
-      %ul.current
-        %li.song
-          .title
-            Owner of a Funky Heart (wallpind sux remix)
-          .artist
-            ChipStack
-          .bottom
-            .preview
-              preview
-            .dj-container
-              Queued by
-              %span.dj
-                wallpind
-          .hover-controls
-            %a.download.circle
-              c
-            .grab.circle
-              b
-              %ul.playlist-dropdown
-                %li.added
-                  Slams
-                %li.added
-                  Extra slammy slams
-                %li
-                  Friday earbleeds
-                %li
-                  Bruneaux
-      %ul.future
-        - (1..3).each do |i|
-          %li.song
-            .title
-              Owner of a Funky Heart (wallpind sux remix)
-            .artist
-              ChipStack
-            .bottom
-              .preview
-                preview
-              .dj-container
-                Queued by
-                %span.dj
-                  wallpind
-            .hover-controls
-              %a.download.circle
-                c
-              .grab.circle
-                b
-                %ul.playlist-dropdown
-                  %li.added
-                    Slams
-                  %li.added
-                    Extra slammy slams
-                  %li
-                    Friday earbleeds
-                  %li
-                    Bruneaux
+    #users
+      %ul
+        - (1..10).each do |i|
+          %li.message-container
+            .avatar
+            .username.self
+              wallpind:
+            .message
+              wow nthitz is such a chump-o-rama
+              .timestamp
+                4:20pm
+          %li.message-container
+            .avatar
+            .username
+              nthitz:
+            .message
+              sometimes, i eat a whole tub of bagels
+              .timestamp
+                4:20pm
+          %li.message-container
+            .avatar
+            .username
+              pwnies:
+            .message
+              seriously. It's pretty embarassing. I need more words to try multi-line
+              .timestamp
+                4:20pm
+            .message.appended
+              he's really dropped his game as of late
+              .timestamp
+                4:22pm
 
-    #queue-controls
-      #join-queue
-      #queue-info
-        #queue-position
-          2
-        #queue-total
-          10
-      #leave-queue
+    #tab-bar
+      #tabs
+        #playlist-button.tab
+          Playlists
+        #queue-button.tab.active
+          Queue
+        #chat-button.tab
+          Chat
+        #users-button.tab
+          Users
+
+      #queue-controls
+        #join-queue
+        #queue-info
+          #queue-position
+            2
+          #queue-total
+            10
+        #leave-queue
 
 
   #right-container
@@ -556,4 +743,32 @@
 
 
 
-    
+:javascript
+  function $(id){return document.getElementById(id)};
+  var ui = {
+    init: function(){
+      $('queue-controls').addEventListener('click', function(){$('queue-controls').classList.toggle('active')})
+      ui.activeToggle('upvote')
+      ui.activeToggle('downvote')
+      ui.activeToggle('grab')
+      $('queue').addEventListener('click', ui.queueDropdown)
+      $('chat').scrollTop = 30000
+
+      $('tabs').addEventListener('click', ui.tabClick)
+
+    },
+    tabClick: function(e){
+      $('left-container').className = e.target.innerHTML.toLowerCase().trim()
+    },
+    activeToggle: function(e){
+      e = typeof(e) == 'string' ? $(e) : e
+      e.addEventListener('click', function(){e.classList.toggle('active')})
+    },
+    queueDropdown: function(e){
+      if(e.target.classList.contains('grab')){
+        e.target.classList.toggle('active')
+      }
+    }
+  }
+  ui.init()
+
