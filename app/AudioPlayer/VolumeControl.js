@@ -34,6 +34,7 @@ export default class VolumeControl extends React.Component {
   }
 
   _mouseMove(event) {
+    event.preventDefault()
     this._setVolume(event.pageX)
   }
 
@@ -42,6 +43,8 @@ export default class VolumeControl extends React.Component {
     var volume = (mouseX - container.left) / container.width
     if (volume < 0) { volume = 0 }
     if (volume > 1) { volume = 1 }
+
+    volume = (Math.pow(volume, 2) / 100 
 
     RefluxActions.changeVolume(volume)
     this.setState({
