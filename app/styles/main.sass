@@ -1,0 +1,99 @@
+#main-container
+  background-color: #000
+  border-radius: 4px
+  width: 100%
+  overflow: hidden
+  position: relative
+  #queue, #playlists, #users, #chat
+    overflow: scroll
+    padding-bottom: 48px
+    height: 100%
+    box-sizing: border-box
+    display: none
+
+  #tab-bar
+    background-color: $panel-gray
+    height: 48px
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    #tabs
+      .tab
+        float: left
+        padding: 12px 24px
+        font-weight: 300
+        border-right: 1px solid rgba(255,255,255,0.1)
+        cursor: pointer
+        height: 48px
+        box-sizing: border-box
+        &::selection
+          background: none
+      .tab:hover
+        background-color: rgba(255,255,255,0.05)
+      .tab:active
+        background-color: rgba(255,255,255,0.03)
+      #playlist-button
+      #queue-button
+      #chat-button
+        display: none
+      #users-button
+
+    #queue-controls
+      float: right
+      #join-queue
+        background-color: $green
+        width: 100px
+        height: 48px
+        cursor: pointer
+        transition: width 0.1s ease-in-out
+        position: absolute
+        right: 0px
+        z-index: 1
+      #join-queue:hover
+        background-color: $green + #111
+
+      #queue-info
+        width: 57px
+        position: absolute
+        right: 0px
+        transition: right 0.1s ease-in-out
+        #queue-position
+          font-size: 28px
+          position: absolute
+          top: 4px
+          left: 0px
+        #queue-total
+          font-size: 10px
+          position: absolute
+          top: 23px
+          left: 20px
+          &:before
+            margin: 0 2px
+            content: "/"
+    #queue-controls.active
+      #join-queue
+        width: 50px
+        background-color: $red
+      #join-queue:hover
+        background-color: $red + #111
+      #queue-info
+        right: 50px
+#main-container.queue
+  #queue
+    display: block
+  #queue-button
+    border-bottom: 2px solid $green
+#main-container.playlists
+  #playlists
+    display: block
+  #playlist-button
+    border-bottom: 2px solid $green
+#main-container.chat
+  #chat-button
+    border-bottom: 2px solid $green
+#main-container.users
+  #users
+    display: block
+  #users-button
+    border-bottom: 2px solid $green

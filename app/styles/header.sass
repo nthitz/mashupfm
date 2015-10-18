@@ -1,0 +1,146 @@
+#header-container
+  width: 100%
+  box-sizing: border-box
+  padding: 36px
+  padding-top: 30px
+  position: absolute
+  top: 0px
+  left: 0px
+  z-index: 10
+#header
+  position: relative
+  width: 100%
+  padding-left: 60px
+  padding-right: 344px
+  box-sizing: border-box
+
+  #current-dj
+    position: absolute
+    left: 0px
+    top: 0px
+  #playhead
+    height: 36px
+    #song
+      position: relative
+      font-size: 18px
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+      line-height: 1
+      margin-bottom: 10px
+      letter-spacing: 0.5px
+      box-sizing: border-box
+      padding-right: 80px
+      .songname
+        font-weight: 700
+      .artist
+        font-weight: 300
+        &:before
+          margin: 0 8px
+          content: "//"
+    #timestamp
+      font-weight: 300
+      position: absolute
+      right: 0
+      top: 0
+    #progress-container
+      height: 8px
+      width: 100%
+      border-radius: 8px
+      background-color: $panel-gray
+      overflow: hidden
+      #progress-bar
+        background-color: $blue
+        width: 36%
+        height: 8px
+  #controls
+    position: absolute
+    right: 0
+    top: 0
+    width: 324px
+    & > .circle
+      border: 2px solid $text-white
+      cursor: pointer
+      float: left
+      margin-left: 18px
+      box-sizing: border-box
+      opacity: 0.75
+      font-size: 15px
+      padding-left: 9px
+      padding-top: 8px
+      font-family: "mashupfm-icons"
+      content: attr(data-icon)
+      font-style: normal
+      font-weight: normal
+      font-variant: normal
+      text-transform: none
+      speak: none
+      line-height: 1
+      -webkit-font-smoothing: antialiased
+      -moz-osx-font-smoothing: grayscale
+    & > .circle:hover
+      background-color: rgba(255,255,255, 0.05)
+    & > .circle:active
+      padding-left: 11px
+      padding-top: 10px
+      opacity: 0.95
+      border: none
+    .active
+      padding-left: 11px
+      padding-top: 10px
+      opacity: 1
+      border: none
+    #upvote.active, #upvote:active
+      background-color: $green
+    #downvote
+      padding-top: 10px
+    #downvote.active, #downvote:active
+      padding-top: 12px
+      background-color: $red
+
+    #grab.grab
+      padding-top: 9px
+      ul
+        display: none
+        li.added
+        li
+    #grab:active, #grab.active
+      background-color: $blue
+      padding-top: 11px
+      ul
+        display: block
+    #user-controls
+      float: left
+      width: 120px
+      font-size: 12px
+      line-height: 1
+      margin-left: 36px
+      #username
+        float: left
+      #log-controls
+        opacity: 0.75
+        float: right
+    #volume-container
+      float: left
+      margin-left: 36px
+      width: 120px
+      height: 8px
+      border-radius: 8px
+      background-color: $panel-gray
+      cursor: pointer
+      margin-top: 16px
+      #volume-bar
+        background-color: $blue
+        border-radius: 8px
+        width: 36%
+        height: 8px
+        position: relative
+        #volume-grabber
+          position: absolute
+          top: -4px
+          right: -4px
+          height: 16px
+          width: 16px
+          cursor: pointer
+          border-radius: 12px
+          background-color: #fff

@@ -1,0 +1,77 @@
+#right-container
+  flex-basis: 496px
+  flex-shrink: 0
+  padding-left: 36px
+  box-sizing: border-box
+  position: relative
+  #chat-container
+    height: 100%
+    position: relative
+    box-sizing: border-box
+    padding-bottom: 48px + 16px
+    .avatar
+      position: absolute
+      left: 0
+    #chat
+      overflow: scroll
+      overflow-x: hidden
+      height: 100%
+      -webkit-mask-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.00,  rgba(0,0,0,1)), color-stop(0.85,  rgba(0,0,0,1)), color-stop(1.00,  rgba(0,0,0,0)))
+    #chat-messages
+      padding-left: 18px + $circle-size
+      position: relative
+      ul
+        margin: 0
+        padding: 0
+        list-style: none
+        margin-bottom: 250px
+        li.message-container
+          margin-bottom: 16px
+          line-height: 1.4
+          position: relative
+          padding-bottom: 18px
+          .avatar
+            left: -18px - $circle-size
+          .username
+            color: $yellow
+            display: inline
+          .self
+            color: $green
+          .message
+            display: inline
+            clear: right
+            .timestamp
+              position: absolute
+              bottom: 0
+              font-size: 12px
+              color: #484746
+              background-color: $bg-color
+          .appended
+            margin-top: 4px
+            display: block
+    #chat-input
+      z-index: 20
+      padding-left: 18px + $circle-size
+      box-sizing: border-box
+      position: absolute
+      bottom: 0px
+      width: 100%
+      .avatar
+        top: 5px
+      textarea
+        background: none
+        padding: 0px 18px
+        height: 48px
+        -webkit-appearance: none
+        resize: none
+        color: $text-white
+        font-family: "Open Sans", sans-serif
+        font-size: 16px
+        padding-top: 12px
+        border-radius: 4px
+        float: left
+        border: 1px solid #22201f
+        width: 100%
+        outline: none
+        &::-webkit-input-placeholder
+          opacity: 0.3
