@@ -5,7 +5,7 @@ This a playlist archive server, designed for plug.dj
 ## Requirements
 
 * postgres 9.4
-* node
+* node 4.x
 * webpack
 * nodemon
 
@@ -16,10 +16,12 @@ This a playlist archive server, designed for plug.dj
 
 ## Setup
 
+
 * run `db.sql` to create databases
+* `npm install`
 * rename env_sample to .env and fill in your database username, password and name
-* Goto `/#/changePassword?hash=qdnhbl8n1vsfg292kz53zk8m0000gn` to set your first account password and username
 * `npm start`
+* Goto `/#/changePassword?hash=qdnhbl8n1vsfg292kz53zk8m0000gn` to set your first account password and username
 
 
 Sample Audio from http://www.bensound.com/

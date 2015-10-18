@@ -1,5 +1,5 @@
 var React = require('react')
-var request = require('superagent')
+var RefluxActions = require('./RefluxActions')
 
 import './styles/app.sass'
 

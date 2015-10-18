@@ -1,6 +1,8 @@
 var React = require('react')
 var request = require('superagent');
-var AudioPlayer = require('./AudioPlayer')
+var AudioPlayer = require('./AudioPlayer/AudioPlayer')
+var VoteButtons = require('./AudioPlayer/VoteButtons')
+var VolumeControl = require('./AudioPlayer/VolumeControl')
 
 export default class Header extends React.Component {
   constructor() {
@@ -20,29 +22,8 @@ export default class Header extends React.Component {
         <AudioPlayer />
 
         <div id="controls">
-          <div className="circle" id="upvote">
-            a
-          </div>
-          <div className="grab circle" id="grab">
-            b
-            <ul className="playlist-dropdown">
-              <li className="added">
-                Slams
-              </li>
-              <li className="added">
-                Extra slammy slams
-              </li>
-              <li>
-                Friday earbleeds
-              </li>
-              <li>
-                Bruneaux
-              </li>
-            </ul>
-          </div>
-          <div className="circle" id="downvote">
-            d
-          </div>
+          <VoteButtons />
+
           <div id="user-controls">
             <div id="username">
               wallpind
@@ -51,11 +32,7 @@ export default class Header extends React.Component {
               log out
             </div>
           </div>
-          <div id="volume-container">
-            <div id="volume-bar">
-              <div id="volume-grabber"></div>
-            </div>
-          </div>
+          <VolumeControl defaultVolume={1} />
         </div>
       </div>
       </div>
