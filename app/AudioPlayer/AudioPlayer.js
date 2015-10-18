@@ -14,9 +14,11 @@ export default class AudioPlayer extends React.Component {
       song: null,
       duration: 0,
       currentTime: 0,
+      playing: false,
     }
 
     this._changeVolume = this._changeVolume.bind(this)
+    this._requestPlay = this._requestPlay.bind(this)
   }
 
   componentDidMount() {
@@ -53,6 +55,15 @@ export default class AudioPlayer extends React.Component {
       percent: this.refs.audio.currentTime / this.refs.audio.duration
     })
   }
+  _onPlaying() {
+    this.setState({
+      playing: true,
+    })
+  }
+
+  _requestPlay() {
+    this.refs.audio.play()
+  }
 
   render(){
     if (this.state.song === null) {
@@ -67,8 +78,18 @@ export default class AudioPlayer extends React.Component {
       <audio
         ref='audio'
         onEnded={this._getNextSong.bind(this)}
+        onPlaying={this._onPlaying.bind(this)}
         autoPlay='autoplay'
         src={mediaRoot + this.state.song.path} />
+
+    var playButton = null
+
+    if (!this.state.playing) {
+      playButton = <input type="button"
+        onClick={this._requestPlay}
+        value="PLAY" />
+    }
+
 
     return (
       <div>
@@ -87,6 +108,8 @@ export default class AudioPlayer extends React.Component {
           <ProgressBar progress={this.state.percent} />
         </div>
         {audio}
+        {playButton}
+
       </div>
     );
   }
