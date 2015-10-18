@@ -32,7 +32,7 @@ export default class Header extends React.Component {
               log out
             </div>
           </div>
-          <VolumeControl volumne={0.5}/>
+          <VolumeControl defaultVolume={1} />
         </div>
       </div>
       </div>

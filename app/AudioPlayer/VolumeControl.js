@@ -1,14 +1,79 @@
 var React = require('react')
+var {PropTypes} = React;
 
-export default function VolumeControl(props) {
-  return (
-    <div id="volume-container">
-      <div id="volume-bar" style={{
-        width: props.volume * 100 + '%'
-      }}>
-        <div id="volume-grabber"></div>
+var RefluxActions = require('../RefluxActions')
+
+export default class VolumeControl extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this._skipClick = false;
+    this.state = {
+      volume: props.defaultVolume
+    }
+
+    this._mouseDownGrabber = this._mouseDownGrabber.bind(this)
+    this._mouseMove = this._mouseMove.bind(this)
+    this._mouseUp = this._mouseUp.bind(this)
+    this._clickBar = this._clickBar.bind(this)
+
+  }
+
+  _clickBar(event) {
+    if (this._skipClick) {
+      this._skipClick = false
+      return
+    }
+    this._setVolume(event.pageX)
+  }
+
+  _mouseDownGrabber(event) {
+    document.addEventListener('mousemove', this._mouseMove)
+    document.addEventListener('mouseup', this._mouseUp)
+  }
+
+  _mouseMove(event) {
+    this._setVolume(event.pageX)
+  }
+
+  _setVolume(mouseX) {
+    var container = this.refs.container.getBoundingClientRect()
+    var volume = (mouseX - container.left) / container.width
+    if (volume < 0) { volume = 0 }
+    if (volume > 1) { volume = 1 }
+
+    RefluxActions.changeVolume(volume)
+    this.setState({
+      volume: volume
+    })
+  }
+  _mouseUp() {
+    document.removeEventListener('mousemove', this._mouseMove)
+    document.removeEventListener('mouseup', this._mouseUp)
+    this._skipClick = true
+  }
+  render() {
+    return (
+      <div id='volume-container'
+        ref="container"
+        onClick={this._clickBar}>
+        <div
+          style={{
+            width: this.state.volume * 100 + '%'
+          }}
+          id='volume-bar'
+          ref='volumeBar'>
+          <div id='volume-grabber'
+            onMouseDown={this._mouseDownGrabber}></div>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
-
+VolumeControl.defaultProps = {
+  volume: 1,
+}
+VolumeControl.propTypes = {
+  volume: PropTypes.number,
+}

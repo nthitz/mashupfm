@@ -1,6 +1,6 @@
 var React = require('react')
 var request = require('superagent');
-
+var RefluxActions = require('../RefluxActions')
 var ProgressBar = require('./ProgressBar')
 
 var mediaRoot = '/media/'
@@ -15,15 +15,23 @@ export default class AudioPlayer extends React.Component {
       duration: 0,
       currentTime: 0,
     }
+
+    this._changeVolume = this._changeVolume.bind(this)
   }
 
   componentDidMount() {
     this._getNextSong();
     interval = setInterval(this._updatePlayhead.bind(this), 100)
+    RefluxActions.changeVolume.listen(this._changeVolume)
   }
 
   componentWillUnmount() {
     clearInterval(interval)
+    RefluxActions.changeVolume.unlisten(this._changeVolume)
+  }
+
+  _changeVolume(volume) {
+    this.refs.audio.volume = volume
   }
 
   _getNextSong() {
