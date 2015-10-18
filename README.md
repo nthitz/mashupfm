@@ -5,7 +5,7 @@ This a playlist archive server, designed for plug.dj
 ## Requirements
 
 * postgres 9.4
-* node
+* node 4.x
 * webpack
 * nodemon
 
