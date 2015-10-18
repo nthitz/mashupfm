@@ -1,21 +1,20 @@
-%link{:href=>'http://fonts.googleapis.com/css?family=Open+Sans:300,400,700', :rel=>'stylesheet', :type=>'text/css'}
+%link{:href=>'http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700', :rel=>'stylesheet', :type=>'text/css'}
 %link{:href=>'styles/app.sass', :rel=>'stylesheet'}
+
 :css
   @charset "UTF-8";
 
   @font-face {
     font-family: "mashupfm-icons";
-    src:url("mashupfm-icons.eot");
-    src:url("mashupfm-icons.eot?#iefix") format("embedded-opentype"),
-      url("mashupfm-icons.woff") format("woff"),
-      url("mashupfm-icons.ttf") format("truetype"),
-      url("mashupfm-icons.svg#mashupfm-icons") format("svg");
+    src:url("fonts/mashupfm-icons.eot");
+    src:url("fonts/mashupfm-icons.eot?#iefix") format("embedded-opentype"),
+      url("fonts/mashupfm-icons.woff") format("woff"),
+      url("fonts/mashupfm-icons.ttf") format("truetype"),
+      url("fonts/mashupfm-icons.svg#mashupfm-icons") format("svg");
     font-weight: normal;
     font-style: normal;
 
   }
-
-
 
 #header-container
   #header
@@ -32,9 +31,9 @@
         #progress-bar
     #controls
       #upvote.circle
-        a
-      #grab.grab.circle
         b
+      #grab.grab.circle
+        c
         %ul.playlist-dropdown
           %li.added
             Slams
@@ -45,7 +44,7 @@
           %li
             Bruneaux
       #downvote.circle
-        d
+        a
       #user-controls
         #username
           wallpind
@@ -57,6 +56,7 @@
 #content
   #main-container.queue
     #playlists
+
       %ul
         - (1..10).each do |i|
           %li.message-container
@@ -103,9 +103,9 @@
                 wallpind
           .hover-controls
             %a.download.circle
-              c
+              d
             .grab.circle
-              b
+              c
               %ul.playlist-dropdown
                 %li.added
                   Slams
@@ -130,9 +130,9 @@
                 wallpind
           .hover-controls
             %a.download.circle
-              c
+              d
             .grab.circle
-              b
+              c
               %ul.playlist-dropdown
                 %li.added
                   Slams
@@ -158,9 +158,9 @@
                   wallpind
             .hover-controls
               %a.download.circle
-                c
+                d
               .grab.circle
-                b
+                c
                 %ul.playlist-dropdown
                   %li.added
                     Slams
@@ -205,16 +205,17 @@
     #tab-bar
       #tabs
         #playlist-button.tab
-          Playlists
+          g
         #queue-button.tab.active
-          Queue
+          h
         #chat-button.tab
-          Chat
+          e
         #users-button.tab
-          Users
+          i
 
       #queue-controls
         #join-queue
+          f
         #queue-info
           #queue-position
             2
@@ -277,10 +278,15 @@
       $('chat').scrollTop = 30000
 
       $('tabs').addEventListener('click', ui.tabClick)
+      $('join-queue').addEventListener('click', ui.joinClick)
 
     },
     tabClick: function(e){
-      $('main-container').className = e.target.innerHTML.toLowerCase().trim()
+      $('main-container').className = e.target.id.replace('-button', '')
+    },
+    joinClick: function(){
+      jq = $('join-queue')
+      jq.innerHTML = jq.innerHTML == 'j' ? 'f' : 'j'
     },
     activeToggle: function(e){
       e = typeof(e) == 'string' ? $(e) : e
