@@ -61,12 +61,7 @@ function initApp() {
 
   app.use('/media', express.static('media'))
   app.use(express.static('dist'))
-
-
-  app.get('/', function(request, result) {
-    result.send('coming soon')
-  })
-
+  app.use('/assets',express.static('app/assets'))
 
   app.listen(PORT ,function() {
     console.log('listening on ' + PORT)
