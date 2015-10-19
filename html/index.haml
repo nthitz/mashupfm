@@ -56,37 +56,70 @@
 #content
   #main-container.queue
     #playlists
-
-      %ul
+      #playlist-list
+        #add-playlist
+          Add New Playlist
+        %ul
+          %li
+            Slams
+            %span
+              215
+          %li
+            Extra Slammy slams
+            %span
+              45
+          %li
+            Actually Decent
+            %span
+              1
+          %li.selected
+            Friday Earbleeds
+            %span
+              49
+          %li
+            Men at work mashups
+            %span
+              17
+          %li.active
+            Bruneaux
+            %span
+              32
+          %li
+            Dj Schmolli
+            %span
+              3
+      #playlist
+        #add-song
+          %input{:type=>'text', :placeholder=>'add new song'}
         - (1..10).each do |i|
-          %li.message-container
-            .avatar
-            .username.self
-              wallpind:
-            .message
-              wow nthitz is such a chump-o-rama
-              .timestamp
-                4:20pm
-          %li.message-container
-            .avatar
-            .username
-              nthitz:
-            .message
-              sometimes, i eat a whole tub of bagels
-              .timestamp
-                4:20pm
-          %li.message-container
-            .avatar
-            .username
-              pwnies:
-            .message
-              seriously. It's pretty embarassing. I need more words to try multi-line
-              .timestamp
-                4:20pm
-            .message.appended
-              he's really dropped his game as of late
-              .timestamp
-                4:22pm
+          %li.song
+            .title
+              Owner of a Funky Heart (wallpind sux remix)
+            .artist
+              ChipStack
+            .bottom
+              .preview
+                preview
+              .dj-container
+                Queued by
+                %span.dj
+                  wallpind
+            .hover-controls
+              %a.download.circle
+                d
+              .grab.circle
+                c
+                %ul.playlist-dropdown
+                  %li.added
+                    Slams
+                  %li.added
+                    Extra slammy slams
+                  %li
+                    Friday earbleeds
+                  %li
+                    Bruneaux
+
+      
     #queue
       %ul.future
         %li.song
