@@ -44,9 +44,7 @@ export default class VolumeControl extends React.Component {
     if (volume < 0) { volume = 0 }
     if (volume > 1) { volume = 1 }
 
-    volume = Math.pow(volume, 2)
-
-    RefluxActions.changeVolume(volume)
+    RefluxActions.changeVolume(Math.pow(volume, 2))
     this.setState({
       volume: volume
     })
