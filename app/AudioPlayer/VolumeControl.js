@@ -31,10 +31,10 @@ export default class VolumeControl extends React.Component {
   _mouseDownGrabber(event) {
     document.addEventListener('mousemove', this._mouseMove)
     document.addEventListener('mouseup', this._mouseUp)
+    document.body.classList.add('nohighlight')
   }
 
   _mouseMove(event) {
-    event.preventDefault()
     this._setVolume(event.pageX)
   }
 
@@ -53,6 +53,7 @@ export default class VolumeControl extends React.Component {
     document.removeEventListener('mousemove', this._mouseMove)
     document.removeEventListener('mouseup', this._mouseUp)
     this._skipClick = true
+    document.body.classList.remove('nohighlight')
   }
   render() {
     return (
