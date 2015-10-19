@@ -35,6 +35,7 @@ export default class VolumeControl extends React.Component {
   }
 
   _mouseMove(event) {
+    event.preventDefault()
     this._setVolume(event.pageX)
   }
 
