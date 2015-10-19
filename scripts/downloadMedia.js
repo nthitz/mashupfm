@@ -11,6 +11,9 @@ var DELAY_BETWEEN_SONGS = 1000;
 var COPYRIGHT_INFRINGEMENT = 'The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement.';
 var COPYRIGHT_INFRINGEMENT2 = /who has blocked it on copyright grounds/
 var SIGNIN_ERROR = 'Please sign in to view this video.'
+var SC_404 = 'Unable to download JSON metadata: HTTP Error 404';
+
+
 var songErrorStatuses = {};
 songErrorStatuses[COPYRIGHT_INFRINGEMENT] = 'gone';
 
@@ -18,6 +21,7 @@ var defaultYoutubeDLArgs = [
   '--extract-audio',
   '--restrict-filenames',
   '--write-thumbnail',
+  '--no-check-certificate',
   '-o', OUTPUT_FORMAT,
 ]
 var songFormats = {
@@ -30,7 +34,7 @@ var songFormats = {
   soundcloud: {
     id: 2,
     formatter: function (id) {
-
+      return 'http://api.soundcloud.com/tracks/' + id
     }
   }
 }
@@ -43,7 +47,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
   }
   attemptDownload()
   function attemptDownload() {
-    var format = songFormats['youtube']
+    var format = songFormats['soundcloud']
     var url = null;
     getNextSong(format)
       .then(function(song) {
@@ -80,6 +84,8 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
         filenameProcess.stderr.on('data', function(error) {
 
           function skipSong(status) {
+            console.log('skipping with status ' + status)
+            // console.log(song)
             client.query('UPDATE "song" SET status=$1 WHERE id=$2',
               [status, song.id],
               function(error, result) {
@@ -92,11 +98,14 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
               })
           }
           error = error.toString()
+
           if (error.indexOf(COPYRIGHT_INFRINGEMENT) !== -1
             || error.match(COPYRIGHT_INFRINGEMENT2)) {
             skipSong('gone')
-          } else if(error.indexOf(SIGNIN_ERROR)) {
+          } else if(error.indexOf(SIGNIN_ERROR) !== -1) {
             skipSong('signInNeeded');
+          } else if(error.indexOf(SC_404) !== -1) {
+            skipSong('gone')
           } else {
             console.error('unknown error')
             console.log(error.toString())
