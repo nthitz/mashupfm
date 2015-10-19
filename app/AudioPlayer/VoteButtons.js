@@ -4,10 +4,10 @@ export default function VoteButtons(props) {
   return (
     <div>
       <div className="circle" id="upvote">
-        a
+        b
       </div>
       <div className="grab circle" id="grab">
-        b
+        c
         <ul className="playlist-dropdown">
           <li className="added">
             Slams
@@ -24,7 +24,7 @@ export default function VoteButtons(props) {
         </ul>
       </div>
       <div className="circle" id="downvote">
-        d
+        a
       </div>
     </div>
   )
