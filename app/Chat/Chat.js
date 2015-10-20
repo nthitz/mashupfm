@@ -14,7 +14,7 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-
+      ChatWebsocket.connect()
     }
 
     render() {

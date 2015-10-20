@@ -7,31 +7,25 @@ var userStore = Reflux.createStore({
   listenables: RefluxActions,
 
   init: function() {
-    this.users = [];
+    this.users = {};
   },
   onUserJoin: function(user) {
-    console.log(user)
-    this.users.push(user)
+    this.users[user.id] = user
     this.trigger(this.users)
+    console.log('on user join')
   },
 
   onUserLeave: function(userId) {
-    console.log('leave')
-    console.log(leavingUser)
-    var index = _.findIndex(this.users, (user) => {
-      return user.id === userId
-    })
-    if (index === -1) {
-      console.log('a user who isn\'t here is leaving, this is a bug probably')
-      return
-    }
-    this.users.splice(index, 1)
+    delete this.users[userId]
     this.trigger(this.users)
   },
 
   onUserList: function(userList) {
-    this.users = userList
-    // ¯\_(ツ)_/¯
+    Object.keys(userList).forEach((userListId) => {
+      this.users[userListId] = userList[userListId]
+    })
+    this.trigger(this.users)
+    console.log('on user list')
   }
 })
 

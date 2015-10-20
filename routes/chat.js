@@ -3,7 +3,7 @@ var _ = require('lodash')
 
 var app = null;
 
-var activeUsers = []
+var activeUsers = {}
 
 function initChatSocket(_app) {
   app = _app;
@@ -18,17 +18,18 @@ function initChatSocket(_app) {
   app.ws('/chatWs', function(ws, request) {
     if (typeof request.user === 'undefined') {
       ws.close()
+      console.log('closing no user')
       return
     }
-    broadcast(JSON.stringify({
-      type: 'userJoin',
-      data: request.user
-    }))
+    activeUsers[request.user.id] = request.user
     ws.send(JSON.stringify({
       type: 'userList',
       data: activeUsers
     }))
-    activeUsers.push(request.user)
+    broadcast(JSON.stringify({
+      type: 'userJoin',
+      data: request.user
+    }))
 
     ws.on('message', function(message) {
       var messageObject = JSON.parse(message)
@@ -43,18 +44,7 @@ function initChatSocket(_app) {
 
 
     ws.on('close', function() {
-      if (typeof request.user === 'undefined') {
-        return
-      }
-      var index = _.find(activeUsers, (user) => {
-        return request.user.id === user.id
-      })
-      if(index == -1) {
-        console.log('closing a websocket for a user that is not here, bug?')
-        return
-      }
-
-      activeUsers.splice(index, 1)
+      delete activeUsers[request.user.id]
       broadcast(JSON.stringify({
         type: 'userLeave',
         data: request.user.id

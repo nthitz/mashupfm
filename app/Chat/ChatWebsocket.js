@@ -53,10 +53,9 @@ function setChatMessageCallback(callback) {
   chatMessageCallback = callback
 }
 
-connect()
-
 
 module.exports = {
+  connect: connect,
   send: send,
   setChatMessageCallback: setChatMessageCallback,
 }

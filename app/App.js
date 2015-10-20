@@ -4,8 +4,7 @@ var UserStore = require('./stores/UserStore')
 import './styles/app.sass'
 
 var Header = require('./Header')
-// var LeftSide = require('./LeftSide')
-
+import MainViewContainer from './MainViews/MainViewContainer'
 var LoginForm = require('./LoginForm')
 var Chat = require('./Chat/Chat')
 
@@ -30,13 +29,14 @@ export default class App extends React.Component {
     }
 
     render(){
-      var loginForm = null;
+      var authedContent = null;
       if (this.state.user === null) {
-        loginForm = <LoginForm />
+        authedContent = <LoginForm />
       } else {
-        loginForm = (
+        authedContent = (
           <div>
             You are logged in as {this.state.user.username}
+            <MainViewContainer />
             <Chat />
           </div>
         );
@@ -44,7 +44,7 @@ export default class App extends React.Component {
       return (
         <div>
           <Header />
-          {loginForm}
+          {authedContent}
           {this.props.children}
         </div>
       )
