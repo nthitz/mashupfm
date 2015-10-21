@@ -1,8 +1,12 @@
 #playlists
   #playlist-list
+    position: absolute
+    left: 0
+    top: 0
     width: 320px
     height: 100%
     background-color: $panel-shadow
+    overflow: scroll
     #add-playlist, li
       height: 48px
       border-bottom: 1px solid $panel-gray
@@ -13,6 +17,10 @@
       &:hover
         background-color: $panel-shadow + #050505
         color: $text-white
+    #add-playlist::after
+      position: absolute
+      top: 10px
+      right: 10px
     li
       font-weight: 300
       color: $text-white - #222
@@ -27,5 +35,7 @@
       border-left: 4px solid $green
 
   #playlist
+    padding-left: 320px
     #add-song
-      li.song
+      
+    li.song
