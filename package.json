@@ -7,7 +7,7 @@
     "production": "NODE_ENV='production' node index.js",
     "webpack": "webpack --progress --colors",
     "build": "webpack -p --progress --colors",
-    "dev": "nodemon --ignore app/ index.js",
+    "dev": "nodemon --ignore app/ --ignore media/ index.js",
     "start": "npm run dev"
   },
   "author": "",
