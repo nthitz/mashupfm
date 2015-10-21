@@ -5,6 +5,7 @@ import RefluxActions from '../RefluxActions'
 
 var users = {}
 
+
 var userStore = Reflux.createStore({
   listenables: RefluxActions,
 
@@ -25,7 +26,14 @@ var userStore = Reflux.createStore({
     })
     this.trigger(users)
     console.log('on user list')
-  }
+  },
+
+  getUserById: function(userId) {
+    return _.find(users, (user) => {
+      return user.id === userId
+    })
+  },
+
 })
 
 module.exports = userStore
