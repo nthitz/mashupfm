@@ -31,15 +31,17 @@ export default class App extends React.Component {
     render(){
       var authedContent = null;
       if (this.state.user === null) {
-        authedContent = <LoginForm />
+        authedContent = (
+          <div id='content'>
+            <LoginForm />
+          </div>
+        )
       } else {
         authedContent = (
-          <div>
-            <div id='content'>
-              <MainViewContainer />
-              <div id='right-container'>
-                <Chat />
-              </div>
+          <div id='content'>
+            <MainViewContainer />
+            <div id='right-container'>
+              <Chat />
             </div>
           </div>
         );
