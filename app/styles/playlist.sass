@@ -1,26 +1,92 @@
+$topbar-height: 48px  
+$sidebar-width: 320px
 #playlists
-  #playlist-list
+  #playlist-topbar
+    height: $topbar-height
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    background-color: #000
+    z-index: 10
+    padding-left: $sidebar-width
+    padding-top: 12px
+    box-sizing: border-box
+    #playlist-name
+      font-weight: 700
+      text-align: center
+      padding-right: 50px
+    #add-song
+      position: absolute
+      right: 0
+      top: 0
+      background-color: $panel-shadow
+      width: 50px
+      height: $topbar-height
+      cursor: pointer
+      box-sizing: border-box
+      padding-left: $sidebar-width
+      padding-right: 50px
+      transition: width 0.4s ease-in-out
+      &::after
+        font-size: 22px
+        position: absolute
+        top: 14px
+        right: 16px
+      &:hover
+        background-color: $panel-shadow + #050505
+      &:active
+        background-color: $panel-shadow + #111
+      &.active
+        width: 100%
+      input
+        height: $topbar-height
+        width: 100%
+        text-align: center
+        background-color: $panel-shadow
+        outline: none
+        border: none
+        border-left: 4px solid $panel-gray
+    #add-playlist
+      z-index: 10
+      background-color: $panel-shadow
+      width: $sidebar-width
+      height: $topbar-height
+      padding: 12px 18px
+      box-sizing: border-box
+      border-bottom: 1px solid $panel-gray
+      cursor: pointer
+      position: absolute
+      top: 0
+      left: 0
+      &::after
+        position: absolute
+        top: 16px
+        right: 18px
+  #playlist-sidebar
     position: absolute
     left: 0
     top: 0
-    width: 320px
+    width: $sidebar-width
     height: 100%
+    padding-top: $topbar-height
     background-color: $panel-shadow
     overflow: scroll
-    #add-playlist, li
-      height: 48px
+    li
+      height: $topbar-height
       border-bottom: 1px solid $panel-gray
       padding: 12px 18px
       box-sizing: border-box
       cursor: pointer
       position: relative
-      &:hover
+      &:hover, &.selected
         background-color: $panel-shadow + #050505
         color: $text-white
-    #add-playlist::after
-      position: absolute
-      top: 10px
-      right: 10px
+        span
+          opacity: 1
+      &.selected
+        background-color: #000
+        font-weight: 400
     li
       font-weight: 300
       color: $text-white - #222
@@ -33,9 +99,16 @@
       color: $text-white
       font-weight: 600
       border-left: 4px solid $green
+      span
+        opacity: 1
 
   #playlist
-    padding-left: 320px
+    padding-left: $sidebar-width
+    padding-top: $topbar-height
     #add-song
-      
+      font-size: 22px
     li.song
+      opacity: 1
+      border-left: 4px solid $blue
+      border-top: none
+      border-bottom: 1px solid #16181c

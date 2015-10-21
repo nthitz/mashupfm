@@ -53,9 +53,14 @@
 #content
   #main-container.playlist
     #playlists
-      #playlist-list
+      #playlist-topbar
         #add-playlist.grab-icon
           Add New Playlist
+        #playlist-name
+          Friday Earbleeds
+        #add-song.add-song-icon.active
+          %input{:type=>'text', :placeholder=>'paste song url here'}
+      #playlist-sidebar
         %ul
           %li
             Slams
@@ -77,7 +82,7 @@
             Men at work mashups
             %span
               17
-          %li.active
+          %li.queued
             Bruneaux
             %span
               32
@@ -86,35 +91,34 @@
             %span
               3
       #playlist
-        #add-song
-          %input{:type=>'text', :placeholder=>'add new song'}
-        - (1..10).each do |i|
-          %li.song
-            .title
-              Owner of a Funky Heart (wallpind sux remix)
-            .artist
-              ChipStack
-            .bottom
-              .preview
-                preview
-              .dj-container
-                Queued by
-                %span.dj
-                  wallpind
-            .hover-controls
-              %a.download.circle
-                d
-              .grab.circle
-                c
-                %ul.playlist-dropdown
-                  %li.added
-                    Slams
-                  %li.added
-                    Extra slammy slams
-                  %li
-                    Friday earbleeds
-                  %li
-                    Bruneaux
+        %ul
+          - (1..10).each do |i|
+            %li.song
+              .title
+                Owner of a Funky Heart (wallpind sux remix)
+              .artist
+                ChipStack
+              .bottom
+                .preview
+                  preview
+                .dj-container
+                  Queued by
+                  %span.dj
+                    wallpind
+              .hover-controls
+                %a.download.circle
+                  d
+                .grab.circle
+                  c
+                  %ul.playlist-dropdown
+                    %li.added
+                      Slams
+                    %li.added
+                      Extra slammy slams
+                    %li
+                      Friday earbleeds
+                    %li
+                      Bruneaux
 
 
     #queue
