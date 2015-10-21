@@ -3,28 +3,27 @@ import _ from 'lodash'
 
 import RefluxActions from '../RefluxActions'
 
+var users = {}
+
 var userStore = Reflux.createStore({
   listenables: RefluxActions,
 
-  init: function() {
-    this.users = {};
-  },
   onUserJoin: function(user) {
-    this.users[user.id] = user
-    this.trigger(this.users)
+    users[user.id] = user
+    this.trigger(users)
     console.log('on user join')
   },
 
   onUserLeave: function(userId) {
-    delete this.users[userId]
-    this.trigger(this.users)
+    delete users[userId]
+    this.trigger(users)
   },
 
   onUserList: function(userList) {
     Object.keys(userList).forEach((userListId) => {
-      this.users[userListId] = userList[userListId]
+      users[userListId] = userList[userListId]
     })
-    this.trigger(this.users)
+    this.trigger(users)
     console.log('on user list')
   }
 })
