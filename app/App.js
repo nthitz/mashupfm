@@ -35,9 +35,12 @@ export default class App extends React.Component {
       } else {
         authedContent = (
           <div>
-            You are logged in as {this.state.user.username}
-            <MainViewContainer />
-            <Chat />
+            <div id='content'>
+              <MainViewContainer />
+              <div id='right-container'>
+                <Chat />
+              </div>
+            </div>
           </div>
         );
       }

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import UserList from './UserList'
+import MainContainerTabBar from './MainContainerTabBar'
 
 export default class MainViewContainer extends React.Component {
   constructor(props) {
@@ -13,8 +14,9 @@ export default class MainViewContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='main-container'>
         <UserList />
+        <MainContainerTabBar />
       </div>
     )
   }

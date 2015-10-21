@@ -38,7 +38,7 @@ export default class ChatInput extends React.Component {
 
     render(){
       return (
-        <div>
+        <div id='chat-input'>
           <input
             ref='input'
             onChange={this._inputChange.bind(this)}

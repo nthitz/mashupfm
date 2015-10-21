@@ -19,7 +19,7 @@ export default class Chat extends React.Component {
 
     render() {
       return (
-        <div>
+        <div id='chat-container'>
           <ChatMessages />
           <ChatInput />
         </div>

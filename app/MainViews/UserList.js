@@ -5,7 +5,7 @@ import UserStore from '../stores/UserStore.js'
 function UserListItem(props) {
   return (
     <div>
-      {props.user.id} {props.user.username}
+      {props.user.username}
     </div>
   )
 }
@@ -30,9 +30,14 @@ export default class UserList extends React.Component {
       return <UserListItem user={user} key={userId} />
     })
     return (
-      <ul>
-        {users}
-      </ul>
+      <div id='users'>
+        <div>
+          Online User List
+        </div>
+        <ul>
+          {users}
+        </ul>
+      </div>
     )
   }
 

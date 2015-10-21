@@ -30,7 +30,7 @@ export default class ChatMessages extends React.Component {
         )
       })
       return (
-        <div>
+        <div id='chat'>
           {messages}
         </div>
       )
