@@ -13,7 +13,6 @@ var userStore = Reflux.createStore({
     user.online = true
     users[user.id] = user
     this.trigger(users)
-    console.log('on user join')
   },
 
   onUserLeave: function(userId) {
@@ -26,7 +25,6 @@ var userStore = Reflux.createStore({
       users[userListId] = userList[userListId]
     })
     this.trigger(users)
-    console.log('on user list')
   },
 
   getUserById: function(userId) {
