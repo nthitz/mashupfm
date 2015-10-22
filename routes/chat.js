@@ -38,7 +38,8 @@ function initChatSocket(_app) {
           console.log('someone trying to impersonate chat messages?')
           return
         }
-        broadcast(message)
+        messageObject.data.time = Date.now()
+        broadcast(JSON.stringify(messageObject))
       }
     })
 

@@ -23,6 +23,7 @@ export default class ChatMessages extends React.Component {
 
     render(){
       var messages = this.state.messages.map((chat, chatIndex) => {
+        var timeString = new Date(chat.time).toLocaleTimeString()
         return (
           <li key={chatIndex} className='message-container'>
             <div className='avatar'></div>
@@ -30,7 +31,7 @@ export default class ChatMessages extends React.Component {
             <div className="message">
               {chat.message}
               <div className="timestamp">
-                4:20
+                <time>{timeString}</time>
               </div>
             </div>
           </li>
