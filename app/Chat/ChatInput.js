@@ -1,4 +1,6 @@
 var React = require('react')
+import _ from 'lodash'
+
 var ChatWebsocket = require('./ChatWebsocket')
 var userAuth = require('../userAuth')
 
@@ -25,7 +27,9 @@ export default class ChatInput extends React.Component {
     _keyPress(event) {
       if (event.charCode === 13) {
         this._send()
-        this.refs.input.value = ''
+        _.defer(() => {
+          this.refs.input.value = ''
+        })
       }
     }
 
@@ -39,11 +43,12 @@ export default class ChatInput extends React.Component {
     render(){
       return (
         <div id='chat-input'>
-          <input
+          <div className="avatar"></div>
+          <textarea
             ref='input'
             onChange={this._inputChange.bind(this)}
             onKeyPress={this._keyPress.bind(this)}
-            placeholder="type something" />
+            placeholder="Shitpost here" />
         </div>
       )
     }
