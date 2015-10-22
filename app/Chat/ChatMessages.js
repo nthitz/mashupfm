@@ -1,14 +1,17 @@
 var React = require('react')
 var ChatWebsocket = require('./ChatWebsocket')
 import Username from '../User/Username'
+import _ from 'lodash'
 
 export default class ChatMessages extends React.Component {
     constructor() {
       super()
 
       this.state = {
-        messages: []
+        messages: [],
       }
+
+      this.bottomOfList = true;
     }
 
     _onChatMessage(message) {
@@ -17,8 +20,21 @@ export default class ChatMessages extends React.Component {
       })
     }
 
+    _onChatScroll(event) {
+      let {target} = event
+      let {scrollTop, clientHeight, scrollHeight} = target
+
+      this.bottomOfList = scrollTop + clientHeight >= scrollHeight
+    }
+
     componentDidMount() {
       ChatWebsocket.setChatMessageCallback(this._onChatMessage.bind(this))
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if (this.bottomOfList) {
+        this.refs.chat.scrollTop = this.refs.chat.scrollHeight
+      }
     }
 
     render(){
@@ -37,8 +53,9 @@ export default class ChatMessages extends React.Component {
           </li>
         )
       })
+      var scrollHandler = _.throttle(this._onChatScroll, 100).bind(this)
       return (
-        <div id='chat'>
+        <div id='chat' ref='chat' onScroll={scrollHandler}>
           <div id='chat-messages'>
             <ul>
               {messages}
