@@ -17,10 +17,12 @@ export default class UserList extends React.Component {
     this.state = {
       users: []
     }
-    console.log('attach')
     UserStore.listen((data) => {
-      console.log(data)
-      this.setState({ users: data })
+      this.setState({
+        users: _.filter(data, (user) => {
+          return user.online
+        })
+      })
     })
   }
 

@@ -10,13 +10,14 @@ var userStore = Reflux.createStore({
   listenables: RefluxActions,
 
   onUserJoin: function(user) {
+    user.online = true
     users[user.id] = user
     this.trigger(users)
     console.log('on user join')
   },
 
   onUserLeave: function(userId) {
-    delete users[userId]
+    users[userId].online = false
     this.trigger(users)
   },
 
