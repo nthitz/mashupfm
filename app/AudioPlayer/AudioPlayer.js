@@ -12,11 +12,12 @@ export default class AudioPlayer extends React.Component {
 
     this.state = {
       song: null,
+      seekTo: 0,
       duration: 0,
       currentTime: 0,
       playing: false,
     }
-
+    this._firstPlay = true
     this._changeVolume = this._changeVolume.bind(this)
     this._requestPlay = this._requestPlay.bind(this)
   }
@@ -37,10 +38,18 @@ export default class AudioPlayer extends React.Component {
   }
 
   _getNextSong() {
+    let query = {}
+    if (this._firstPlay) {
+      this._firstPlay = false
+      query.seek = 'seek'
+    }
     request.get('/currentSong')
+      .query(query)
       .end((error, result) => {
+        let data = JSON.parse(result.text)
         this.setState({
-          song: JSON.parse(result.text)
+          song: data.song,
+          seekTo: data.seek,
         })
       })
   }
@@ -56,6 +65,12 @@ export default class AudioPlayer extends React.Component {
     })
   }
   _onPlaying() {
+    if (this.state.seekTo !== 0) {
+      this.setState({
+        seekTo: 0
+      })
+      this.refs.audio.currentTime = this.state.seekTo / 1000
+    }
     this.setState({
       playing: true,
     })

@@ -1,10 +1,11 @@
+'use strict'
 var express = require('express');
 var router = express.Router();
 
 var db = require('../db')
 
 var curSong = null;
-
+var songStartedAt = -1
 var userIDs = [1];
 
 function getNextSong() {
@@ -36,12 +37,20 @@ function getNextSong() {
       }
       curSong = song;
       console.log(curSong)
+      songStartedAt = Date.now()
       setTimeout(getNextSong, song.duration * 1000)
     })
 }
 
 router.get('/currentSong', function(request, result) {
-  result.json(curSong)
+  let seek = 0
+  if (request.query.seek) {
+    seek = Date.now() - songStartedAt
+  }
+  result.json({
+    song: curSong,
+    seek: seek,
+  })
 })
 
 module.exports = {
