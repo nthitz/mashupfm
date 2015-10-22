@@ -1,5 +1,139 @@
+
 $topbar-height: 48px  
 $sidebar-width: 320px
+#overlay
+  background-color: #000
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: 1
+
+#loader, .loader
+  position: absolute
+  top: 145px
+  right: 520px
+  height: 38px
+  width: 38px
+  z-index: 100
+  border-radius: 40px
+  border: 2px solid #fff
+  box-sizing: border-box
+  animation: load 9s linear infinite
+  &::before
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 17px
+    left: 17px
+    background-color: #000
+    opacity: 0.5
+    width: 22px
+    height: 22px
+    transform-origin: top left
+    animation: load 4s cubic-bezier(.51,.14,.27,.94) infinite
+  &::after
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 12px
+    left: -4px
+    opacity: 0.9
+    background-color: #000
+    width: 42px
+    height: 10px
+    animation: innerload 3s infinite
+@keyframes load 
+  from 
+    transform: rotate(0deg)
+  to 
+    transform: rotate(360deg)
+@keyframes innerload
+  from 
+    transform: rotate(0deg)
+    height: 2px
+    top: 16px
+  50%
+    height: 16px
+    top: 9px
+  to 
+    transform: rotate(360deg)
+    height: 2px
+    top: 16px
+
+#loader2
+  position: absolute
+  top: 145px
+  right: 580px
+  height: 38px
+  width: 38px
+  z-index: 100
+  border-radius: 40px
+  border: 2px solid #fff
+  box-sizing: border-box
+  animation: load 14s linear infinite
+  &::after
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 17px
+    left: 17px
+    background-color: #000
+    opacity: 0.5
+    width: 22px
+    height: 22px
+    transform-origin: top left
+    animation: load 3s infinite
+  &::before
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 17px
+    left: 17px
+    background-color: #000
+    width: 22px
+    height: 22px
+    transform-origin: top left
+    animation: load 4s linear infinite
+
+#loader3
+  position: absolute
+  top: 145px
+  right: 640px
+  height: 38px
+  width: 38px
+  z-index: 100
+  border-radius: 40px
+  border: 2px solid #fff
+  box-sizing: border-box
+  transform: rotate(45deg)
+  &::after
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 17px
+    left: 17px
+    background-color: #000
+    opacity: 0.5
+    width: 22px
+    height: 22px
+    transform-origin: top left
+    animation: load 4s cubic-bezier(.51,.14,.27,.94) infinite
+  &::before
+    content: "."
+    color: rgba(0,0,0,0)
+    position: absolute
+    top: 17px
+    left: 17px
+    background-color: #000
+    width: 22px
+    height: 22px
+    transform-origin: top left
+    animation: load 4s cubic-bezier(.89,.35,.19,.68) infinite
+
+  
+
 #playlists
   #playlist-topbar
     height: $topbar-height
@@ -25,9 +159,9 @@ $sidebar-width: 320px
       height: $topbar-height
       cursor: pointer
       box-sizing: border-box
-      padding-left: $sidebar-width
       padding-right: 50px
-      transition: width 0.4s ease-in-out
+      padding-left: 0px
+      transition: all 0.2s ease-in-out
       &::after
         font-size: 22px
         position: absolute
@@ -39,6 +173,10 @@ $sidebar-width: 320px
         background-color: $panel-shadow + #111
       &.active
         width: 100%
+        padding-left: $sidebar-width
+        background-color: $green
+        input
+          border-left: 4px solid $panel-gray
       input
         height: $topbar-height
         width: 100%
@@ -46,7 +184,15 @@ $sidebar-width: 320px
         background-color: $panel-shadow
         outline: none
         border: none
-        border-left: 4px solid $panel-gray
+        color: $text-white
+        &::-webkit-input-placeholder
+          opacity: 0.3
+        &:-moz-placeholder
+          opacity: 0.3
+        &::-moz-placeholder
+          opacity: 0.3
+        &:-ms-input-placeholder
+          opacity: 0.3
     #add-playlist
       z-index: 10
       background-color: $panel-shadow

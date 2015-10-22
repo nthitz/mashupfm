@@ -16,6 +16,7 @@
 
   }
 
+#overlay
 #header-container
   #header
     #current-dj.avatar
@@ -51,6 +52,9 @@
         #volume-bar
           #volume-grabber
 #content
+  #loader
+  #loader2
+  #loader3
   #main-container.playlist
     #playlists
       #playlist-topbar
@@ -58,8 +62,8 @@
           Add New Playlist
         #playlist-name
           Friday Earbleeds
-        #add-song.add-song-icon.active
-          %input{:type=>'text', :placeholder=>'paste song url here'}
+        #add-song.add-song-icon
+          %input#add-song-input{:type=>'text', :placeholder=>'paste song url here'}
       #playlist-sidebar
         %ul
           %li
@@ -92,6 +96,20 @@
               3
       #playlist
         %ul
+          %li.song.loading
+            .title
+              Owner of a Funky Heart (wallpind sux remix)
+            .artist
+              ChipStack
+            .bottom
+              .preview
+                preview
+              .dj-container
+                Queued by
+                %span.dj
+                  wallpind
+            .hover-controls
+              .loader
           - (1..10).each do |i|
             %li.song
               .title
@@ -313,6 +331,7 @@
 
       $('tabs').addEventListener('click', ui.tabClick)
       $('join-queue').addEventListener('click', ui.joinClick)
+      $('add-song').addEventListener('click', ui.addSongOpen)
 
     },
     tabClick: function(e){
@@ -330,6 +349,10 @@
       if(e.target.classList.contains('grab')){
         e.target.classList.toggle('active')
       }
+    },
+    addSongOpen: function(e){
+      $('add-song').classList.add('active')
+      $('add-song-input').focus()
     }
   }
   ui.init()
