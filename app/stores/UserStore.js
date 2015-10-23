@@ -22,7 +22,9 @@ var userStore = Reflux.createStore({
 
   onUserList: function(userList) {
     Object.keys(userList).forEach((userListId) => {
-      users[userListId] = userList[userListId]
+      let user = userList[userListId]
+      user.online = true
+      users[userListId] = user
     })
     this.trigger(users)
   },
