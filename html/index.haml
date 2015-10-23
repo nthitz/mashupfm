@@ -16,6 +16,12 @@
 
   }
 
+:sass
+  #loader, #loader2, #loader3
+    display: none
+  #playlists, #users, #queue
+    display: none
+
 #overlay
 #header-container
   #header
@@ -55,7 +61,7 @@
   #loader
   #loader2
   #loader3
-  #main-container.playlist
+  #main-container.users
     #playlists
       #playlist-topbar
         #add-playlist.grab-icon
@@ -223,42 +229,57 @@
                   %li
                     Bruneaux
     #users
-      %ul
-        - (1..10).each do |i|
-          %li.message-container
-            .avatar
-            .username.self
-              wallpind:
-            .message
-              wow nthitz is such a chump-o-rama
-              .timestamp
-                4:20pm
-          %li.message-container
-            .avatar
-            .username
-              nthitz:
-            .message
-              sometimes, i eat a whole tub of bagels
-              .timestamp
-                4:20pm
-          %li.message-container
-            .avatar
-            .username
-              pwnies:
-            .message
-              seriously. It's pretty embarassing. I need more words to try multi-line
-              .timestamp
-                4:20pm
-            .message.appended
-              he's really dropped his game as of late
-              .timestamp
-                4:22pm
+      %table
+        %thead
+          %tr
+            %td
+            %td user
+            %td score
+            %td average
+            %td upvote ratio
+        %tbody
+          - (1..3).each do |i|
+            %tr
+              %td
+                .avatar
+              %td
+                .username wallpind
+              %td 1,442
+              %td 2.4
+              %td 89%
+          %tr.self
+            %td
+              .avatar
+            %td
+              .username nthitz
+            %td -104
+            %td negative like a billion
+            %td 0.0009%
+          - (1..3).each do |i|
+            %tr
+              %td
+                .avatar
+              %td
+                .username wallpind
+              %td 1,442
+              %td 2.4
+              %td 89%
+          - (1..6).each do |i|
+            %tr.offline
+              %td
+                .avatar
+              %td
+                .username wallpind
+              %td 1,442
+              %td 2.4
+              %td 89%
+
 
     #tab-bar
       #tabs
         #playlist-button.tab
           g
-        #queue-button.tab.active
+        #queue-button.tab
           h
         #chat-button.tab
           e

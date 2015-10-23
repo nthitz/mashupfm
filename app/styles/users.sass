@@ -1,0 +1,43 @@
+#users
+  display: none
+  table
+    width: 100%
+    text-align: center
+    table-layout: fixed
+    border: 0
+    border-spacing: 0
+    border-collapse: collapse
+  thead
+    color: #3f3f3f
+    font-size: 14px
+    border-bottom: 1px solid #17191c
+    td:first-child
+      width: 90px
+      padding: 0
+    td:nth-child(2)
+      text-align: left
+    td
+      height: 48px
+      cursor: pointer
+  tbody
+    tr
+      border-bottom: 1px solid #17191c
+      td:first-child
+        width: 90px
+        padding-left: 24px
+        border-left: 8px solid $blue
+      td:nth-child(2)
+        text-align: left
+      td
+        line-height: 0
+        padding: 28px 0
+        .avatar
+        .username
+    tr.self
+      td:first-child
+        border-left: 8px solid $green
+    tr.offline
+      opacity: 0.3
+      td:first-child
+        border-left: 8px solid $panel-gray
+
