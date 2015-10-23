@@ -4,9 +4,17 @@ import UserStore from '../stores/UserStore.js'
 
 function UserListItem(props) {
   return (
-    <div>
-      {props.user.username}
-    </div>
+    <tr>
+      <td>
+        <div class='avatar'></div>
+      </td>
+      <td>
+        <div class='username'>{props.user.username}</div>
+      </td>
+      <td>1,442</td>
+      <td>2.4</td>
+      <td>89%</td>
+    </tr>
   )
 }
 
@@ -33,12 +41,20 @@ export default class UserList extends React.Component {
     })
     return (
       <div id='users'>
-        <div>
-          Online User List
-        </div>
-        <ul>
-          {users}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td>user</td>
+              <td>score</td>
+              <td>average</td>
+              <td>upvote ratio</td>
+            </tr>
+          </thead>
+          <tbody>
+            {users}
+          </tbody>
+        </table>
       </div>
     )
   }
