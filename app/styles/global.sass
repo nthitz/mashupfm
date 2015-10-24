@@ -32,6 +32,26 @@ ul
   list-style: none
   margin: 0
   padding: 0
+.playlist-dropdown
+  position: absolute
+  width: 300px
+  left: -100px
+  top: 50px
+  background-color: $panel-gray
+  z-index: 1000
+.grab
+  padding-top: 9px
+  position: relative
+  ul
+    display: none
+    li.added
+    li
+.grab:active, .grab.active
+  background-color: $blue
+  padding-top: 11px
+  ul
+    display: block
+  
 li.song
   position: relative
   padding: 18px 22px
@@ -63,8 +83,6 @@ li.song
     right: 32px
     top: 28px
     display: none
-    .playlist-dropdown
-      display: none
     .circle
       border: 2px solid $text-white
       cursor: pointer
@@ -100,17 +118,6 @@ li.song
       opacity: 1
       border: none
 
-    .grab
-      padding-top: 9px
-      ul
-        display: none
-        li.added
-        li
-    .grab:active, .grab.active
-      background-color: $blue
-      padding-top: 11px
-      ul
-        display: block
 
     .download:active, .download.active
       background-color: $yellow
