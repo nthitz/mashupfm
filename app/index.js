@@ -39,7 +39,7 @@ function initApp() {
     limit: '10mb'
   }));
   app.use(session({
-    secret: 'FILL_THIS_IN_LATER',
+    secret: process.env.COOKIE_SECRET,
     store: new pgSession({
       conString: process.env.PG_CONNECTION,
     }),
