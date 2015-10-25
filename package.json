@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "production": "NODE_ENV='production' node index.js",
+    "production": "NODE_ENV='production' node app/index.js",
     "webpack": "webpack --progress --colors",
     "build": "webpack -p --progress --colors",
-    "dev": "nodemon --ignore app/ --ignore media/ index.js",
+    "dev": "nodemon --ignore app/scripts/ --ignore media/ app/index.js",
     "start": "npm run dev"
   },
   "author": "",

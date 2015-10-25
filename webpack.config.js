@@ -3,7 +3,7 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: './app/index.js',
+  entry: './app/scripts/index.js',
   resolve: {
     root: [path.join(__dirname, "bower_components")]
   },
@@ -34,7 +34,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       title: 'mashupfm',
-      template: 'app/index.html',
+      template: './app/html/index.html',
       filename: 'index.html'
     })
 

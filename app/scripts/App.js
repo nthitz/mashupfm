@@ -1,7 +1,7 @@
 var React = require('react')
 var RefluxActions = require('./RefluxActions')
 var UserStore = require('./stores/UserStore')
-import './styles/app.sass'
+import '../styles/app.sass'
 
 var Header = require('./Header')
 import MainViewContainer from './MainViews/MainViewContainer'
