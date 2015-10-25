@@ -6,10 +6,10 @@ function UserListItem(props) {
   return (
     <tr>
       <td>
-        <div class='avatar'></div>
+        <div className='avatar'></div>
       </td>
       <td>
-        <div class='username'>{props.user.username}</div>
+        <div className='username'>{props.user.username}</div>
       </td>
       <td>1,442</td>
       <td>2.4</td>
