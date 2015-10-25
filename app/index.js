@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var passport = require('passport')
+var pgSession = require('connect-pg-simple')(session)
 
 var webpack = require('webpack')
 var webpackMiddleware = require("webpack-dev-middleware");
@@ -39,6 +40,9 @@ function initApp() {
   }));
   app.use(session({
     secret: 'FILL_THIS_IN_LATER',
+    store: new pgSession({
+      conString: process.env.PG_CONNECTION,
+    }),
     resave: false,
     saveUninitialized: true,
   }))
