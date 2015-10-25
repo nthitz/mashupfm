@@ -27,15 +27,20 @@ export default class MainViewContainer extends React.Component {
   }
 
   render() {
-    let view = views[this.state.tab]
 
-    if (view === undefined) {
-      view = views[0]
-    }
-
+    let allViews = views.map((View, viewIndex) => {
+      let style = {
+        display: viewIndex === this.state.tab ? 'block' : 'none'
+      }
+      return (
+        <div style={style} key={viewIndex}>
+          {View}
+        </div>
+      )
+    })
     return (
       <div id='main-container'>
-        {view}
+        {allViews}
         <MainContainerTabBar
           defaultTab={this.state.tab}
           onTabChange={this._tabChanged.bind(this)} />
