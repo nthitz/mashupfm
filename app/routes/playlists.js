@@ -27,6 +27,7 @@ router.get('/getPlaylist/:playlistId',
       return
     }
     let playlistId = request.params.playlistId
+    let playlist = null;
     db.query('SELECT * FROM playlist WHERE id=$1 LIMIT 1', [playlistId])
       .then((playlistQueryResult) => {
         if (playlistQueryResult.rows[0].user_id !== request.user.id) {
@@ -35,9 +36,20 @@ router.get('/getPlaylist/:playlistId',
         }
         return Promise.resolve(playlistQueryResult.rows[0])
       }).then((playlistResult) => {
-        console.log(playlistResult)
-        response.json(playlistResult)
+        playlist = playlistResult
+        return db.query(
+          `SELECT song.* FROM song, playlist_has_song WHERE
+            song.id = playlist_has_song.song_id AND
+            playlist_has_song.playlist_id = $1`,
+          [playlistResult.id]
+        )
+      }).then((songs) => {
+        playlist.songs = songs.rows
+        response.json(playlist)
+      }).catch((error) => {
+        console.log(error)
       })
+
   }
 )
 module.exports = router;

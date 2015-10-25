@@ -51,5 +51,5 @@ export default class MainViewContainer extends React.Component {
 }
 
 MainViewContainer.defaultProps = {
-  defaultTab: 3
+  defaultTab: 0
 }
