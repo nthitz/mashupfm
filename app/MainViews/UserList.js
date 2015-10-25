@@ -1,21 +1,48 @@
 import React from 'react'
 
 import UserStore from '../stores/UserStore.js'
+import userAuth from '../userAuth'
 
-function UserListItem(props) {
-  return (
-    <tr>
-      <td>
-        <div className='avatar'></div>
-      </td>
-      <td>
-        <div className='username'>{props.user.username}</div>
-      </td>
-      <td>1,442</td>
-      <td>2.4</td>
-      <td>89%</td>
-    </tr>
-  )
+class UserListItem extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      loggedInUser: null
+    }
+  }
+
+  componentDidMount() {
+    userAuth.getUser()
+      .then((user) => {
+        this.setState({
+          loggedInUser: user
+        })
+      })
+  }
+
+  render() {
+    var className = '';
+    if (this.state.loggedInUser && this.props.user) {
+      if (this.state.loggedInUser.id === this.props.user.id) {
+        className += 'self'
+      }
+    }
+    return (
+      <tr className={className}>
+        <td>
+          <div className='avatar'></div>
+        </td>
+        <td>
+          <div className='username'>{this.props.user.username}</div>
+        </td>
+        <td>1,442</td>
+        <td>2.4</td>
+        <td>89%</td>
+      </tr>
+    )
+  }
 }
 
 export default class UserList extends React.Component {
