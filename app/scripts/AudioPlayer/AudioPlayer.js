@@ -65,6 +65,8 @@ export default class AudioPlayer extends React.Component {
     })
   }
   _onPlaying() {
+    if(localStorage.getItem('volume'))
+      this.refs.audio.volume = Math.pow(localStorage.getItem('volume'), 2)
     if (this.state.seekTo !== 0) {
       this.setState({
         seekTo: 0
