@@ -26,6 +26,7 @@ export default class VolumeControl extends React.Component {
       return
     }
     this._setVolume(event.pageX)
+    console.log('click')
   }
 
   _mouseDownGrabber(event) {
@@ -49,6 +50,7 @@ export default class VolumeControl extends React.Component {
     this.setState({
       volume: volume
     })
+    console.log('move')
   }
   _mouseUp() {
     document.removeEventListener('mousemove', this._mouseMove)
@@ -60,15 +62,16 @@ export default class VolumeControl extends React.Component {
     return (
       <div id='volume-container'
         ref="container"
-        onClick={this._clickBar}>
+        onClick={this._clickBar}
+        onMouseDown={this._mouseDownGrabber}
+        >
         <div
           style={{
             width: this.state.volume * 100 + '%'
           }}
           id='volume-bar'
           ref='volumeBar'>
-          <div id='volume-grabber'
-            onMouseDown={this._mouseDownGrabber}></div>
+          <div id='volume-grabber'></div>
         </div>
       </div>
     )
