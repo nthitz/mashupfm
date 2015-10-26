@@ -204,11 +204,13 @@ $sidebar-width: 320px
     left: 0
     top: 0
     width: $sidebar-width
+    box-sizing: border-box
     height: 100%
     background-color: $panel-shadow
-    overflow: scroll
+    padding: $topbar-height 0
     ul
-      padding-top: $topbar-height
+      overflow-y: auto
+      height: 100%
     li
       height: $topbar-height
       border-bottom: 1px solid $panel-gray
@@ -241,7 +243,11 @@ $sidebar-width: 320px
 
   #playlist
     padding-left: $sidebar-width
-    padding-top: $topbar-height
+    ul
+      box-sizing: border-box
+      border-top: 48px solid transparent
+      overflow-y: auto
+      height: 100%
     #add-song
       font-size: 22px
     li.song

@@ -68,20 +68,22 @@ export default class UserList extends React.Component {
     })
     return (
       <div id='users'>
-        <table>
-          <thead>
-            <tr>
-              <td></td>
-              <td>user</td>
-              <td>score</td>
-              <td>average</td>
-              <td>upvote ratio</td>
-            </tr>
-          </thead>
-          <tbody>
-            {users}
-          </tbody>
-        </table>
+        <div className='scroll-container'>
+          <table>
+            <thead>
+              <tr>
+                <td></td>
+                <td>user</td>
+                <td>score</td>
+                <td>average</td>
+                <td>upvote ratio</td>
+              </tr>
+            </thead>
+            <tbody>
+              {users}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }

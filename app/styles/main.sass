@@ -5,10 +5,12 @@
   overflow: hidden
   position: relative
   #queue, #playlists, #users, #chat
-    overflow: scroll
     padding-bottom: 48px
     height: 100%
     box-sizing: border-box
+    > .scroll-container
+      overflow-y: auto
+      height: 100%
 
   #tab-bar
     background-color: $panel-gray

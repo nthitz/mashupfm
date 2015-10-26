@@ -147,62 +147,8 @@
 
 
     #queue
-      %ul.future
-        %li.song
-          .title
-            Owner of a Funky Heart (wallpind sux remix)
-          .artist
-            ChipStack
-          .bottom
-            .preview
-              preview
-            .dj-container
-              Queued by
-              %span.dj
-                wallpind
-          .hover-controls
-            %a.download.circle
-              d
-            .grab.circle
-              c
-              %ul.playlist-dropdown
-                %li.added
-                  Slams
-                %li.added
-                  Extra slammy slams
-                %li
-                  Friday earbleeds
-                %li
-                  Bruneaux
-      %ul.current
-        %li.song
-          .title
-            Owner of a Funky Heart (wallpind sux remix)
-          .artist
-            ChipStack
-          .bottom
-            .preview
-              preview
-            .dj-container
-              Queued by
-              %span.dj
-                wallpind
-          .hover-controls
-            %a.download.circle
-              d
-            .grab.circle
-              c
-              %ul.playlist-dropdown
-                %li.added
-                  Slams
-                %li.added
-                  Extra slammy slams
-                %li
-                  Friday earbleeds
-                %li
-                  Bruneaux
-      %ul.past
-        - (1..10).each do |i|
+      .scroll-container
+        %ul.future
           %li.song
             .title
               Owner of a Funky Heart (wallpind sux remix)
@@ -212,7 +158,7 @@
               .preview
                 preview
               .dj-container
-                queued by
+                Queued by
                 %span.dj
                   wallpind
             .hover-controls
@@ -229,51 +175,107 @@
                     Friday earbleeds
                   %li
                     Bruneaux
+        %ul.current
+          %li.song
+            .title
+              Owner of a Funky Heart (wallpind sux remix)
+            .artist
+              ChipStack
+            .bottom
+              .preview
+                preview
+              .dj-container
+                Queued by
+                %span.dj
+                  wallpind
+            .hover-controls
+              %a.download.circle
+                d
+              .grab.circle
+                c
+                %ul.playlist-dropdown
+                  %li.added
+                    Slams
+                  %li.added
+                    Extra slammy slams
+                  %li
+                    Friday earbleeds
+                  %li
+                    Bruneaux
+        %ul.past
+          - (1..10).each do |i|
+            %li.song
+              .title
+                Owner of a Funky Heart (wallpind sux remix)
+              .artist
+                ChipStack
+              .bottom
+                .preview
+                  preview
+                .dj-container
+                  queued by
+                  %span.dj
+                    wallpind
+              .hover-controls
+                %a.download.circle
+                  d
+                .grab.circle
+                  c
+                  %ul.playlist-dropdown
+                    %li.added
+                      Slams
+                    %li.added
+                      Extra slammy slams
+                    %li
+                      Friday earbleeds
+                    %li
+                      Bruneaux
     #users
-      %table
-        %thead
-          %tr
-            %td
-            %td user
-            %td score
-            %td average
-            %td upvote ratio
-        %tbody
-          - (1..3).each do |i|
+      .scroll-container
+        %table
+          %thead
             %tr
               %td
-                .avatar
-              %td
-                .username wallpind
-              %td 1,442
-              %td 2.4
-              %td 89%
-          %tr.self
-            %td
-              .avatar
-            %td
-              .username nthitz
-            %td -104
-            %td negative like a billion
-            %td 0.0009%
-          - (1..3).each do |i|
-            %tr
-              %td
-                .avatar
-              %td
-                .username wallpind
-              %td 1,442
-              %td 2.4
-              %td 89%
-          - (1..6).each do |i|
-            %tr.offline
+              %td user
+              %td score
+              %td average
+              %td upvote ratio
+          %tbody
+            - (1..3).each do |i|
+              %tr
+                %td
+                  .avatar
+                %td
+                  .username wallpind
+                %td 1,442
+                %td 2.4
+                %td 89%
+            %tr.self
               %td
                 .avatar
               %td
-                .username wallpind
-              %td 1,442
-              %td 2.4
-              %td 89%
+                .username nthitz
+              %td -104
+              %td negative like a billion
+              %td 0.0009%
+            - (1..3).each do |i|
+              %tr
+                %td
+                  .avatar
+                %td
+                  .username wallpind
+                %td 1,442
+                %td 2.4
+                %td 89%
+            - (1..6).each do |i|
+              %tr.offline
+                %td
+                  .avatar
+                %td
+                  .username wallpind
+                %td 1,442
+                %td 2.4
+                %td 89%
 
 
     #tab-bar
