@@ -72,18 +72,19 @@
           %input#add-song-input{:type=>'text', :placeholder=>'paste song url here'}
       #playlist-sidebar
         %ul
-          %li
-            Slams
-            %span
-              215
-          %li
-            Extra Slammy slams
-            %span
-              45
-          %li
-            Actually Decent
-            %span
-              1
+          - (1..5).each do |i|
+            %li
+              Slams
+              %span
+                215
+            %li
+              Extra Slammy slams
+              %span
+                45
+            %li
+              Actually Decent
+              %span
+                1
           %li.selected
             Friday Earbleeds
             %span
