@@ -1,4 +1,4 @@
-var React = require('react')
+﻿var React = require('react')
 var ChatWebsocket = require('./ChatWebsocket')
 import Username from '../User/Username'
 import userAuth from '../userAuth'
@@ -23,7 +23,7 @@ export default class ChatMessages extends React.Component {
       this.setState({
         messages: this.state.messages.slice(0).concat([message])
       })
-      if(!document.hasFocus() && this.state.loggedInUser != message.userId)
+      if(!document.hasFocus() && this.state.loggedInUser.id !== message.userId)
         document.title = document.title.indexOf("* ") == 0 ? document.title : "* " + document.title
     }
 
