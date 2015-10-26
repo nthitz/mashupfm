@@ -1,6 +1,7 @@
 var React = require('react')
 var ChatWebsocket = require('./ChatWebsocket')
 import Username from '../User/Username'
+import userAuth from '../userAuth'
 import _ from 'lodash'
 
 export default class ChatMessages extends React.Component {
@@ -9,15 +10,21 @@ export default class ChatMessages extends React.Component {
 
       this.state = {
         messages: [],
+        loggedInUser: null
       }
 
       this.bottomOfList = true;
+      window.addEventListener('focus', function(){
+        document.title = document.title.indexOf("* ") == 0 ? document.title.slice(2) : document.title
+      })
     }
 
     _onChatMessage(message) {
       this.setState({
         messages: this.state.messages.slice(0).concat([message])
       })
+      if(!document.hasFocus() && this.state.loggedInUser != message.userId)
+        document.title = document.title.indexOf("* ") == 0 ? document.title : "* " + document.title
     }
 
     _onChatScroll(event) {
@@ -29,6 +36,12 @@ export default class ChatMessages extends React.Component {
 
     componentDidMount() {
       ChatWebsocket.setChatMessageCallback(this._onChatMessage.bind(this))
+      userAuth.getUser()
+        .then((user) => {
+          this.setState({
+            loggedInUser: user
+          })
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {
