@@ -21,7 +21,7 @@ var chat = require('./routes/chat')
 var app = express();
 
 var isProduction = process.env.NODE_ENV === 'production'
-var PORT = 8999;
+var PORT = 8765;
 
 if (isProduction) {
   PORT = 8567
