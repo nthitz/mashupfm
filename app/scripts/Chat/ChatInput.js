@@ -5,6 +5,10 @@ import UserStore from '../stores/UserStore.js'
 var ChatWebsocket = require('./ChatWebsocket')
 var userAuth = require('../userAuth')
 
+
+const RETURN_KEYCODE = 13
+const TAB_KEYCODE = 9
+
 export default class ChatInput extends React.Component {
     constructor() {
       super()
@@ -26,41 +30,38 @@ export default class ChatInput extends React.Component {
       })
     }
 
-    _inputChange(event) {
-      this.setState({
-        input: event.target.value,
-      })
-    }
-
     _keyDown(event) {
-      if (event.keyCode === 13) {
+      if (event.keyCode === RETURN_KEYCODE) {
         event.preventDefault()
-        if(this.state.input.trim() !== ''){
-          this._send()
-          _.defer(() => {
-            this.state.input = ''
-            this.refs.input.value = ''
-          })
-        }
+        this._send()
+        return
       }
-      if (event.keyCode === 9) {
+      if (event.keyCode === TAB_KEYCODE) {
         event.preventDefault()
-        var currentMessage = this.state.input.split(" ")
-        for(var i = 0; i < this.state.users.length; i++){
-          if(this.state.users[i].username.indexOf(currentMessage[currentMessage.length - 1]) == 0){
-            currentMessage[currentMessage.length - 1] = this.state.users[i].username
-            this.refs.input.value = currentMessage.join(' ')
-            this.state.input = this.refs.input.value
-            return
-          }
+        var currentMessage = this.refs.input.value.split(" ")
+        var lastToken = currentMessage[currentMessage.length - 1]
+        if (lastToken.trim() === '') {
+          return
         }
+        _.each(this.state.users, (user) => {
+          if (user.username.indexOf(lastToken) === 0) {
+            currentMessage[currentMessage.length - 1] = user.username
+          }
+          this.refs.input.value = currentMessage.join(' ')
+        })
       }
     }
 
     _send() {
+      let message = this.refs.input.value.trim()
+      if (message === '') {
+        return
+      }
+      this.refs.input.value = ''
+
       userAuth.getUser()
         .then((user) => {
-          ChatWebsocket.send(user.id, this.state.input)
+          ChatWebsocket.send(user.id, message)
         })
     }
 
@@ -70,7 +71,6 @@ export default class ChatInput extends React.Component {
           <div className="avatar"></div>
           <textarea
             ref='input'
-            onChange={this._inputChange.bind(this)}
             onKeyDown={this._keyDown.bind(this)}
             placeholder="Shitpost here" />
         </div>
