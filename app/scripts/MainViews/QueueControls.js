@@ -12,8 +12,7 @@ export default class QueueControls extends React.Component {
   render() {
     return (
       <div id="queue-controls">
-        <div id="join-queue">
-          f
+        <div id="join-queue" className="join-queue-icon">
         </div>
         <div id="queue-info">
           <div id="queue-position">

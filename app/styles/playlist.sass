@@ -218,14 +218,36 @@ $sidebar-width: 320px
       box-sizing: border-box
       cursor: pointer
       position: relative
+      transition: padding-left 0.1s ease-in-out
       &:hover, &.selected
         background-color: $panel-shadow + #050505
         color: $text-white
         span
           opacity: 1
+      &:hover
+        transition: padding-left 0.1s ease-in-out 0.15s
+        padding-left: 68px
+        .activate
+          left: 0
+          transition: left 0.1s ease-in-out 0.15s
       &.selected
         background-color: #000
         font-weight: 400
+      .activate
+        background-color: $green
+        width: 50px
+        position: absolute
+        left: -50px
+        top: 0
+        text-align: center
+        padding-top: 15px
+        padding-left: 2px
+        height: 48px
+        transition: left 0.1s ease-in-out
+        border-bottom: 1px solid $panel-gray
+        box-sizing: border-box
+        &:hover
+          background-color: $green + #111
     li
       font-weight: 300
       color: $text-white - #222
@@ -238,6 +260,10 @@ $sidebar-width: 320px
       color: $text-white
       font-weight: 600
       border-left: 4px solid $green
+      &:hover
+        padding-left: 18px
+        .activate
+          left: -50px
       span
         opacity: 1
 

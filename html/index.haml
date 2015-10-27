@@ -77,30 +77,37 @@
               Slams
               %span
                 215
+              .activate.play-icon
             %li
               Extra Slammy slams
               %span
                 45
+              .activate.play-icon
             %li
               Actually Decent
               %span
                 1
+              .activate.play-icon
           %li.selected
             Friday Earbleeds
             %span
               49
+            .activate.play-icon
           %li
             Men at work mashups
             %span
               17
+            .activate.play-icon
           %li.queued
             Bruneaux
             %span
               32
+            .activate.play-icon
           %li
             Dj Schmolli
             %span
               3
+            .activate.play-icon
       #playlist
         %ul
           %li.song.loading
@@ -291,7 +298,7 @@
 
       #queue-controls
         #join-queue
-          f
+          l
         #queue-info
           #queue-position
             2
@@ -363,7 +370,7 @@
     },
     joinClick: function(){
       jq = $('join-queue')
-      jq.innerHTML = jq.innerHTML == 'j' ? 'f' : 'j'
+      jq.innerHTML = jq.innerHTML == 'j' ? 'l' : 'j'
     },
     activeToggle: function(e){
       e = typeof(e) == 'string' ? $(e) : e
