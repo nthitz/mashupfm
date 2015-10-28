@@ -11,7 +11,8 @@ CREATE TABLE "user" (
   "id" serial PRIMARY KEY,
   "username" text NOT NULL,
   "hash" text,
-  "password_change_request_hash" text
+  "password_change_request_hash" text,
+  "active_playlist_id" integer REFERENCES "playlist" ("id")
 );
 
 CREATE TABLE "song" (

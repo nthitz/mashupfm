@@ -34,7 +34,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  db.query('SELECT username,id FROM "user" WHERE id=$1', [id])
+  db.query('SELECT username, id FROM "user" WHERE id=$1', [id])
     .then(function(user) {
       cb(null, user.rows[0])
     }).catch(cb)
