@@ -48,6 +48,7 @@ export default class PlaylistList extends React.Component {
           <span>
             ##
           </span>
+          <Icon icon='play' className='activate' />
         </li>
       )
     })
