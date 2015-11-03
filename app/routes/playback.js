@@ -31,7 +31,8 @@ function getNextSong() {
       return db.query('SELECT * FROM "song" WHERE id=$1', [songId])
     }).then(function(result) {
       var song = result.rows[0]
-      if (song.status !== 'valid') {
+      var validStatuses = ['valid', 'converted']
+      if (validStatuses.indexOf(song.status) === -1) {
         process.nextTick(getNextSong)
         return
       }
