@@ -1,5 +1,6 @@
 import React from 'react'
 import request from 'superagent'
+import SortableMixin from '../mixins/react-sortable-mixin'
 
 var mediaRoot = '/media/'
 
@@ -57,28 +58,36 @@ class Song extends React.Component {
   }
 }
 
-export default class Playlist extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
+export default React.createClass({
+  mixins: [SortableMixin],
+  getInitialState: function() {
+    return {
       songs: []
     }
-  }
-
-   componentDidMount() {
+  },
+  sortableOptions: {
+    ref: 'songs',
+    model: 'songs',
+    onStart: function() {
+      console.log('on start')
+    }
+  },
+  handleSort: function(event) {
+    console.log(event.oldIndex, event.newIndex)
+  },
+  componentDidMount: function() {
     if (this.props.playlist) {
       this._requestPlaylist(this.props.playlist.id)
     }
-  }
+  },
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps: function (nextProps) {
     if (nextProps.playlist) {
       this._requestPlaylist(nextProps.playlist.id)
     }
-  }
+  },
 
-  _requestPlaylist(playlistId) {
+  _requestPlaylist: function (playlistId) {
     request.get('/getPlaylist/' + playlistId)
       .end((error, result) => {
         var playlist = JSON.parse(result.text)
@@ -86,19 +95,64 @@ export default class Playlist extends React.Component {
           songs: playlist.songs
         })
       })
-  }
+  },
 
-  render() {
+  render: function() {
     let songs = this.state.songs.map((song, songIndex) => {
       return <Song song={song} key={songIndex} />
     })
     return (
       <div id='playlist'>
-        <ul>
+        <ul ref='songs'>
           {songs}
         </ul>
       </div>
     )
   }
+})
 
-}
+// export default class Playlist extends React.Component {
+//   constructor(props) {
+//     super(props)
+
+//     this.state = {
+//       songs: []
+//     }
+//   }
+
+//    componentDidMount() {
+//     if (this.props.playlist) {
+//       this._requestPlaylist(this.props.playlist.id)
+//     }
+//   }
+
+//   componentWillReceiveProps(nextProps) {
+//     if (nextProps.playlist) {
+//       this._requestPlaylist(nextProps.playlist.id)
+//     }
+//   }
+
+//   _requestPlaylist(playlistId) {
+//     request.get('/getPlaylist/' + playlistId)
+//       .end((error, result) => {
+//         var playlist = JSON.parse(result.text)
+//         this.setState({
+//           songs: playlist.songs
+//         })
+//       })
+//   }
+
+//   render() {
+//     let songs = this.state.songs.map((song, songIndex) => {
+//       return <Song song={song} key={songIndex} />
+//     })
+//     return (
+//       <div id='playlist'>
+//         <ul>
+//           {songs}
+//         </ul>
+//       </div>
+//     )
+//   }
+
+// }
