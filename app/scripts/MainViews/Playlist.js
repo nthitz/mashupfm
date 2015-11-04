@@ -1,6 +1,8 @@
 import React from 'react'
 import request from 'superagent'
 
+var mediaRoot = '/media/'
+
 class Song extends React.Component {
   constructor(props) {
     super(props)
@@ -18,9 +20,9 @@ class Song extends React.Component {
           {this.props.song.author}
         </div>
         <div className='bottom'>
-          <div className='preview'>
+          <a className='preview' target='_blank' href={mediaRoot + this.props.song.path}>
             preview
-          </div>
+          </a>
           <div className='dj-container'>
             Queued by
             <span className='dj'>
