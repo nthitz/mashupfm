@@ -51,10 +51,14 @@ router.get('/getPlaylist/:playlistId',
         return Promise.resolve(playlistQueryResult.rows[0])
       }).then((playlistResult) => {
         playlist = playlistResult
+        var validStatuses = ['valid', 'converted']
         return db.query(
           `SELECT song.* FROM song, playlist_has_song WHERE
             song.id = playlist_has_song.song_id AND
-            playlist_has_song.playlist_id = $1`,
+            playlist_has_song.playlist_id = $1 AND
+            song.status IN (${
+              validStatuses.map((s) => { return "'" + s + "'" }).join(',')
+            })`,
           [playlistResult.id]
         )
       }).then((songs) => {
