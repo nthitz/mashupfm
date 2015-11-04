@@ -20,17 +20,21 @@ export default class AudioPlayer extends React.Component {
     this._firstPlay = true
     this._changeVolume = this._changeVolume.bind(this)
     this._requestPlay = this._requestPlay.bind(this)
+    this._getNextSong = this._getNextSong.bind(this)
   }
 
   componentDidMount() {
     this._getNextSong();
     interval = setInterval(this._updatePlayhead.bind(this), 100)
     RefluxActions.changeVolume.listen(this._changeVolume)
+    RefluxActions.newSong.listen(this._getNextSong)
   }
 
   componentWillUnmount() {
     clearInterval(interval)
     RefluxActions.changeVolume.unlisten(this._changeVolume)
+    RefluxActions.newSong.unlisten(this._getNextSong)
+
   }
 
   _changeVolume(volume) {

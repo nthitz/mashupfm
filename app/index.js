@@ -11,6 +11,8 @@ var webpack = require('webpack')
 var webpackMiddleware = require("webpack-dev-middleware");
 var webpackConfig = require('../webpack.config')
 
+var serverActions = require('./ServerActions')
+
 var db = require('./db')
 var auth = require('./auth')
 var routes = require('./routes')

@@ -3,13 +3,15 @@ var express = require('express');
 var router = express.Router();
 
 var db = require('../db')
+var ServerActions = require('../ServerActions')
 
 var curSong = null;
 var songStartedAt = -1
 var userIDs = [1];
+var nextSongTimeout = null
 
 function getNextSong() {
-  db.query('SELECT * FROM "playlist" WHERE user_id IN (' + userIDs.join(',') + ')')
+  return db.query('SELECT * FROM "playlist" WHERE user_id IN (' + userIDs.join(',') + ')')
     .then(function(result) {
       return result.rows.reduce(function(prev, next) {
         prev.push(next.id)
@@ -39,10 +41,19 @@ function getNextSong() {
       curSong = song;
       console.log(curSong)
       songStartedAt = Date.now()
-      setTimeout(getNextSong, song.duration * 1000)
+      clearTimeout(nextSongTimeout)
+      nextSongTimeout = setTimeout(getNextSong, song.duration * 1000)
+      return curSong
     })
 }
 
+function skip() {
+  clearTimeout(nextSongTimeout)
+  getNextSong()
+    .then((song) => {
+      ServerActions.forceClientNewSong()
+    })
+}
 router.get('/currentSong', function(request, result) {
   let seek = 0
   if (request.query.seek) {
@@ -53,6 +64,8 @@ router.get('/currentSong', function(request, result) {
     seek: seek,
   })
 })
+
+ServerActions.forceSkip.listen(skip)
 
 module.exports = {
   routes: router,

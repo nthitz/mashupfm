@@ -4,4 +4,5 @@ module.exports = Reflux.createActions([
   'userJoin',
   'userLeave',
   'userList',
+  'newSong',
 ])

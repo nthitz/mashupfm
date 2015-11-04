@@ -1,14 +1,16 @@
 var expressWs = require('express-ws')
 var _ = require('lodash')
 
+var ServerActions = require('../ServerActions')
 var app = null;
 
 var activeUsers = {}
 
+var broadcast = null
 function initSocket(_app) {
   app = _app;
   expressWs = expressWs(app)
-  function broadcast(message) {
+  broadcast = (message) => {
     expressWs.getWss('/ws')
       .clients.forEach(function(client) {
         client.send(message)
@@ -39,6 +41,9 @@ function initSocket(_app) {
           return
         }
         messageObject.data.time = Date.now()
+        if (isCommand(messageObject)) {
+          return
+        }
         broadcast(JSON.stringify(messageObject))
       }
     })
@@ -53,6 +58,32 @@ function initSocket(_app) {
     })
   })
 }
+
+var commands = [
+  {
+    command: '/skip',
+    action: () => {
+      ServerActions.forceSkip()
+    },
+  },
+]
+function isCommand(message) {
+  var match = false
+  commands.forEach((command) => {
+    if (match) {
+      return
+    }
+    if (message.data.message === command.command) {
+      command.action()
+      match = true;
+    }
+  })
+  return match
+}
+
+ServerActions.forceClientNewSong.listen(() => {
+  broadcast(JSON.stringify({ type: 'newSong' }))
+})
 
 module.exports = {
   initSocket: initSocket,

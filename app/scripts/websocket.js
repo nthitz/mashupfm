@@ -27,6 +27,7 @@ function handleMessage(message) {
     case 'userJoin':
     case 'userLeave':
     case 'userList':
+    case 'newSong':
       RefluxActions[message.type](message.data)
       break;
     default:
