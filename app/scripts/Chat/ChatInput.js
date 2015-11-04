@@ -2,7 +2,7 @@ var React = require('react')
 import _ from 'lodash'
 import UserStore from '../stores/UserStore.js'
 
-var ChatWebsocket = require('./ChatWebsocket')
+var websocket = require('../websocket')
 var userAuth = require('../userAuth')
 
 
@@ -61,7 +61,7 @@ export default class ChatInput extends React.Component {
 
       userAuth.getUser()
         .then((user) => {
-          ChatWebsocket.send(user.id, message)
+          websocket.sendChat(user.id, message)
         })
     }
 

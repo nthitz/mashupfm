@@ -9,6 +9,7 @@ var LoginForm = require('./LoginForm')
 var Chat = require('./Chat/Chat')
 
 var userAuth = require('./userAuth')
+var websocket = require('./websocket')
 
 export default class App extends React.Component {
     constructor() {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
           this.setState({
             user: user,
           })
+          websocket.connect()
         })
     }
 

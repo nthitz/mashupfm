@@ -1,4 +1,4 @@
-import RefluxActions from '../RefluxActions'
+import RefluxActions from './RefluxActions'
 
 var socket = null
 var address = [
@@ -6,7 +6,7 @@ var address = [
   document.location.hostname,
   ':',
   document.location.port,
-  '/chatWs'
+  '/ws'
 ].join('')
 
 var chatMessageCallback = function() {}
@@ -36,7 +36,7 @@ function handleMessage(message) {
   }
 }
 
-function send(userId, message) {
+function sendChat(userId, message) {
   if (socket === null) {
     return
   }
@@ -56,6 +56,6 @@ function setChatMessageCallback(callback) {
 
 module.exports = {
   connect: connect,
-  send: send,
+  sendChat: sendChat,
   setChatMessageCallback: setChatMessageCallback,
 }

@@ -16,7 +16,7 @@ var auth = require('./auth')
 var routes = require('./routes')
 
 var playback = require('./routes/playback')
-var chat = require('./routes/chat')
+var socket = require('./routes/socket')
 
 var app = express();
 
@@ -49,7 +49,7 @@ function initApp() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  chat.useChatWebsocket(app)
+  socket.initSocket(app)
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

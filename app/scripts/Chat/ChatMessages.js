@@ -1,5 +1,5 @@
 var React = require('react')
-var ChatWebsocket = require('./ChatWebsocket')
+var websocket = require('../websocket')
 import Username from '../User/Username'
 import userAuth from '../userAuth'
 import _ from 'lodash'
@@ -35,7 +35,7 @@ export default class ChatMessages extends React.Component {
     }
 
     componentDidMount() {
-      ChatWebsocket.setChatMessageCallback(this._onChatMessage.bind(this))
+      websocket.setChatMessageCallback(this._onChatMessage.bind(this))
       userAuth.getUser()
         .then((user) => {
           this.setState({

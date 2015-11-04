@@ -5,17 +5,17 @@ var app = null;
 
 var activeUsers = {}
 
-function initChatSocket(_app) {
+function initSocket(_app) {
   app = _app;
   expressWs = expressWs(app)
   function broadcast(message) {
-    expressWs.getWss('/chatWs')
+    expressWs.getWss('/ws')
       .clients.forEach(function(client) {
         client.send(message)
       }
     )
   }
-  app.ws('/chatWs', function(ws, request) {
+  app.ws('/ws', function(ws, request) {
     if (typeof request.user === 'undefined') {
       ws.close()
       console.log('closing no user')
@@ -55,5 +55,5 @@ function initChatSocket(_app) {
 }
 
 module.exports = {
-  useChatWebsocket: initChatSocket,
+  initSocket: initSocket,
 }

@@ -3,7 +3,6 @@ var React = require('react')
 var ChatMessages = require('./ChatMessages')
 var ChatInput = require('./ChatInput')
 
-var ChatWebsocket = require('./ChatWebsocket')
 
 export default class Chat extends React.Component {
     constructor() {
@@ -14,7 +13,6 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-      ChatWebsocket.connect()
     }
 
     render() {
