@@ -102,4 +102,42 @@ router.get('/setActivePlaylist/:id',
   }
 )
 
+router.post('/updatePlaylistSort/:id',
+  (request, response) => {
+    if (!request.user) {
+      return response.status(401).json({error: 'unauthorized'})
+    }
+    let playlistId = request.params.id
+    let userId = request.user.id
+    let order = request.body.order
+
+    if (! (playlistId && userId && order) || !_.isArray(order)) {
+      response.status(500)
+      return
+    }
+    db.query(
+      'SELECT COUNT(*) AS count FROM playlist WHERE id = $1 AND user_id=$2',
+      [playlistId, userId]
+    ).then((result) => {
+      return new Promise((resolve, reject) => {
+        if (result.rows[0].count == 1) { //count returns as a string so `==`
+          resolve()
+        }
+        reject('not a playlist of logged in user')
+      })
+    }).then(() => {
+      let orderString = order.map((songId) => {
+        return parseInt(songId, 10)
+      }).join(',')
+      return db.query(
+        `UPDATE playlist SET sort='{${orderString}}' WHERE id=$1`,
+        [playlistId]
+      )
+    }).catch((error) => {
+      console.log(error)
+      response.status(500)
+    })
+  }
+)
+
 module.exports = router;

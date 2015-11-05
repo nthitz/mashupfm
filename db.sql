@@ -31,7 +31,8 @@ CREATE TABLE "song" (
 CREATE TABLE "playlist" (
   "id" serial PRIMARY KEY,
   "name" text NOT NULL,
-  "user_id" integer REFERENCES "user" ("id")
+  "user_id" integer REFERENCES "user" ("id"),
+  "order" integer[]
 );
 
 CREATE TABLE "playlist_has_song" (

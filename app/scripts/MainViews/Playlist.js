@@ -27,7 +27,7 @@ class Song extends React.Component {
           <div className='dj-container'>
             Queued by
             <span className='dj'>
-               what is this
+               {this.props.song.id}
             </span>
           </div>
         </div>
@@ -73,7 +73,14 @@ export default React.createClass({
     }
   },
   handleSort: function(event) {
-    console.log(event.oldIndex, event.newIndex)
+    let order = this.state.songs.map((song) => { return song.id })
+    request.post(`/updatePlaylistSort/${this.props.playlist.id}`)
+      .send({order: order})
+      .end((error, result) => {
+        if (error) {
+          throw error;
+        }
+      })
   },
   componentDidMount: function() {
     if (this.props.playlist) {
@@ -91,8 +98,19 @@ export default React.createClass({
     request.get('/getPlaylist/' + playlistId)
       .end((error, result) => {
         var playlist = JSON.parse(result.text)
+        let songs = playlist.songs
+        let order = playlist.sort
+        _.each(songs, (song) => {
+          let songOrder = order.indexOf(song.id)
+          if (songOrder === -1) {
+            songOrder = 100000
+          }
+          song.order = songOrder
+        })
+        songs = _.sortBy(songs, 'order')
+        let ids = songs.map((song) => { return song.id }).join(',')
         this.setState({
-          songs: playlist.songs
+          songs: songs
         })
       })
   },
