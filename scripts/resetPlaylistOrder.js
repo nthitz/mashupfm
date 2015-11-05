@@ -10,7 +10,7 @@ var PATH = '../media/';
 var BAD_FILENAME_ERROR_CODE = 'ENOENT'
 
 db.connect().then((client) => {
- db.query('SELECT playlist.id FROM playlist')
+ db.query('SELECT playlist.id FROM playlist WHERE sort IS NULL')
   .then((result) => {
     _.each(result.rows, (playlist) => {
       console.log(playlist)
