@@ -68,9 +68,8 @@ export default React.createClass({
   sortableOptions: {
     ref: 'songs',
     model: 'songs',
-    onStart: function() {
-      console.log('on start')
-    }
+    ghostClass: 'drag-placeholder',
+    chosenClass: 'drag-element'
   },
   handleSort: function(event) {
     let order = this.state.songs.map((song) => { return song.id })
