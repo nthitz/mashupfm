@@ -34,7 +34,7 @@ export default class Header extends React.Component {
           <AudioPlayer />
 
           <div id='controls'>
-            <VoteButtons />
+            <VoteButtons/>
 
             <div id='user-controls'>
               <div id='username'>
