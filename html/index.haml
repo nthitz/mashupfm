@@ -297,8 +297,7 @@
           i
 
       #queue-controls
-        #join-queue
-          l
+        #join-queue.join-queue-icon
         #queue-info
           #queue-position
             2
@@ -370,7 +369,7 @@
     },
     joinClick: function(){
       jq = $('join-queue')
-      jq.innerHTML = jq.innerHTML == 'j' ? 'l' : 'j'
+      jq.className = jq.className == 'leave-queue-icon' ? 'join-queue-icon' : 'leave-queue-icon'
     },
     activeToggle: function(e){
       e = typeof(e) == 'string' ? $(e) : e
