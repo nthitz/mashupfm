@@ -56,10 +56,12 @@ function getNextSong() {
     currentSong = song
     return currentSong
   }
+  // if no one playlist just pick a default song and be done
   if (queue.length === 0 && currentPlayingUser === null) {
     return getDefaultSong()
       .then(onNewSong)
   }
+
   if (currentPlayingUser !== null) {
     queue.push(currentPlayingUser)
   }
@@ -80,8 +82,19 @@ function getNextSong() {
     delete nextSong.sort
     delete nextSong.active_playlist_id
 
-    // need to update order property on playlist
-    // need to sync data to user
+    // move the played song to the back of the playlist order
+    sort.push(sort.shift())
+
+    // push to db
+    let sortIds = sort.join(',')
+    db.query(
+      `UPDATE playlist SET sort='{${sortIds}}' WHERE id=$1`,
+      [playlistId]
+    )
+
+    // push to user
+    ServerActions.forceRefreshPlaylist(currentPlayingUser.id)
+
     return nextSong
   }).then(onNewSong)
 

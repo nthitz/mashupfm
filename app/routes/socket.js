@@ -5,6 +5,7 @@ var ServerActions = require('../ServerActions')
 var app = null;
 
 var activeUsers = {}
+var activeSockets = {}
 
 var broadcast = null
 function initSocket(_app) {
@@ -24,6 +25,8 @@ function initSocket(_app) {
       return
     }
     activeUsers[request.user.id] = request.user
+    activeSockets[request.user.id] = ws
+
     ws.send(JSON.stringify({
       type: 'userList',
       data: activeUsers
@@ -51,6 +54,7 @@ function initSocket(_app) {
 
     ws.on('close', function() {
       delete activeUsers[request.user.id]
+      delete activeSockets[request.user.id]
       broadcast(JSON.stringify({
         type: 'userLeave',
         data: request.user.id
@@ -75,6 +79,7 @@ function isCommand(message) {
     }
     if (message.data.message === command.command) {
       command.action()
+      console.log('command ' + command.command)
       match = true;
     }
   })
@@ -83,6 +88,13 @@ function isCommand(message) {
 
 ServerActions.forceClientNewSong.listen(() => {
   broadcast(JSON.stringify({ type: 'newSong' }))
+})
+ServerActions.forceRefreshPlaylist.listen((userId) => {
+  if (activeSockets[userId]) {
+    activeSockets[userId].send(JSON.stringify({ type: 'refreshPlaylist' }))
+  } else {
+    console.log('trying to force playlist refresh for unknown user ' + userId)
+  }
 })
 
 module.exports = {

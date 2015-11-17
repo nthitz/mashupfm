@@ -2,6 +2,8 @@ import React from 'react'
 import request from 'superagent'
 import SortableMixin from '../mixins/react-sortable-mixin'
 
+import RefluxActions from '../RefluxActions'
+
 var mediaRoot = '/media/'
 
 class Song extends React.Component {
@@ -71,6 +73,7 @@ export default React.createClass({
     ghostClass: 'drag-placeholder',
     chosenClass: 'drag-element'
   },
+
   handleSort: function(event) {
     let order = this.state.songs.map((song) => { return song.id })
     request.post(`/updatePlaylistSort/${this.props.playlist.id}`)
@@ -81,16 +84,26 @@ export default React.createClass({
         }
       })
   },
+
   componentDidMount: function() {
     if (this.props.playlist) {
       this._requestPlaylist(this.props.playlist.id)
     }
+    RefluxActions.refreshPlaylist.listen(this._forceRefresh)
+  },
+
+  componentWillUnmount: function() {
+    RefluxActions.refreshPlaylist.unlisten(this._forceRefresh)
   },
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.playlist) {
       this._requestPlaylist(nextProps.playlist.id)
     }
+  },
+
+  _forceRefresh: function() {
+    this._requestPlaylist(this.props.playlist.id)
   },
 
   _requestPlaylist: function (playlistId) {
