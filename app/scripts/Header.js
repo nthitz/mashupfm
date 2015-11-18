@@ -1,18 +1,22 @@
 var React = require('react')
 var request = require('superagent');
+
 var AudioPlayer = require('./AudioPlayer/AudioPlayer')
 var VoteButtons = require('./AudioPlayer/VoteButtons')
 var VolumeControl = require('./AudioPlayer/VolumeControl')
-
+var Avatar = require('./User/Avatar')
 var userAuth = require('./userAuth')
+import RefluxActions from './RefluxActions'
 
 export default class Header extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      user: null
+      user: null,
+      currentDJ: null
     }
+    RefluxActions.setDJ.listen(this._setCurrentDJ.bind(this))
   }
 
   componentDidMount() {
@@ -22,15 +26,33 @@ export default class Header extends React.Component {
           user: user,
         })
       })
+
+  }
+
+  _setCurrentDJ(dj) {
+    console.log('_setCurrentDJ', dj)
+    this.setState({
+      currentDJ: dj
+    })
   }
 
 
   render(){
+    let currentDJAvatar = null
+
+    if (this.state.currentDJ) {
+      currentDJAvatar = (
+        <Avatar
+          id='current-dj'
+          userId={this.state.currentDJ.id} />
+      )
+    } else {
+      currentDJAvatar = <Avatar id='current-dj' default={true} />
+    }
     return (
       <div id='header-container'>
         <div id='header'>
-          <div className='avatar' id='current-dj'></div>
-
+          {currentDJAvatar}
           <AudioPlayer />
 
           <div id='controls'>

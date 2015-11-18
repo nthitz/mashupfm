@@ -51,6 +51,8 @@ export default class AudioPlayer extends React.Component {
       .query(query)
       .end((error, result) => {
         let data = JSON.parse(result.text)
+        console.log(data)
+        RefluxActions.setDJ(data.dj)
         this.setState({
           song: data.song,
           seekTo: data.seek,
