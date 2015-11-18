@@ -28,6 +28,7 @@
     "history": "^1.12.5",
     "html-webpack-plugin": "^1.6.2",
     "lodash": "^3.10.1",
+    "md5": "^2.0.0",
     "node-sass": "^3.3.3",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",

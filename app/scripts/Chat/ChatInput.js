@@ -1,7 +1,8 @@
 var React = require('react')
 import _ from 'lodash'
-import UserStore from '../stores/UserStore.js'
 
+import UserStore from '../stores/UserStore.js'
+import Avatar from '../User/Avatar'
 var websocket = require('../websocket')
 var userAuth = require('../userAuth')
 
@@ -17,6 +18,7 @@ export default class ChatInput extends React.Component {
         input: '',
         sending: false,
         users: [],
+        currentUser: null,
       }
     }
 
@@ -28,6 +30,12 @@ export default class ChatInput extends React.Component {
           })
         })
       })
+      userAuth.getUser()
+        .then((user) => {
+          this.setState({
+            currentUser: user
+          })
+        })
     }
 
     _keyDown(event) {
@@ -66,9 +74,13 @@ export default class ChatInput extends React.Component {
     }
 
     render(){
+      let avatar = null
+      if (this.state.currentUser) {
+        avatar = <Avatar id={this.state.currentUser.id} />
+      }
       return (
         <div id='chat-input'>
-          <div className="avatar"></div>
+          {avatar}
           <textarea
             ref='input'
             onKeyDown={this._keyDown.bind(this)}
