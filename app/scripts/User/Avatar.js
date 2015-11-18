@@ -22,6 +22,8 @@ export default class Avatar extends React.Component {
     let className = 'avatar';
 
     let style = {}
+    let title = null
+
     if (this.state.user) {
       let avatarUrl =
         'http://www.gravatar.com/avatar/' +
@@ -30,9 +32,11 @@ export default class Avatar extends React.Component {
       style = {
         backgroundImage: `url(${avatarUrl})`,
       }
+      title = this.state.user.username
     }
     return (
       <div
+        title={title}
         className={className}
         style={style} >
       </div>
