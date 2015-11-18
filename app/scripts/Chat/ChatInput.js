@@ -76,7 +76,7 @@ export default class ChatInput extends React.Component {
     render(){
       let avatar = null
       if (this.state.currentUser) {
-        avatar = <Avatar id={this.state.currentUser.id} />
+        avatar = <Avatar userId={this.state.currentUser.id} />
       }
       return (
         <div id='chat-input'>

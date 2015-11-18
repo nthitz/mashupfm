@@ -56,7 +56,7 @@ export default class ChatMessages extends React.Component {
         var timeString = new Date(chat.time).toLocaleTimeString()
         return (
           <li key={chatIndex} className='message-container'>
-            <Avatar id={chat.userId} />
+            <Avatar userId={chat.userId} />
             <Username id={chat.userId} />
             <div className="message">
               {chat.message}
