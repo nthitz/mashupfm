@@ -5,7 +5,7 @@ var router = express.Router();
 var db = require('../db')
 var ServerActions = require('../ServerActions')
 
-var curSong = null;
+var currentSong = null;
 var songStartedAt = -1
 var userIDs = [1];
 var nextSongTimeout = null
@@ -38,12 +38,12 @@ function getNextSong() {
         process.nextTick(getNextSong)
         return
       }
-      curSong = song;
-      console.log(curSong)
+      currentSong = song;
+      console.log(currentSong)
       songStartedAt = Date.now()
       clearTimeout(nextSongTimeout)
       nextSongTimeout = setTimeout(getNextSong, song.duration * 1000)
-      return curSong
+      return currentSong
     })
 }
 
@@ -60,7 +60,7 @@ router.get('/currentSong', function(request, result) {
     seek = Date.now() - songStartedAt
   }
   result.json({
-    song: curSong,
+    song: currentSong,
     seek: seek,
   })
 })
