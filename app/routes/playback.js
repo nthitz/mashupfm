@@ -7,12 +7,13 @@ var db = require('../db')
 var ServerActions = require('../ServerActions')
 
 var currentSong = null;
+var currentDJ = null
+
 var songStartedAt = -1
 var userIDs = [1];
 var nextSongTimeout = null
 
 let queue = [];
-let currentPlayingUser = null
 
 
 function getDefaultSong() {
@@ -56,16 +57,14 @@ function getNextSong() {
     currentSong = song
     return currentSong
   }
-  // if no one playlist just pick a default song and be done
-  if (queue.length === 0 && currentPlayingUser === null) {
+  if (queue.length === 0 && currentDJ === null) {
     return getDefaultSong()
       .then(onNewSong)
   }
-
-  if (currentPlayingUser !== null) {
-    queue.push(currentPlayingUser)
+  if (currentDJ !== null) {
+    queue.push(currentDJ)
   }
-  currentPlayingUser = queue.shift()
+  currentDJ = queue.shift()
   return db.query(
     `SELECT playlist.sort, "user".active_playlist_id, song.*
       FROM "user", playlist, song
@@ -73,7 +72,7 @@ function getNextSong() {
         playlist.id="user".active_playlist_id AND
         song.id=playlist.sort[1]
     `,
-    [currentPlayingUser.id]
+    [currentDJ.id]
   ).then((result) => {
     let nextSong = result.rows[0]
     let sort = nextSong.sort
@@ -115,6 +114,7 @@ router.get('/currentSong', function(request, result) {
   }
   result.json({
     song: currentSong,
+    dj: currentDJ,
     seek: seek,
   })
 })
@@ -156,7 +156,7 @@ router.get('/leaveQueue', function(request, response) {
   queue.splice(queueIndex, 1)
 
   if (queue.length === 0) {
-    currentPlayingUser = null
+    currentDJ = null
   }
   response.json({status: 'success'})
 })
