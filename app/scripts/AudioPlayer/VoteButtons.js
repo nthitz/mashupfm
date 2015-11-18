@@ -1,11 +1,11 @@
 var React = require('react')
 var request = require('superagent');
+var RefluxActions = require('../RefluxActions')
 
 export default class VoteButtons extends React.Component {
   constructor(props) {
     super(props)
 
-    console.log(props)
     this.state = {
       playlists: []
     }
@@ -24,6 +24,11 @@ export default class VoteButtons extends React.Component {
 
         this.setState(newState)
       })
+
+    console.log('Testing to see if I can acces this function, which would ideally replace the code above')
+    console.log(RefluxActions.getUserPlaylists())
+    console.log('end call')
+    console.log('CDM - VoteButtons')
   }
 
   render() {

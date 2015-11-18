@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import Icon from '../Icon'
 import Playlist from './Playlist'
+var RefluxActions = require('../RefluxActions')
 
 export default class PlaylistList extends React.Component {
   constructor(props) {
@@ -39,6 +40,13 @@ export default class PlaylistList extends React.Component {
 
         this.setState(newState)
       })
+
+    RefluxActions.getUserPlaylists.listen(this._getUserPlaylists)
+    console.log('CDM - PlaylistList')
+  }
+
+  _getUserPlaylists() {
+      return [this.state.playlists, 'test']
   }
 
   _selectPlaylist(index) {
