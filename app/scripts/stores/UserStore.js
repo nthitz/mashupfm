@@ -5,7 +5,6 @@ import RefluxActions from '../RefluxActions'
 
 var users = {}
 
-
 var userStore = Reflux.createStore({
   listenables: RefluxActions,
 

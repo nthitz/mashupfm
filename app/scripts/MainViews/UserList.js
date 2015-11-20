@@ -39,7 +39,7 @@ class UserListItem extends React.Component {
         </td>
         <td>1,442</td>
         <td>2.4</td>
-        <td>89%</td>
+        <td>{this.props.username == 'wallpind' ? '3%' : '89%'}</td>
       </tr>
     )
   }

@@ -1,7 +1,8 @@
-/* 8======D ~~~~ M A S H U P   K I N G ~~~~ (====8 */
 var React = require('react')
 var request = require('superagent');
 var RefluxActions = require('../RefluxActions')
+
+import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class VoteButtons extends React.Component {
   constructor(props) {
@@ -13,6 +14,16 @@ export default class VoteButtons extends React.Component {
   }
 
   componentDidMount() {
+    PlaylistStore.listen((data) => {
+        this.setState({
+            playlists: data
+        })
+        console.log(data)
+    })
+
+    console.log(PlaylistStore.get())
+
+    console.log(this.state.playlists)
     request.get('/getUserPlaylists')
       .end((error, result) => {
         if (error) {
