@@ -1,4 +1,7 @@
+import request from 'superagent'
+
 import RefluxActions from './RefluxActions'
+
 
 var socket = null
 var address = [
@@ -12,15 +15,24 @@ var address = [
 var chatMessageCallback = function() {}
 
 function connect() {
-  socket = new WebSocket(address)
-  socket.onmessage = function(message) {
-    var messageObject = JSON.parse(message.data)
-    handleMessage(messageObject)
-  }
-  socket.onclose = (closeEvent) => {
-    console.error(closeEvent)
-    setTimeout(connect, 1)
-  }
+  request.get('/user')
+    .end((error, response) => {
+      if (error) { throw error }
+      let data = JSON.parse(response.text)
+      if (data) {
+        socket = new WebSocket(address)
+        socket.onmessage = function(message) {
+          var messageObject = JSON.parse(message.data)
+          handleMessage(messageObject)
+        }
+        socket.onclose = (closeEvent) => {
+          console.error(closeEvent)
+          setTimeout(connect, 1)
+        }
+
+      }
+    })
+
 }
 
 function handleMessage(message) {
