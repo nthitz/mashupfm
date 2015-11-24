@@ -20,6 +20,11 @@ export default class Avatar extends React.Component {
       user: users[this.props.userId]
     })
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      user:  UserStore.getUserById(nextProps.userId)
+    })
+  }
 
   render() {
     let className = 'avatar';
