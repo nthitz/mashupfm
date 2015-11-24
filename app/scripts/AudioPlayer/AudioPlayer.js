@@ -54,10 +54,12 @@ export default class AudioPlayer extends React.Component {
       .end((error, result) => {
         let data = JSON.parse(result.text)
         console.log(data)
-        if (data.song.id === this.state.song.id) {
-          // this should probably backoff
-          this._refetchNextSongTimeout = setTimeout(this._getNextSong, 50);
-          return
+        if (this.state.song) {
+          if (data.song.id === this.state.song.id) {
+            // this should probably backoff
+            this._refetchNextSongTimeout = setTimeout(this._getNextSong, 50);
+            return
+          }
         }
         RefluxActions.setDJ(data.dj)
         this.setState({
