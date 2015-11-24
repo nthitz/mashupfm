@@ -13,15 +13,30 @@ db.connect().then((client) => {
  db.query('SELECT playlist.id FROM playlist WHERE sort IS NULL')
   .then((result) => {
     _.each(result.rows, (playlist) => {
-      console.log(playlist)
       let count = + playlist.count;
       var sort = _.range(count).join(',')
       db.query(
         'SELECT song_id FROM playlist_has_song WHERE playlist_id=$1',
         [playlist.id]
       ).then((songResult) => {
-        let songIds = songResult.rows.map(_.property('song_id')).join(',')
-        // console.log(songIds)
+        return Promise.all(songResult.rows.map((songId) => {
+          return db.query(
+            'SELECT status, id FROM song WHERE id=$1',
+            [songId.song_id]
+          )
+        })).then((songResults) => {
+          return _.filter(
+            _.map(songResults, (songResult) => {
+              return songResult.rows[0]
+            }),
+            (song) => {
+              var validStatuses = ['valid', 'converted']
+              return validStatuses.indexOf(song.status) !== -1
+            }
+          )
+        })
+      }).then((ids) => {
+        let songIds = ids.map(_.property('id')).join(',')
         db.query(
           `UPDATE playlist SET sort='{${songIds}}' WHERE id=$1`,
           [playlist.id]
