@@ -27,7 +27,7 @@ function connect() {
         }
         socket.onclose = (closeEvent) => {
           console.error(closeEvent)
-          setTimeout(connect, 1)
+          setTimeout(connect, 500)
         }
 
       }
