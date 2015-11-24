@@ -17,6 +17,10 @@ function connect() {
     var messageObject = JSON.parse(message.data)
     handleMessage(messageObject)
   }
+  socket.onclose = (closeEvent) => {
+    console.error(closeEvent)
+    setTimeout(connect, 1)
+  }
 }
 
 function handleMessage(message) {
