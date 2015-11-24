@@ -8,6 +8,7 @@ var ServerActions = require('../ServerActions')
 
 var currentSong = null;
 var currentDJ = null
+var djIntendsToStay = true
 
 var songStartedAt = -1
 var userIDs = [1];
@@ -17,6 +18,7 @@ let queue = [];
 
 
 function getDefaultSong() {
+  // console.log('get default song')
   return db.query('SELECT * FROM "playlist" WHERE user_id IN (' + userIDs.join(',') + ')')
     .then(function(result) {
       return result.rows.reduce(function(prev, next) {
@@ -49,6 +51,7 @@ function getDefaultSong() {
 }
 
 function getNextSong() {
+  // console.log('get next song')
   let onNewSong = (song) => {
     console.log(song)
     songStartedAt = Date.now()
@@ -57,14 +60,19 @@ function getNextSong() {
     currentSong = song
     return currentSong
   }
-  if (queue.length === 0 && currentDJ === null) {
-    return getDefaultSong()
-      .then(onNewSong)
-  }
-  if (currentDJ !== null) {
+
+  if (currentDJ && djIntendsToStay) {
     queue.push(currentDJ)
   }
   currentDJ = queue.shift()
+  djIntendsToStay = true
+
+  if (!currentDJ) {
+    return getDefaultSong()
+      .then(onNewSong)
+  }
+
+  // console.log('get user song', currentDJ)
   return db.query(
     `SELECT playlist.sort, "user".active_playlist_id, song.*
       FROM "user", playlist, song
@@ -92,10 +100,13 @@ function getNextSong() {
     )
 
     // push to user
-    ServerActions.forceRefreshPlaylist(currentPlayingUser.id)
+    ServerActions.forceRefreshPlaylist(currentDJ.id)
 
     return nextSong
   }).then(onNewSong)
+  .catch((error) => {
+    console.log(error)
+  })
 
 
 
@@ -123,10 +134,29 @@ router.get('/joinQueue', function(request, response) {
   if (!request.user) {
     response.status(500).send('nope')
   }
+
+
+  // bail if user is currentDJ
+  // if user is current dj
+  if (currentDJ && request.user.id === currentDJ.id) {
+    if (!djIntendsToStay) {
+      djIntendsToStay = true
+      return response.json({
+        status: 'success',
+        currentQueue: queue,
+      })
+    }
+    return response.json({
+      status: 'error',
+      error: 'joining a queue and already playing'
+    })
+
+  }
+
+  // bail if user in queue
   let inQueue = _.find(queue, (user) => {
     return user.id === request.user.id
   })
-
   if (inQueue) {
     return response.json({error: 'already in queue'})
   }
@@ -141,23 +171,33 @@ router.get('/joinQueue', function(request, response) {
   })
 })
 
+// somehow need to remove users based on a timeout
 router.get('/leaveQueue', function(request, response) {
   if (!request.user) {
     response.status(500).send('nope')
   }
+  // console.log('user leaving queue %s', request.user.username)
+
+  if (currentDJ && request.user.id === currentDJ.id) {
+    djIntendsToStay = false
+    // console.log('user is dj marking intendsToStay=false')
+    return response.json({ 'status': 'success' })
+  }
+
   let queueIndex = _.findIndex(queue, (user) => {
     return user.id === request.user.id
   })
-
   if (queueIndex === -1) {
+    // console.log('user is not in queue')
     return response.json({error: 'not in queue'})
   }
 
+
+  // console.log('splicing', queueIndex)
   queue.splice(queueIndex, 1)
 
-  if (queue.length === 0) {
-    currentDJ = null
-  }
+  // console.log('new queue length ', queue.length)
+
   response.json({status: 'success'})
 })
 
