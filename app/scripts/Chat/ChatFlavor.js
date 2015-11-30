@@ -1,11 +1,13 @@
+var Encoder = require('node-html-encoder').Encoder
+
 var chat = {
     spice: function(message){
         chat.message = message.trim().split(' ')
-        console.log(chat.message)
-        console.log(chat.message.map(chat.spiceElement))
         chat.message = chat.message.map(chat.spiceElement)
         return chat.message.join(' ')
     },
+
+    encoder: new Encoder('entity'),
     
     spiceElement: function(e){
         e = chat.addURLs(e)
@@ -17,17 +19,24 @@ var chat = {
 
     addURLs: function(e){
         //taken from http://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
-        var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+        var expression = /([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?)/gi
         var regex = new RegExp(expression)
-        console.log('regex match: ' + e.match(regex))
 
         if(e.match(regex))
-            return '<a href="' + e + '">' + e + '</a>'
+            return e.replace(regex, chat.convertToLink)
 
-        return e + ' booogies'
+        return chat.encoder.htmlEncode(e)
+    },
+
+    convertToLink: function(match){
+        if(match.indexOf('http') == 0 || match.indexOf('//') == 0)
+            return "<a href='" + match + "'>" + match + "</a>"
+        else
+            return "<a href='http://" + match + "'>" + match + "</a>"
     },
 
     expandImages: function(e){
+        //todo
         return e
     },
 }

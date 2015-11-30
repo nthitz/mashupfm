@@ -3,6 +3,7 @@ var websocket = require('../websocket')
 import Username from '../User/Username'
 import Avatar from '../User/Avatar'
 import userAuth from '../userAuth'
+import ChatFlavor from './ChatFlavor'
 import _ from 'lodash'
 
 export default class ChatMessages extends React.Component {
@@ -59,7 +60,7 @@ export default class ChatMessages extends React.Component {
             <Avatar userId={chat.userId} />
             <Username id={chat.userId} />
             <div className="message">
-              {chat.message}
+              <span dangerouslySetInnerHTML={{__html: ChatFlavor.spice(chat.message)}}/>
               <div className="timestamp">
                 <time>{timeString}</time>
               </div>

@@ -3,7 +3,6 @@ import _ from 'lodash'
 
 import UserStore from '../stores/UserStore.js'
 import Avatar from '../User/Avatar'
-import ChatFlavor from './ChatFlavor'
 var websocket = require('../websocket')
 var userAuth = require('../userAuth')
 
@@ -62,8 +61,8 @@ export default class ChatInput extends React.Component {
     }
 
     _send() {
-      let message = ChatFlavor.spice(this.refs.input.value)
-      console.log(message)
+      let message = this.refs.input.value
+
       if (message === '') {
         return
       }
