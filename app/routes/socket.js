@@ -89,6 +89,12 @@ function isCommand(message) {
 ServerActions.forceClientNewSong.listen(() => {
   broadcast(JSON.stringify({ type: 'newSong' }))
 })
+ServerActions.queueChanged.listen((queue) => {
+  broadcast(JSON.stringify({
+    type: 'queueChanged',
+    data: queue
+  }))
+})
 ServerActions.forceRefreshPlaylist.listen((userId) => {
   if (activeSockets[userId]) {
     activeSockets[userId].send(JSON.stringify({ type: 'refreshPlaylist' }))
@@ -96,6 +102,7 @@ ServerActions.forceRefreshPlaylist.listen((userId) => {
     console.log('trying to force playlist refresh for unknown user ' + userId)
   }
 })
+
 
 module.exports = {
   initSocket: initSocket,

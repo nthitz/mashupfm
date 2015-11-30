@@ -45,6 +45,7 @@ function handleMessage(message) {
     case 'userList':
     case 'newSong':
     case 'refreshPlaylist':
+    case 'queueChanged':
       RefluxActions[message.type](message.data)
       break;
     default:

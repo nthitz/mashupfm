@@ -3,4 +3,5 @@ module.exports = Reflux.createActions([
   'forceClientNewSong',
   'forceSkip',
   'forceRefreshPlaylist',
+  'queueChanged'
 ])

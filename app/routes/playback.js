@@ -65,6 +65,9 @@ function getNextSong() {
     queue.push(currentDJ)
   }
   currentDJ = queue.shift()
+
+  ServerActions.queueChanged(queue)
+
   djIntendsToStay = true
 
   if (!currentDJ) {
@@ -165,6 +168,8 @@ router.get('/joinQueue', function(request, response) {
     username: request.user.username,
     id: request.user.id,
   })
+  ServerActions.queueChanged(queue)
+
   response.json({
     status: 'success',
     currentQueue: queue,
@@ -195,6 +200,7 @@ router.get('/leaveQueue', function(request, response) {
 
   // console.log('splicing', queueIndex)
   queue.splice(queueIndex, 1)
+  ServerActions.queueChanged(queue)
 
   // console.log('new queue length ', queue.length)
 
