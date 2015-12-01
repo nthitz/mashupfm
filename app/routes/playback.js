@@ -211,9 +211,14 @@ router.get('/currentQueue', function(request, response) {
   response.json(queue)
 })
 
+function getQueue() {
+  return queue
+}
+
 ServerActions.forceSkip.listen(skip)
 
 module.exports = {
   routes: router,
   getNextSong: getNextSong,
+  getQueue: getQueue,
 };

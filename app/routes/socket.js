@@ -2,6 +2,7 @@ var expressWs = require('express-ws')
 var _ = require('lodash')
 
 var ServerActions = require('../ServerActions')
+var Playback = require('./playback')
 var app = null;
 
 var activeUsers = {}
@@ -30,6 +31,10 @@ function initSocket(_app) {
     ws.send(JSON.stringify({
       type: 'userList',
       data: activeUsers
+    }))
+    ws.send(JSON.stringify({
+      type: 'queueChanged',
+      data: Playback.getQueue(),
     }))
     broadcast(JSON.stringify({
       type: 'userJoin',
