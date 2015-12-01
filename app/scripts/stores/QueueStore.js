@@ -10,7 +10,6 @@ var userStore = Reflux.createStore({
   listenables: RefluxActions,
 
   onQueueChanged: function(_queue) {
-    console.log('store queue', _queue)
     queue = _queue
     this.trigger(queue)
   },
