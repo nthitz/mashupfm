@@ -32,11 +32,11 @@ export default class QueueControls extends React.Component {
     this.setState({
       dj: DjStore.getDj(),
     })
-    DjStore.listen(this._djUpdated)
+    this.djStoreUnlisten = DjStore.listen(this._djUpdated)
   }
 
   componentWillUnmount() {
-    QueueStore.unlisten(this._queueUpdated)
+    this.djStoreUnlisten()
     DjStore.unlisten(this._djUpdated)
   }
 
