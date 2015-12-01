@@ -15,8 +15,11 @@ var userIDs = [1];
 var nextSongTimeout = null
 
 let queue = [];
+var socket = null
 
-
+function setSocket(_socket) {
+  socket = _socket
+}
 function getDefaultSong() {
   // console.log('get default song')
   return db.query('SELECT * FROM "playlist" WHERE user_id IN (' + userIDs.join(',') + ')')
@@ -65,6 +68,11 @@ function getNextSong() {
     queue.push(currentDJ)
   }
   currentDJ = queue.shift()
+  var maxTries = 100;
+  while (currentDJ && !socket.isUserOnline(currentDJ.id)) {
+    currentDJ = queue.shift()
+    if (maxTries-- < 0) { break }
+  }
 
   ServerActions.queueChanged(queue)
 
@@ -221,4 +229,5 @@ module.exports = {
   routes: router,
   getNextSong: getNextSong,
   getQueue: getQueue,
+  setSocket: setSocket,
 };

@@ -91,6 +91,10 @@ function isCommand(message) {
   return match
 }
 
+function isUserOnline(userId) {
+  return typeof activeUsers[userId] !== 'undefined'
+}
+
 ServerActions.forceClientNewSong.listen(() => {
   broadcast(JSON.stringify({ type: 'newSong' }))
 })
@@ -111,4 +115,5 @@ ServerActions.forceRefreshPlaylist.listen((userId) => {
 
 module.exports = {
   initSocket: initSocket,
+  isUserOnline: isUserOnline,
 }
