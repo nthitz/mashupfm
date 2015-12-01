@@ -30,7 +30,6 @@ export default class Header extends React.Component {
   }
 
   _setCurrentDJ(dj) {
-    console.log('_setCurrentDJ', dj)
     this.setState({
       currentDJ: dj
     })

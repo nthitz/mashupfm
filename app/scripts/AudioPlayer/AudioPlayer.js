@@ -53,7 +53,6 @@ export default class AudioPlayer extends React.Component {
       .query(query)
       .end((error, result) => {
         let data = JSON.parse(result.text)
-        console.log(data)
         if (this.state.song) {
           if (data.song.id === this.state.song.id) {
             // this should probably backoff
