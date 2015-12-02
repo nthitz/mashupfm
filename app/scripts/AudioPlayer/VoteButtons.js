@@ -1,6 +1,5 @@
 var React = require('react')
 var request = require('superagent');
-var RefluxActions = require('../RefluxActions')
 
 import PlaylistStore from '../stores/PlaylistStore.js'
 
@@ -15,32 +14,11 @@ export default class VoteButtons extends React.Component {
 
   componentDidMount() {
     PlaylistStore.listen((data) => {
+        console.log("VoteButtons: PlaylistStore update")
         this.setState({
             playlists: data
         })
-        console.log(data)
     })
-
-    console.log(PlaylistStore.get())
-
-    console.log(this.state.playlists)
-    request.get('/getUserPlaylists')
-      .end((error, result) => {
-        if (error) {
-          throw error;
-        }
-        let playlists = JSON.parse(result.text)
-        let newState = {
-          playlists: playlists
-        }
-
-        this.setState(newState)
-      })
-
-    console.log('Testing to see if I can acces this function, which would ideally replace the code above')
-    console.log(RefluxActions.getUserPlaylists())
-    console.log('end call')
-    console.log('CDM - VoteButtons')
   }
 
   render() {

@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import Icon from '../Icon'
 import Playlist from './Playlist'
-var RefluxActions = require('../RefluxActions')
+import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class PlaylistList extends React.Component {
   constructor(props) {
@@ -17,6 +17,25 @@ export default class PlaylistList extends React.Component {
     }
   }
   componentDidMount() {
+    PlaylistStore.listen((data) => {
+      console.log("PlaylistList: PlaylistStore update")
+      let newState = {
+        playlists: data
+      }
+      let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
+        return playlist.active
+      })
+      if (activePlaylistIndex !== -1) {
+        newState.selectedPlaylistIndex = activePlaylistIndex
+        newState.activePlaylistIndex = activePlaylistIndex
+        playlists[activePlaylistIndex].active = false
+      } else {
+        newState.selectedPlaylistIndex = 0
+      }
+      this.setState(newState)
+    })
+
+    /*
     request.get('/getUserPlaylists')
       .end((error, result) => {
         if (error) {
@@ -40,13 +59,7 @@ export default class PlaylistList extends React.Component {
 
         this.setState(newState)
       })
-
-    RefluxActions.getUserPlaylists.listen(this._getUserPlaylists)
-    console.log('CDM - PlaylistList')
-  }
-
-  _getUserPlaylists() {
-      return [this.state.playlists, 'test']
+      */
   }
 
   _selectPlaylist(index) {
