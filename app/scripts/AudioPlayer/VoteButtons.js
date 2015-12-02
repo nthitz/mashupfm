@@ -1,5 +1,4 @@
 var React = require('react')
-var request = require('superagent');
 
 import PlaylistStore from '../stores/PlaylistStore.js'
 
