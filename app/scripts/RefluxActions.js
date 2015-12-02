@@ -5,6 +5,7 @@ module.exports = Reflux.createActions([
   'userLeave',
   'userList',
   'newSong',
+  'getUserPlaylists',
   'refreshPlaylist',
   'setDJ',
   'queueChanged',

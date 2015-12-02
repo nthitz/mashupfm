@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import Icon from '../Icon'
 import Playlist from './Playlist'
+import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class PlaylistList extends React.Component {
   constructor(props) {
@@ -14,31 +15,30 @@ export default class PlaylistList extends React.Component {
       selectedPlaylistIndex: -1,
       activePlaylistIndex: -1,
     }
+
+    this._playlistDataUpdated = this._playlistDataUpdated.bind(this)
   }
   componentDidMount() {
-    request.get('/getUserPlaylists')
-      .end((error, result) => {
-        if (error) {
-          throw error;
-        }
-        let playlists = JSON.parse(result.text)
-        let newState = {
-          playlists: playlists
-        }
+    this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
 
-        let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
-          return playlist.active
-        })
-        if (activePlaylistIndex !== -1) {
-          newState.selectedPlaylistIndex = activePlaylistIndex
-          newState.activePlaylistIndex = activePlaylistIndex
-          playlists[activePlaylistIndex].active = false
-        } else {
-          newState.selectedPlaylistIndex = 0
-        }
+    this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
+  }
 
-        this.setState(newState)
-      })
+  _playlistDataUpdated(playlists) {
+    let newState = {
+      playlists: playlists
+    }
+    let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
+      return playlist.active
+    })
+    if (activePlaylistIndex !== -1) {
+      newState.selectedPlaylistIndex = activePlaylistIndex
+      newState.activePlaylistIndex = activePlaylistIndex
+      playlists[activePlaylistIndex].active = false
+    } else {
+      newState.selectedPlaylistIndex = 0
+    }
+    this.setState(newState)
   }
 
   _selectPlaylist(index) {
@@ -58,6 +58,10 @@ export default class PlaylistList extends React.Component {
     this.setState({
       activePlaylistIndex: index
     })
+  }
+
+  componentWillUnmount() {
+    this._playlistStoreListener()
   }
 
   render() {
