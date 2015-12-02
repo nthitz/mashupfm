@@ -15,51 +15,30 @@ export default class PlaylistList extends React.Component {
       selectedPlaylistIndex: -1,
       activePlaylistIndex: -1,
     }
+
+    this._playlistDataUpdated = this._playlistDataUpdated.bind(this)
   }
   componentDidMount() {
-    PlaylistStore.listen((data) => {
-      console.log("PlaylistList: PlaylistStore update")
-      let newState = {
-        playlists: data
-      }
-      let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
-        return playlist.active
-      })
-      if (activePlaylistIndex !== -1) {
-        newState.selectedPlaylistIndex = activePlaylistIndex
-        newState.activePlaylistIndex = activePlaylistIndex
-        playlists[activePlaylistIndex].active = false
-      } else {
-        newState.selectedPlaylistIndex = 0
-      }
-      this.setState(newState)
+    this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
+
+    this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
+  }
+
+  _playlistDataUpdated(playlists) {
+    let newState = {
+      playlists: playlists
+    }
+    let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
+      return playlist.active
     })
-
-    /*
-    request.get('/getUserPlaylists')
-      .end((error, result) => {
-        if (error) {
-          throw error;
-        }
-        let playlists = JSON.parse(result.text)
-        let newState = {
-          playlists: playlists
-        }
-
-        let activePlaylistIndex = _.findIndex(playlists, (playlist) => {
-          return playlist.active
-        })
-        if (activePlaylistIndex !== -1) {
-          newState.selectedPlaylistIndex = activePlaylistIndex
-          newState.activePlaylistIndex = activePlaylistIndex
-          playlists[activePlaylistIndex].active = false
-        } else {
-          newState.selectedPlaylistIndex = 0
-        }
-
-        this.setState(newState)
-      })
-      */
+    if (activePlaylistIndex !== -1) {
+      newState.selectedPlaylistIndex = activePlaylistIndex
+      newState.activePlaylistIndex = activePlaylistIndex
+      playlists[activePlaylistIndex].active = false
+    } else {
+      newState.selectedPlaylistIndex = 0
+    }
+    this.setState(newState)
   }
 
   _selectPlaylist(index) {
@@ -79,6 +58,10 @@ export default class PlaylistList extends React.Component {
     this.setState({
       activePlaylistIndex: index
     })
+  }
+
+  componentWillUnmount() {
+    this._playlistStoreListener()
   }
 
   render() {

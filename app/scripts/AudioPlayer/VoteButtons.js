@@ -10,15 +10,24 @@ export default class VoteButtons extends React.Component {
     this.state = {
       playlists: []
     }
+
+    this._playlistDataUpdated = this._playlistDataUpdated.bind(this)
   }
 
   componentDidMount() {
-    PlaylistStore.listen((data) => {
-        console.log("VoteButtons: PlaylistStore update")
-        this.setState({
-            playlists: data
-        })
-    })
+    this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
+    this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
+  }
+
+  _playlistDataUpdated(playlists) {
+    let newState = {
+      playlists: playlists
+    }
+    this.setState(newState)
+  }
+
+  componentWillUnmount() {
+    this._playlistStoreListener()
   }
 
   render() {

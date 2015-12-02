@@ -21,7 +21,7 @@ var playlistStore = Reflux.createStore({
   listenables: RefluxActions,
 
   getUserPlaylists: function(){
-      return playlists
+    return playlists
   },
 
   onAddPlaylist: function(playlist){
