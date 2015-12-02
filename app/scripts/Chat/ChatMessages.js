@@ -1,6 +1,7 @@
 var React = require('react')
 var websocket = require('../websocket')
 import Username from '../User/Username'
+import Avatar from '../User/Avatar'
 import userAuth from '../userAuth'
 import _ from 'lodash'
 
@@ -55,7 +56,7 @@ export default class ChatMessages extends React.Component {
         var timeString = new Date(chat.time).toLocaleTimeString()
         return (
           <li key={chatIndex} className='message-container'>
-            <div className='avatar'></div>
+            <Avatar userId={chat.userId} />
             <Username id={chat.userId} />
             <div className="message">
               {chat.message}

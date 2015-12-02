@@ -1,6 +1,7 @@
 var React = require('react')
 var RefluxActions = require('./RefluxActions')
 var UserStore = require('./stores/UserStore')
+var QueueStore = require('./stores/QueueStore')
 import '../styles/app.sass'
 
 var Header = require('./Header')

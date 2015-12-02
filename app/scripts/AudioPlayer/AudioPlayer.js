@@ -5,7 +5,6 @@ var ProgressBar = require('./ProgressBar')
 
 var mediaRoot = '/media/'
 
-var interval = null
 export default class AudioPlayer extends React.Component {
   constructor() {
     super()
@@ -18,6 +17,7 @@ export default class AudioPlayer extends React.Component {
       playing: false,
     }
     this._firstPlay = true
+    this._interval = null
     this._changeVolume = this._changeVolume.bind(this)
     this._requestPlay = this._requestPlay.bind(this)
     this._getNextSong = this._getNextSong.bind(this)
@@ -25,13 +25,14 @@ export default class AudioPlayer extends React.Component {
 
   componentDidMount() {
     this._getNextSong();
-    interval = setInterval(this._updatePlayhead.bind(this), 100)
+    this._interval = setInterval(this._updatePlayhead.bind(this), 100)
     RefluxActions.changeVolume.listen(this._changeVolume)
     RefluxActions.newSong.listen(this._getNextSong)
   }
 
   componentWillUnmount() {
-    clearInterval(interval)
+    clearInterval(this._interval)
+    clearTimeout(this._refetchNextSongTimeout)
     RefluxActions.changeVolume.unlisten(this._changeVolume)
     RefluxActions.newSong.unlisten(this._getNextSong)
 
@@ -42,6 +43,7 @@ export default class AudioPlayer extends React.Component {
   }
 
   _getNextSong() {
+    clearTimeout(this._refetchNextSongTimeout)
     let query = {}
     if (this._firstPlay) {
       this._firstPlay = false
@@ -51,6 +53,15 @@ export default class AudioPlayer extends React.Component {
       .query(query)
       .end((error, result) => {
         let data = JSON.parse(result.text)
+        console.log(data)
+        if (this.state.song) {
+          if (data.song.id === this.state.song.id) {
+            // this should probably backoff
+            this._refetchNextSongTimeout = setTimeout(this._getNextSong, 50);
+            return
+          }
+        }
+        RefluxActions.setDJ(data.dj)
         this.setState({
           song: data.song,
           seekTo: data.seek,
