@@ -10,7 +10,10 @@ export default class LoginForm extends React.Component {
     this.state = {
       username: null,
       password: null,
+      confirm: null,
       submitting: false,
+      registering: false,
+      error: null,
     }
   }
 
@@ -23,6 +26,10 @@ export default class LoginForm extends React.Component {
   }
 
   _onSubmit(event) {
+    if (event) {
+      event.preventDefault()
+    }
+
     if (this.state.submitting) {
       return
     }
@@ -48,13 +55,87 @@ export default class LoginForm extends React.Component {
         alert('something went wrong - ' + result.body.text)
       })
 
+  }
+
+  _onRegisterSubmit(event) {
     event.preventDefault()
+    if (!this.state.registering) {
+      this.setState({
+        registering: true,
+      })
+      return
+    }
+
+    if (this.state.password.length < 6) {
+      return this.setState({
+        error: 'please make your password at least 6 characters'
+      })
+    }
+
+    if (this.state.password !== this.state.confirm) {
+      return this.setState({
+        error: 'passwords don\'t match'
+      })
+    }
+
+    request.post('/register')
+      .send({
+        username: this.state.username,
+        password: this.state.password,
+      }).end((error, result) => {
+        if (error) {
+          throw error
+        }
+        console.log(result)
+        result = JSON.parse(result.text)
+        if (result.status === 'error') {
+          return this.setState({
+            error: result.error
+          })
+        } else if (result.status === 'success') {
+          this._onSubmit()
+        }
+      })
   }
 
   render(){
+    let loginButton = (
+      <input
+        type="submit"
+        onClick={this._onSubmit.bind(this)}
+        value="Log In" />
+    )
+    let registerButton = (
+      <input
+        type="submit"
+        onClick={this._onRegisterSubmit.bind(this)}
+        value="Register" />
+    )
+
+    let confirmPasswordInput = null
+    if (this.state.registering) {
+      confirmPasswordInput = (
+        <div>
+          <label>Confirm password:</label>
+          <input
+            type="password"
+            name="confirm"
+            onChange={this._changeStateProperty('confirm').bind(this)} />
+        </div>
+      )
+    }
+
+    let error = null
+    if (this.state.error) {
+      error = (
+        <div className='error'>{this.state.error}</div>
+      )
+    }
+
     return (
       <div>
         <form ref='form' action={action} method="post">
+          {error}
           <div>
             <label>Username:</label>
             <input
@@ -69,11 +150,10 @@ export default class LoginForm extends React.Component {
               name="password"
               onChange={this._changeStateProperty('password').bind(this)} />
           </div>
+          {confirmPasswordInput}
           <div>
-            <input
-              type="submit"
-              onClick={this._onSubmit.bind(this)}
-              value="Log In" />
+            {loginButton}
+            {registerButton}
           </div>
         </form>
       </div>
