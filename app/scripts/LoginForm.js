@@ -43,6 +43,7 @@ export default class LoginForm extends React.Component {
         this.setState({ submitting: false })
         if (error && result.statusCode === 401) {
           alert('invalid login probably')
+          return
         } else if (error) {
           alert('something went wrong - ' + error)
           return;

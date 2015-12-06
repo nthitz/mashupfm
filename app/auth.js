@@ -10,6 +10,7 @@ passport.use(new LocalStrategy(
       .then(function(result) {
         if (result.rows.length !== 1) {
           console.log('user login attempt with bad username ' + username)
+          done(null, false)
           return
         }
         var user = result.rows[0]
