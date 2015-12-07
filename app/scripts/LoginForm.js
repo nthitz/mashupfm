@@ -117,7 +117,7 @@ export default class LoginForm extends React.Component {
     if (this.state.registering) {
       confirmPasswordInput = (
         <div>
-          <label>Confirm password:</label>
+          <label>confirm password</label>
           <input
             type="password"
             name="confirm"
@@ -134,18 +134,18 @@ export default class LoginForm extends React.Component {
     }
 
     return (
-      <div>
+      <div id='login-form'>
         <form ref='form' action={action} method="post">
           {error}
           <div>
-            <label>Username:</label>
+            <label>username</label>
             <input
               type="text"
               name="username"
               onChange={this._changeStateProperty('username').bind(this)} />
           </div>
           <div>
-            <label>Password:</label>
+            <label>password</label>
             <input
               type="password"
               name="password"
