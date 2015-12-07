@@ -12,7 +12,7 @@ var COPYRIGHT_INFRINGEMENT = 'The YouTube account associated with this video has
 var COPYRIGHT_INFRINGEMENT2 = /who has blocked it on copyright grounds/
 var SIGNIN_ERROR = 'Please sign in to view this video.'
 var SC_404 = 'Unable to download JSON metadata: HTTP Error 404';
-
+var NO_VIDEO_FORMATS_ERROR = 'ERROR: No video formats found;'
 
 var songErrorStatuses = {};
 songErrorStatuses[COPYRIGHT_INFRINGEMENT] = 'gone';
@@ -106,6 +106,8 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
             skipSong('signInNeeded');
           } else if(error.indexOf(SC_404) !== -1) {
             skipSong('gone')
+          } else if (error.indexOf(NO_VIDEO_FORMATS_ERROR) !== -1) {
+            skipSong('no_video_formats')
           } else {
             console.error('unknown error')
             console.log(error.toString())
