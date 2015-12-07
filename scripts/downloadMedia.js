@@ -9,8 +9,10 @@ var OUTPUT_FORMAT = OUTPUT_FOLDER + '%(title)s-%(id)s.%(ext)s'
 var youtubeDL = 'youtube-dl'
 var DELAY_BETWEEN_SONGS = 1000;
 var COPYRIGHT_INFRINGEMENT = 'The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement.';
-var COPYRIGHT_INFRINGEMENT2 = /who has blocked it on copyright grounds/
+var COPYRIGHT_INFRINGEMENT2 = /(blocked it (in your country )?on copyright grounds)|(no longer available)|(not available)/
+var REMOVED = 'This video has been removed'
 var SIGNIN_ERROR = 'Please sign in to view this video.'
+var NOT_EXIST = 'This video does not exist'
 var SC_404 = 'Unable to download JSON metadata: HTTP Error 404';
 var NO_VIDEO_FORMATS_ERROR = 'ERROR: No video formats found;'
 
@@ -47,7 +49,7 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
   }
   attemptDownload()
   function attemptDownload() {
-    var format = songFormats['soundcloud']
+    var format = songFormats['youtube']
     var url = null;
     getNextSong(format)
       .then(function(song) {
@@ -108,6 +110,10 @@ pg.connect(process.env.PG_CONNECTION, function(err, client, done) {
             skipSong('gone')
           } else if (error.indexOf(NO_VIDEO_FORMATS_ERROR) !== -1) {
             skipSong('no_video_formats')
+          } else if (error.indexOf(REMOVED) !== -1) {
+            skipSong('gone')
+          } else if (error.indexOf(NOT_EXIST) !== -1) {
+            skipSong('gone')
           } else {
             console.error('unknown error')
             console.log(error.toString())
