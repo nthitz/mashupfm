@@ -59,6 +59,8 @@ export default class LoginForm extends React.Component {
   }
 
   _onRegisterSubmit(event) {
+    let usernameRegex = /^[a-zA-Z0-9_]*$/
+
     event.preventDefault()
     if (!this.state.registering) {
       this.setState({
@@ -67,9 +69,15 @@ export default class LoginForm extends React.Component {
       return
     }
 
-    if (this.state.username.trim().length < 1) {
+    if (!usernameRegex.test(this.state.username)) {
       return this.setState({
-        error: 'please make your password at least one character'
+        error: 'username can only contain alphanumerics'
+      })
+    }
+
+    if (this.state.username.length < 1) {
+      return this.setState({
+        error: 'please make your username at least one character'
       })
     }
 
