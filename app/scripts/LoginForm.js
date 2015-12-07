@@ -67,6 +67,12 @@ export default class LoginForm extends React.Component {
       return
     }
 
+    if (this.state.username.trim().length < 1) {
+      return this.setState({
+        error: 'please make your password at least one character'
+      })
+    }
+
     if (this.state.password.length < 6) {
       return this.setState({
         error: 'please make your password at least 6 characters'
