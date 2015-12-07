@@ -11,26 +11,25 @@ function splitEntities(message) {
       return null
     }
     if(entity.match(urlRegex)){
-        var url = null
-        if(protocolRegex.test(entity)) {
-          url = entity
-        } else {
-          url = 'http://' + entity
-        }
-        if(imgRegex.test(entity)){
-          return (
-            <img style={{width: '100%'}} key={`img-${index}`} src={url} />
-          )
-        }
+      var url = null
+      if(protocolRegex.test(entity)) {
+        url = entity
+      } else {
+        url = 'http://' + entity
+      }
+      if(imgRegex.test(entity)){
         return (
-          <a key={`link-${index}`} href={url} target='_blank'>{entity} </a>
+          <img style={{width: '100%'}} key={`img-${index}`} src={url} />
         )
+      }
+      return (
+        <a key={`link-${index}`} href={url} target='_blank'>{entity} </a>
+      )
     }
 
     return (
       <span key={`text-${index}`}>{entity} </span>
     )
-    return {type: 'plain', content: entity}
   })
 }
 
