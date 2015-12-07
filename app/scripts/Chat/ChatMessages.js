@@ -60,7 +60,9 @@ export default class ChatMessages extends React.Component {
             <Avatar userId={chat.userId} />
             <Username id={chat.userId} />
             <div className="message">
-              <span dangerouslySetInnerHTML={{__html: ChatFlavor.spice(chat.message)}}/>
+              <span>
+                {ChatFlavor.spice(chat.message)}
+              </span>
               <div className="timestamp">
                 <time>{timeString}</time>
               </div>
