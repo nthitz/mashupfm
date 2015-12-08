@@ -1,6 +1,6 @@
 import React from 'react'
 
-let urlRegex = new RegExp(/([-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?)/gi)
+let urlRegex = new RegExp(/(([-a-zA-Z0-9@:%_\+~#?&\/=][.]*){1,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?)/gi)
 let protocolRegex = /^https?:\/\//
 let imgRegex = /\.(?:jpe?g|gif|png)$/
 
