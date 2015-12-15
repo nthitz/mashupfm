@@ -5,6 +5,7 @@ import SortableMixin from '../mixins/react-sortable-mixin'
 import RefluxActions from '../RefluxActions'
 
 var mediaRoot = '/media/'
+var GrabDropdown = require('../CommonControls/GrabDropdown.js')
 
 class Song extends React.Component {
   constructor(props) {
@@ -37,6 +38,8 @@ class Song extends React.Component {
           <a className='download circle'>
             d
           </a>
+
+          <GrabDropdown />
           <div className='grab circle'>
             c
             <ul className='playlist-dropdown'>
