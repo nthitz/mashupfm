@@ -1,4 +1,4 @@
-.downvote-icon:after, .upvote-icon:after, .grab-icon:after, .download-icon:after, .chat-icon:after, .play-icon:after, .playlist-icon:after, .queue-icon:after, .users-icon:after, .leave-queue-icon:after, .add-song-icon:after, .join-queue-icon:after 
+.downvote-icon:after, .upvote-icon:after, .grab-icon:after, .download-icon:after, .chat-icon:after, .play-icon:after, .playlist-icon:after, .queue-icon:after, .users-icon:after, .leave-queue-icon:after, .add-song-icon:after, .join-queue-icon:after
   font-family: "mashupfm-icons"
   content: attr(data-icon)
   font-style: normal
@@ -9,6 +9,12 @@
   line-height: 1
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
+
+.grab-icon *
+  font-family: $font-family
+  line-height: initial
+  -webkit-font-smoothing: initial
+  -moz-osx-font-smoothing: initial
 
 .downvote-icon:after
   content: "a"
