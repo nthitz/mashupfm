@@ -8,9 +8,7 @@ export default class GrabDropdown extends React.Component {
 
     this.state = {
       playlists: [],
-      grabDropdown: {
-        expanded: true
-      }
+      expanded: false
     }
 
     this._playlistDataUpdated = this._playlistDataUpdated.bind(this)
@@ -36,9 +34,7 @@ export default class GrabDropdown extends React.Component {
     console.log(this)
     console.log(event)
     this.setState({
-      grabDropdown: {
-        expanded: !this.state.grabDropdown.expanded
-      }
+      expanded: !this.state.expanded
     })
   }
 
@@ -47,21 +43,17 @@ export default class GrabDropdown extends React.Component {
       return (
         <li
           className='grabbed'
-          key={index}
-        >
+          key={index}>
           {playlist.name}
         </li>
       )
     })
-
-    let grabDropdownClass = 'playlist-dropdown' +  (this.state.grabDropdown.expanded ? ' expanded' : ' booty')
-
     return (
-        <div 
-          className="grab circle grab-icon" 
+        <div
+          className={`grab circle grab-icon ${this.state.expanded ? 'active' : ''}`}
           id="grab"
           onClick={this._expandDropdown.bind(this)} >
-          <ul className={grabDropdownClass}>
+          <ul className='playlist-dropdown'>
             {playlistGrabList}
           </ul>
         </div>

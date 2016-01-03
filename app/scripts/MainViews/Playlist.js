@@ -40,23 +40,7 @@ class Song extends React.Component {
           </a>
 
           <GrabDropdown />
-          <div className='grab circle'>
-            c
-            <ul className='playlist-dropdown'>
-              <li className='added'>
-                Slams
-              </li>
-              <li className='added'>
-                Extra slammy slams
-              </li>
-              <li>
-                Friday earbleeds
-              </li>
-              <li>
-                Bruneaux
-              </li>
-            </ul>
-          </div>
+
         </div>
       </li>
     )
