@@ -136,7 +136,7 @@ export default React.createClass({
     })
     return (
       <div id='playlist'>
-        <ul ref='songs'>
+        <ul className='playlist' ref='songs'>
           {songs}
         </ul>
       </div>
