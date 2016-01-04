@@ -35,9 +35,7 @@ class Song extends React.Component {
           </div>
         </div>
         <div className='hover-controls'>
-          <a className='download circle'>
-            d
-          </a>
+          <a className='download-icon download circle'></a>
 
           <GrabDropdown />
 

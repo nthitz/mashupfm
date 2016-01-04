@@ -44,8 +44,13 @@ ul
   position: relative
   ul
     display: none
+    border: 1px solid $panel-shadow
     li.added
     li
+      padding: 0.7em 1.4em
+      border-bottom: 1px solid $panel-shadow
+      &:hover
+        background-color: $panel-highlight
 .grab.active
   background-color: $blue
   padding-top: 11px
@@ -105,8 +110,6 @@ li.song
       -webkit-font-smoothing: antialiased
       -moz-osx-font-smoothing: grayscale
       transition: background-color 0.1s ease-in-out, opacity 0.1s ease-in-out 0.1s
-    .circle:hover
-      background-color: rgba(255,255,255, 0.10)
     .circle:active
       padding-left: 11px
       padding-top: 11px
