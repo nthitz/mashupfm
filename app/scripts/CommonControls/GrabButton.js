@@ -1,6 +1,7 @@
 var React = require('react')
+let {PropTypes} = React
 
-import PlaylistStore from '../stores/PlaylistStore.js'
+import SongStore from '../stores/SongStore'
 import Actions from '../RefluxActions'
 
 export default class GrabButton extends React.Component {
@@ -15,18 +16,22 @@ export default class GrabButton extends React.Component {
   }
 
   componentDidMount() {
-    Actions.closeGrabDropdown.listen(this._deactivate)
+    this.unlisten = Actions.closeGrabDropdown.listen(this._deactivate)
   }
 
   componentWillUnmount() {
-    Actions.closeGrabDropdown.unlisten(this._deactivate)
+    this.unlisten()
   }
 
   _click(event) {
     this.setState({
       active: !this.state.active
     })
-    Actions.grabDropdown(this.refs.button, !this.state.active)
+    let song = this.props.song
+    if (song == null) {
+      song = SongStore.getSong()
+    }
+    Actions.grabDropdown(this.refs.button, !this.state.active, song)
   }
 
   _deactivate() {
@@ -46,5 +51,11 @@ export default class GrabButton extends React.Component {
         </div>
     )
   }
+}
+GrabButton.defaultProps = {
+  song: null
+}
+GrabButton.propTypes = {
+  song: PropTypes.object,
 }
 

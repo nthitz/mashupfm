@@ -66,6 +66,7 @@ router.get('/getPlaylist/:playlistId',
         response.json(playlist)
       }).catch((error) => {
         console.log(error)
+        response.status(500)
       })
 
   }
@@ -139,5 +140,53 @@ router.post('/updatePlaylistSort/:id',
     })
   }
 )
+
+router.post('/addSongToPlaylist/:songId/:playlistId',
+  (request, response) => {
+    if (!request.user) {
+      return response.status(401).json({error: 'unauthorized'})
+    }
+    let playlistId = request.params.playlistId
+    let songId = +request.params.songId
+    let userId = +request.user.id
+    db.query(
+      'SELECT sort FROM playlist WHERE id = $1 AND user_id=$2',
+      [playlistId, userId]
+    ).then((result) => {
+      return new Promise((resolve, reject) => {
+        if (result.rows.length === 0) {
+          reject('not a playlist of logged in user')
+        } else {
+          resolve(result.rows[0].sort)
+        }
+      })
+    }).then((sort) => {
+      if (sort.indexOf(songId) !== -1) {
+        return Promise.reject('dupe')
+      }
+      sort.push(songId)
+      let orderString = sort.map((songId) => {
+        return parseInt(songId, 10)
+      }).join(',')
+      return db.query(
+        `UPDATE playlist set sort='{${orderString}}' WHERE id=$1`,
+        [playlistId]
+      )
+    }).then(() => {
+      return db.query(
+        'INSERT INTO playlist_has_song (playlist_id, song_id) VALUES ($1, $2)',
+        [playlistId, songId]
+      )
+    }).then(() => {
+      response.json({status: 'ok'})
+    }).catch((error) => {
+      if (error === 'dupe') {
+        return response.json({status: 'already in playlist'})
+      }
+      console.log(error)
+      response.status(500)
+    })
+
+  })
 
 module.exports = router;

@@ -1,4 +1,5 @@
 var React = require('react')
+import request from 'superagent'
 
 import Actions from '../RefluxActions'
 import PlaylistStore from '../stores/PlaylistStore.js'
@@ -15,6 +16,7 @@ export default class GrabDropdown extends React.Component {
         right: 0,
         top: 0,
         bottom: 0,
+        height: 0,
       }
     }
 
@@ -41,22 +43,34 @@ export default class GrabDropdown extends React.Component {
   }
 
   _selectPlaylist(event, playlist) {
-    console.log(playlist)
+    this._addSongToPlaylist(playlist, this.state.song)
     event.preventDefault()
     event.stopPropagation()
     this._close()
   }
 
-  _open(button, active) {
+  _addSongToPlaylist(playlist, song) {
+    request.post(['/addSongToPlaylist', song.id, playlist.id].join('/'))
+      .end((error, result) => {
+        if (error) {
+          console.log(error)
+          return
+        }
+        Actions.refreshPlaylist()
+      })
+  }
+
+  _open(button, active, song) {
     this.setState({
       expanded: active,
-      position: button.getBoundingClientRect()
+      position: button.getBoundingClientRect(),
+      song: song,
     })
   }
 
   _close() {
     this.setState({
-      expanded: false
+      expanded: false,
     })
     Actions.closeGrabDropdown()
   }
@@ -74,6 +88,7 @@ export default class GrabDropdown extends React.Component {
         </li>
       )
     })
+
     let position = {
       left: this.state.position.left - 140,
       top: this.state.position.top + this.state.position.height + 10

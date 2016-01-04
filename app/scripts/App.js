@@ -3,6 +3,7 @@ var RefluxActions = require('./RefluxActions')
 var UserStore = require('./stores/UserStore')
 var QueueStore = require('./stores/QueueStore')
 import DjStore from './stores/DjStore'
+import SongStore from './stores/SongStore'
 
 import '../styles/app.sass'
 

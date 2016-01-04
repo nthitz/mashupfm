@@ -37,7 +37,7 @@ class Song extends React.Component {
         <div className='hover-controls'>
           <a className='download-icon download circle'></a>
 
-          <GrabButton />
+          <GrabButton song={this.props.song} />
 
         </div>
       </li>

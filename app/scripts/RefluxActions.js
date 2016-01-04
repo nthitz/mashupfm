@@ -11,4 +11,6 @@ module.exports = Reflux.createActions([
   'queueChanged',
   'grabDropdown',
   'closeGrabDropdown',
+  'addToPlaylist',
+  'setSong',
 ])

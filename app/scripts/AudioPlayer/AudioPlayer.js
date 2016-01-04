@@ -61,6 +61,7 @@ export default class AudioPlayer extends React.Component {
           }
         }
         RefluxActions.setDJ(data.dj)
+        RefluxActions.setSong(data.song)
         this.setState({
           song: data.song,
           seekTo: data.seek,
