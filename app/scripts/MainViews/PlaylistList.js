@@ -109,7 +109,7 @@ export default class PlaylistList extends React.Component {
           </Icon>
         </div>
         <div id='playlist-sidebar'>
-          <ul>
+          <ul className='sidebarUl'>
             {playlistSidebarLists}
           </ul>
         </div>
