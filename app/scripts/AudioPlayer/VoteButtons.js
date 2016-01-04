@@ -1,5 +1,5 @@
 var React = require('react')
-var GrabDropdown = require('../CommonControls/GrabDropdown.js')
+import GrabButton from '../CommonControls/GrabButton'
 
 import PlaylistStore from '../stores/PlaylistStore.js'
 
@@ -11,7 +11,7 @@ export default class VoteButtons extends React.Component {
       <div>
         <div className="circle upvote-icon" id="upvote">
         </div>
-        <GrabDropdown />
+        <GrabButton />
         <div className="circle downvote-icon" id="downvote">
         </div>
       </div>

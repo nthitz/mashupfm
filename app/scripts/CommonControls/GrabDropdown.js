@@ -1,5 +1,6 @@
 var React = require('react')
 
+import Actions from '../RefluxActions'
 import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class GrabDropdown extends React.Component {
@@ -8,19 +9,28 @@ export default class GrabDropdown extends React.Component {
 
     this.state = {
       playlists: [],
-      expanded: false
+      expanded: false,
+      position: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+      }
     }
 
     this._playlistDataUpdated = this._playlistDataUpdated.bind(this)
+    this._open = this._open.bind(this)
   }
 
   componentDidMount() {
     this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
     this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
+    Actions.grabDropdown.listen(this._open)
   }
 
   componentWillUnmount() {
     this._playlistStoreListener()
+    Actions.grabDropdown.unlisten(this._open)
   }
 
   _playlistDataUpdated(playlists) {
@@ -30,20 +40,25 @@ export default class GrabDropdown extends React.Component {
     this.setState(newState)
   }
 
-
-  _expandDropdown(event) {
-    this.setState({
-      expanded: !this.state.expanded
-    })
-  }
-
   _selectPlaylist(event, playlist) {
     console.log(playlist)
     event.preventDefault()
     event.stopPropagation()
+    this._close()
+  }
+
+  _open(button, active) {
+    this.setState({
+      expanded: active,
+      position: button.getBoundingClientRect()
+    })
+  }
+
+  _close() {
     this.setState({
       expanded: false
     })
+    Actions.closeGrabDropdown()
   }
 
   render() {
@@ -59,15 +74,19 @@ export default class GrabDropdown extends React.Component {
         </li>
       )
     })
+    let position = {
+      left: this.state.position.left - 140,
+      top: this.state.position.top + this.state.position.height + 10
+    }
+
     return (
-        <div
-          className={`grab circle grab-icon ${this.state.expanded ? 'active' : ''}`}
-          id="grab"
-          onClick={this._expandDropdown.bind(this)} >
-          <ul className='playlist-dropdown'>
-            {playlistGrabList}
-          </ul>
-        </div>
+      <div onClick={this._close.bind(this)}
+        className={`playlist-dropdown-shade ${this.state.expanded ? 'active': ''}`}>
+        <ul className='playlist-dropdown'
+          style={position}>
+          {playlistGrabList}
+        </ul>
+      </div>
     )
   }
 }

@@ -3,9 +3,9 @@ import request from 'superagent'
 import SortableMixin from '../mixins/react-sortable-mixin'
 
 import RefluxActions from '../RefluxActions'
+import GrabButton from '../CommonControls/GrabButton'
 
 var mediaRoot = '/media/'
-var GrabDropdown = require('../CommonControls/GrabDropdown.js')
 
 class Song extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Song extends React.Component {
         <div className='hover-controls'>
           <a className='download-icon download circle'></a>
 
-          <GrabDropdown />
+          <GrabButton />
 
         </div>
       </li>
