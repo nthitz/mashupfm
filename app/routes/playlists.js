@@ -189,4 +189,51 @@ router.post('/addSongToPlaylist/:songId/:playlistId',
 
   })
 
+router.post('/removeSongFromPlaylist/:songId/:playlistId',
+  (request, response) => {
+    if (!request.user) {
+      return response.status(401).json({error: 'unauthorized'})
+    }
+    let playlistId = request.params.playlistId
+    let songId = request.params.songId
+    let userId = +request.user.id
+    db.query(
+      'SELECT sort FROM playlist WHERE id = $1 AND user_id=$2',
+      [playlistId, userId]
+    ).then((result) => {
+      return new Promise((resolve, reject) => {
+        if (result.rows.length === 0) {
+          reject('not a playlist of logged in user')
+        } else {
+          resolve(result.rows[0].sort)
+        }
+      })
+    }).then((sort) => {
+      let songIndex = sort.indexOf(songId)
+      if (songIndex !== -1) {
+        return Promise.reject('not in playlist')
+      }
+      sort.splice(songIndex, 1)
+      let orderString = sort.map((songId) => {
+        return parseInt(songId, 10)
+      }).join(',')
+      return db.query(
+        `UPDATE playlist set sort='{${orderString}}' WHERE id=$1`,
+        [playlistId]
+      )
+    }).then(() => {
+      return db.query(
+        'DELETE FROM playlist_has_song WHERE playlist_id=$1 AND song_id=$2',
+        [playlistId, songId]
+      )
+    }).then(() => {
+      response.json({status: 'ok'})
+    }).catch((error) => {
+      console.log(error)
+      response.status(500)
+    })
+
+  })
+
+
 module.exports = router;

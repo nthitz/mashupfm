@@ -4,6 +4,7 @@ import SortableMixin from '../mixins/react-sortable-mixin'
 
 import RefluxActions from '../RefluxActions'
 import GrabButton from '../CommonControls/GrabButton'
+import RemoveButton from '../CommonControls/RemoveButton'
 
 var mediaRoot = '/media/'
 
@@ -35,6 +36,7 @@ class Song extends React.Component {
           </div>
         </div>
         <div className='hover-controls'>
+          <RemoveButton {...this.props} />
           <a className='download-icon download circle'></a>
 
           <GrabButton song={this.props.song} />
@@ -114,7 +116,7 @@ export default React.createClass({
 
   render: function() {
     let songs = this.state.songs.map((song, songIndex) => {
-      return <Song song={song} key={songIndex} />
+      return <Song song={song} key={songIndex} playlist={this.props.playlist} />
     })
     return (
       <div id='playlist'>
