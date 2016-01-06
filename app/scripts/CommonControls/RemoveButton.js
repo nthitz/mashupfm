@@ -30,7 +30,7 @@ export default class RemoveButton extends React.Component {
     return (
       <div
         ref='button'
-        className='remove circle queue-icon'
+        className='remove circle remove-icon'
         onClick={this._click.bind(this)} >
       </div>
     )
