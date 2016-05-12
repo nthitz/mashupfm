@@ -3,6 +3,7 @@ var websocket = require('../websocket')
 import Username from '../User/Username'
 import Avatar from '../User/Avatar'
 import userAuth from '../userAuth'
+import ChatFlavor from './ChatFlavor'
 import _ from 'lodash'
 
 export default class ChatMessages extends React.Component {
@@ -54,12 +55,29 @@ export default class ChatMessages extends React.Component {
     render(){
       var messages = this.state.messages.map((chat, chatIndex) => {
         var timeString = new Date(chat.time).toLocaleTimeString()
+        let messageClass = 'message-container'
+        if(this.state.messages){
+          if(this.state.loggedInUser)
+            if (this.state.messages[chatIndex].userId === this.state.loggedInUser.id)
+              messageClass += ' self'
+          if(this.state.messages[chatIndex + 1]){
+            if(this.state.messages[chatIndex + 1].userId === this.state.messages[chatIndex].userId)
+              messageClass += ' condensed'
+          }
+          if(this.state.messages[chatIndex - 1]){
+            if(this.state.messages[chatIndex - 1].userId === this.state.messages[chatIndex].userId)
+              messageClass += ' sameUser'
+          }
+        }
+
         return (
-          <li key={chatIndex} className='message-container'>
+          <li key={chatIndex} className={messageClass}>
             <Avatar userId={chat.userId} />
             <Username id={chat.userId} />
             <div className="message">
-              {chat.message}
+              <span>
+                {ChatFlavor.spice(chat.message)}
+              </span>
               <div className="timestamp">
                 <time>{timeString}</time>
               </div>

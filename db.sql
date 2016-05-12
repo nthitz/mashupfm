@@ -1,4 +1,4 @@
-
+DROP TABLE IF EXISTS "Entry";
 CREATE TABLE "Entry" (
   "id" serial NOT NULL,
   "data" jsonb NOT NULL,
@@ -7,14 +7,16 @@ CREATE TABLE "Entry" (
   OIDS=FALSE
 );
 
+DROP TABLE IF EXISTS "user";
 CREATE TABLE "user" (
   "id" serial PRIMARY KEY,
   "username" text NOT NULL,
   "hash" text,
   "password_change_request_hash" text,
-  "active_playlist_id" integer REFERENCES "playlist" ("id")
+  "active_playlist_id" integer
 );
 
+DROP TABLE IF EXISTS "song";
 CREATE TABLE "song" (
   "id" serial PRIMARY KEY,
   "plugId" integer,
@@ -28,19 +30,26 @@ CREATE TABLE "song" (
   "path" text
 );
 
+DROP TABLE IF EXISTS "playlist";
 CREATE TABLE "playlist" (
   "id" serial PRIMARY KEY,
   "name" text NOT NULL,
-  "user_id" integer REFERENCES "user" ("id"),
+  "user_id" integer,
   "order" integer[]
 );
 
+ALTER TABLE "user"
+  ADD CONSTRAINT "active_playlist_id" REFERENCES "playlist" ("id");
+ALTER TABLE "playlist"
+  ADD CONSTRAINT "user_id" REFERENCES "user" ("id");
+
+DROP TABLE IF EXISTS "playlist_has_song";
 CREATE TABLE "playlist_has_song" (
   "playlist_id" integer REFERENCES "playlist" ("id"),
   "song_id" integer REFERENCES "song" ("id")
 );
 
-
+DROP TABLE IF EXISTS "session";
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
   "sess" json NOT NULL,
@@ -73,8 +82,6 @@ COPY playlist_has_song (playlist_id, song_id) FROM stdin;
 \.
 
 SELECT pg_catalog.setval('playlist_id_seq', 1, true);
-
-
 
 SELECT pg_catalog.setval('song_id_seq', 5, true);
 

@@ -52,6 +52,7 @@ function initApp() {
   app.use(passport.session());
 
   socket.initSocket(app)
+  playback.setSocket(socket)
 
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

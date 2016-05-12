@@ -61,7 +61,8 @@ export default class ChatInput extends React.Component {
     }
 
     _send() {
-      let message = this.refs.input.value.trim()
+      let message = this.refs.input.value
+
       if (message === '') {
         return
       }

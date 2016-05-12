@@ -1,4 +1,4 @@
-.downvote-icon:after, .upvote-icon:after, .grab-icon:after, .download-icon:after, .chat-icon:after, .play-icon:after, .playlist-icon:after, .queue-icon:after, .users-icon:after, .leave-queue-icon:after, .add-song-icon:after, .join-queue-icon:after 
+.downvote-icon:after, .upvote-icon:after, .grab-icon:after, .download-icon:after, .chat-icon:after, .play-icon:after, .playlist-icon:after, .queue-icon:after, .users-icon:after, .leave-queue-icon:after, .add-song-icon:after, .join-queue-icon:after
   font-family: "mashupfm-icons"
   content: attr(data-icon)
   font-style: normal
@@ -10,12 +10,22 @@
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
+.grab-icon *
+  font-family: $font-family
+  line-height: initial
+  -webkit-font-smoothing: initial
+  -moz-osx-font-smoothing: initial
+
 .downvote-icon:after
   content: "a"
 .upvote-icon:after
   content: "b"
 .grab-icon:after
   content: "c"
+.remove-icon:after
+  content: "c"
+  transform: rotate(45deg)
+  position: absolute
 .download-icon:after
   content: "d"
 .chat-icon:after
@@ -34,3 +44,4 @@
   content: "k"
 .join-queue-icon:after
   content: "l"
+

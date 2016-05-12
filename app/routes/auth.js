@@ -14,6 +14,39 @@ router.post(
   }
 )
 
+router.post(
+  '/register',
+  function(request, response) {
+    db.query(
+      'SELECT COUNT(id) FROM "user" WHERE lower(username) = lower($1)',
+      [request.body.username]
+    ).then((result) => {
+      console.log(result)
+      if (result.rows.length === 0) {
+        console.error(result)
+        return response.json({'status': 'error', 'error': 'bad query'})
+      }
+      var count = +result.rows[0].count
+      if (count !== 0) {
+        return response.json({'status': 'error', 'error': 'username taken'})
+      }
+
+      credential.hash(request.body.password, function(error, hash) {
+        if (error) {
+          throw error;
+        }
+        db.query(
+          'INSERT INTO "user" (username, hash) VALUES ($1, $2)',
+          [request.body.username, hash]
+        ).then(() => {
+          return response.json({'status': 'success'})
+        })
+      })
+
+    })
+  }
+)
+
 router.get(
   '/user',
   function(request, result) {

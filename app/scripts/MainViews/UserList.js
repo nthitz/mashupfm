@@ -2,6 +2,7 @@ import React from 'react'
 
 import UserStore from '../stores/UserStore.js'
 import userAuth from '../userAuth'
+import Avatar from '../User/Avatar'
 
 class UserListItem extends React.Component {
 
@@ -32,7 +33,7 @@ class UserListItem extends React.Component {
     return (
       <tr className={className}>
         <td>
-          <div className='avatar'></div>
+          <Avatar userId={this.props.user.id} />
         </td>
         <td>
           <div className='username'>{this.props.user.username}</div>

@@ -1,30 +1,21 @@
 var React = require('react')
+import GrabButton from '../CommonControls/GrabButton'
 
-export default function VoteButtons(props) {
-  return (
-    <div>
-      <div className="circle upvote-icon" id="upvote">
-      </div>
-      <div className="grab circle grab-icon" id="grab">
-        <ul className="playlist-dropdown">
-          <li className="added">
-            Slams
-          </li>
-          <li className="added">
-            Extra slammy slams
-          </li>
-          <li>
-            Friday earbleeds
-          </li>
-          <li>
-            Bruneaux
-          </li>
-        </ul>
-      </div>
-      <div className="circle downvote-icon" id="downvote">
-      </div>
-    </div>
-  )
+import PlaylistStore from '../stores/PlaylistStore.js'
 
+
+export default class VoteButtons extends React.Component {
+
+  render() {
+    return (
+      <div>
+        <div className="circle upvote-icon" id="upvote">
+        </div>
+        <GrabButton />
+        <div className="circle downvote-icon" id="downvote">
+        </div>
+      </div>
+    )
+  }
 }
 

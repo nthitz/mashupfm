@@ -1,12 +1,17 @@
 var React = require('react')
 var RefluxActions = require('./RefluxActions')
 var UserStore = require('./stores/UserStore')
+var QueueStore = require('./stores/QueueStore')
+import DjStore from './stores/DjStore'
+import SongStore from './stores/SongStore'
+
 import '../styles/app.sass'
 
 var Header = require('./Header')
 import MainViewContainer from './MainViews/MainViewContainer'
 var LoginForm = require('./LoginForm')
 var Chat = require('./Chat/Chat')
+import GrabDropdown from './CommonControls/GrabDropdown'
 
 var userAuth = require('./userAuth')
 var websocket = require('./websocket')
@@ -41,6 +46,7 @@ export default class App extends React.Component {
       } else {
         authedContent = (
           <div id='content'>
+            <GrabDropdown />
             <MainViewContainer />
             <div id='right-container'>
               <Chat />

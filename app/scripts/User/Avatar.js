@@ -12,7 +12,22 @@ export default class Avatar extends React.Component {
     this.state = {
       user: UserStore.getUserById(props.userId)
     }
-    UserStore.listen(this._usersUpdated.bind(this))
+
+    this._usersUpdated = this._usersUpdated.bind(this)
+  }
+
+  componentDidMount() {
+    this._userStoreUnlisten = UserStore.listen(this._usersUpdated)
+  }
+
+  componentWillUnmount() {
+    this._userStoreUnlisten()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      user:  UserStore.getUserById(nextProps.userId)
+    })
   }
 
   _usersUpdated(users) {

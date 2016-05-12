@@ -15,7 +15,6 @@
     #chat
       overflow-y: auto
       height: 100%
-      -webkit-mask-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.00,  rgba(0,0,0,1)), color-stop(0.85,  rgba(0,0,0,1)), color-stop(1.00,  rgba(0,0,0,0)))
     #chat-messages
       padding-left: 18px + $circle-size
       position: relative
@@ -40,6 +39,8 @@
           .message
             display: inline
             clear: right
+            a, a:visited
+              color: $blue
             .timestamp
               position: absolute
               bottom: 0
@@ -49,6 +50,14 @@
           .appended
             margin-top: 4px
             display: block
+        li.message-container.condensed
+          padding: 0
+          margin-bottom: 0
+          .timestamp
+            display: none
+        li.message-container.sameUser
+          .avatar, .username
+            display: none
     #chat-input
       z-index: 20
       padding-left: 18px + $circle-size

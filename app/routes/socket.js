@@ -2,6 +2,7 @@ var expressWs = require('express-ws')
 var _ = require('lodash')
 
 var ServerActions = require('../ServerActions')
+var Playback = require('./playback')
 var app = null;
 
 var activeUsers = {}
@@ -30,6 +31,10 @@ function initSocket(_app) {
     ws.send(JSON.stringify({
       type: 'userList',
       data: activeUsers
+    }))
+    ws.send(JSON.stringify({
+      type: 'queueChanged',
+      data: Playback.getQueue(),
     }))
     broadcast(JSON.stringify({
       type: 'userJoin',
@@ -86,8 +91,18 @@ function isCommand(message) {
   return match
 }
 
+function isUserOnline(userId) {
+  return typeof activeUsers[userId] !== 'undefined'
+}
+
 ServerActions.forceClientNewSong.listen(() => {
   broadcast(JSON.stringify({ type: 'newSong' }))
+})
+ServerActions.queueChanged.listen((queue) => {
+  broadcast(JSON.stringify({
+    type: 'queueChanged',
+    data: queue
+  }))
 })
 ServerActions.forceRefreshPlaylist.listen((userId) => {
   if (activeSockets[userId]) {
@@ -97,6 +112,8 @@ ServerActions.forceRefreshPlaylist.listen((userId) => {
   }
 })
 
+
 module.exports = {
   initSocket: initSocket,
+  isUserOnline: isUserOnline,
 }

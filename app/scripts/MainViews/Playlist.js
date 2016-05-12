@@ -3,6 +3,8 @@ import request from 'superagent'
 import SortableMixin from '../mixins/react-sortable-mixin'
 
 import RefluxActions from '../RefluxActions'
+import GrabButton from '../CommonControls/GrabButton'
+import RemoveButton from '../CommonControls/RemoveButton'
 
 var mediaRoot = '/media/'
 
@@ -34,26 +36,11 @@ class Song extends React.Component {
           </div>
         </div>
         <div className='hover-controls'>
-          <a className='download circle'>
-            d
-          </a>
-          <div className='grab circle'>
-            c
-            <ul className='playlist-dropdown'>
-              <li className='added'>
-                Slams
-              </li>
-              <li className='added'>
-                Extra slammy slams
-              </li>
-              <li>
-                Friday earbleeds
-              </li>
-              <li>
-                Bruneaux
-              </li>
-            </ul>
-          </div>
+          <RemoveButton {...this.props} />
+          <a className='download-icon download circle'></a>
+
+          <GrabButton song={this.props.song} />
+
         </div>
       </li>
     )
@@ -129,11 +116,11 @@ export default React.createClass({
 
   render: function() {
     let songs = this.state.songs.map((song, songIndex) => {
-      return <Song song={song} key={songIndex} />
+      return <Song song={song} key={songIndex} playlist={this.props.playlist} />
     })
     return (
       <div id='playlist'>
-        <ul ref='songs'>
+        <ul className='playlist' ref='songs'>
           {songs}
         </ul>
       </div>

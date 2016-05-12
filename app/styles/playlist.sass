@@ -1,4 +1,4 @@
-$topbar-height: 48px  
+$topbar-height: 48px
 $sidebar-width: 320px
 
 #loader, .loader
@@ -36,20 +36,20 @@ $sidebar-width: 320px
     height: 10px
     animation: innerload 3s infinite
 
-@keyframes load 
-  from 
+@keyframes load
+  from
     transform: rotate(0deg)
-  to 
+  to
     transform: rotate(360deg)
 @keyframes innerload
-  from 
+  from
     transform: rotate(0deg)
     height: 2px
     top: 16px
   50%
     height: 16px
     top: 9px
-  to 
+  to
     transform: rotate(360deg)
     height: 2px
     top: 16px
@@ -208,7 +208,7 @@ $sidebar-width: 320px
     height: 100%
     background-color: $panel-shadow
     padding: $topbar-height 0
-    ul
+    ul.sidebarUl
       overflow-y: auto
       height: 100%
     li
@@ -269,7 +269,7 @@ $sidebar-width: 320px
 
   #playlist
     padding-left: $sidebar-width
-    ul
+    ul.playlist
       box-sizing: border-box
       border-top: 48px solid transparent
       overflow-y: auto
@@ -286,5 +286,4 @@ $sidebar-width: 320px
       opacity: 0
     li.song.drag-element
       .hover-controls
-        display: none
 
