@@ -10,6 +10,19 @@ body.nohighlight
   ::selection
     background: none
 
+::-webkit-scrollbar
+  background-color: transparent
+  width: 10px
+
+::-webkit-scrollbar-thumb
+  background-color: rgba(255,255,255,0.2)
+  border-radius: 5px
+  border: 2px solid $bg-color
+  position: relative
+ 
+::-webkit-scrollbar-thumb:hover
+  background-color: rgba(255,255,255,0.3)
+
 #content
   padding-top: 68px
   display: flex
