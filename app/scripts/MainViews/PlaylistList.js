@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import Icon from '../Icon'
 import Playlist from './Playlist'
+import AddSong from './AddSong'
 import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class PlaylistList extends React.Component {
@@ -104,9 +105,7 @@ export default class PlaylistList extends React.Component {
           <div id='playlist-name'>
             {selectedPlaylist ? selectedPlaylist.name : ''}
           </div>
-          <Icon icon='add-song' id='add-song'>
-            <input id='add-song-input' placeholder='paste song url here' type='text' />
-          </Icon>
+          <AddSong/>
         </div>
         <div id='playlist-sidebar'>
           <ul className='sidebarUl'>
