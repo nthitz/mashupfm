@@ -25,20 +25,28 @@ router.post('/uploadSong/:playlistId',
       return
     }
 
-    url = querystring.escape(url)
+    //maybe secure?
+    url = encodeURI(url)
     console.log(url)
 
     //this is gonnnnnnna be sooooo insecure
     exec('./scripts/downloadSong.sh ' + url, (err, stdout, stderr) => {
       if(err){
-        console.error(`exec error: ${err}`)
+        console.error(`exer error: ${err}`)
+
+        //we could probably regex it to see if it's invalid, but lets let youtube-dl decide because i'm lazy
+        if(err.toString().indexOf('valid URL') != -1)
+          response.send('invalid url')
+        else
+          response.send('error')
         return
       }
 
       console.log(`stdout: ${stdout}`)
+      response.json(JSON.parse(stdout))
+      response.status(300)
       
     })
-    response.status(300)
   }
 )
 

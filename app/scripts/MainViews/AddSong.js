@@ -19,10 +19,19 @@ export default class AddSong extends React.Component {
   }
 
   _uploadSong(){
-    console.log('hio')
+    var icon = document.getElementById('add-song')
+    if(!icon.classList.contains('active')){
+      icon.classList.add('active')
+      document.getElementById('add-song-input').focus()
+      return 0
+    }
+
+    var url = document.getElementById('add-song-input').value
+
+    if(url != undefined)
     request.post('/uploadSong/' + 5)
       .set('Content-Type', 'application/json')
-      .send('{"url":"asdf; ls"}')
+      .send('{"url":"' + url + '"}')
       .end((error, result) => {
         if (error) {
           throw error;
