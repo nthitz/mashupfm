@@ -43,6 +43,8 @@
     "style-loader": "^0.12.4",
     "superagent": "^1.4.0",
     "webpack": "^1.12.2",
-    "webpack-dev-middleware": "1.2.0"
+    "webpack-dev-middleware": "1.2.0",
+    "ffmpeg": "0.0.4",
+    "youtube-dl": "1.11.1"
   }
 }
