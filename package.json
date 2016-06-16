@@ -44,7 +44,7 @@
     "superagent": "^1.4.0",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "1.2.0",
-    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "2.1.0",
     "youtube-dl": "1.11.1"
   }
 }

@@ -6,7 +6,7 @@ var credential = require('credential')
 var _ = require('lodash')
 const exec = require('child_process').exec
 var querystring = require('querystring')
-var ffmpeg = require('ffmpeg')
+var ffmpeg = require('fluent-ffmpeg')
 var ytdl = require('youtube-dl')
 var db = require('../db')
 var fs = require('fs')
@@ -46,6 +46,16 @@ router.post('/uploadSong/:playlistId',
     //song.on('complete') <-- triggers if the video already exists
     song.on('end', function() {
       console.log('finsihedddd!!!')
+      ffmpeg('test.m4a')
+        .audioCodec('libfdk_aac')
+        .audioQuality(2)
+        .output('test2.m4a')
+        .on('end', function(){
+          console.log('finished processing!!')
+          response.send('finished processing')
+        })
+        .run()
+      /*
       try {
         var process = new ffmpeg('/home/j/projects/mashupfm/test.m4a')
         process.then(function(audio) {
@@ -62,6 +72,7 @@ router.post('/uploadSong/:playlistId',
       } catch (e) {
         console.log('ffmpeg error')
       }
+      */
     })
     /*
     //this is gonnnnnnna be sooooo insecure
