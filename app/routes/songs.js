@@ -27,73 +27,81 @@ router.post('/uploadSong/:playlistId',
       return
     }
 
-    //maybe secure?
     url = encodeURI(url)
-    console.log(url)
 
     var song = ytdl(url, 
       ['-f', 'bestaudio'], 
       {cwd: __dirname})
 
+    var fileinfo = {
+      _filename: 'tmp.m4a',
+      ext: 'm4a'
+    }
+
     song.on('info', function(info){
       console.log('dl started')
       console.log('filename ' + info._filename)
-      console.log('size ' + info.size)
+      console.log(info.ext)
+      fileinfo = info
     })
 
-    song.pipe(fs.createWriteStream('test.m4a'))
+    var tmpName = 'tmp' + Date.now()
+    song.pipe(fs.createWriteStream('tmp/' + tmpName))
 
-    //song.on('complete') <-- triggers if the video already exists
+    //song.on('complete') <-- triggers if the video already exists, might be useful later
     song.on('end', function() {
-      console.log('finsihedddd!!!')
-      ffmpeg('test.m4a')
+      var extensionRegex = new RegExp(fileinfo.ext + '$')
+      var filename = fileinfo._filename.replace(extensionRegex, 'm4a')
+      console.log(filename + ' being added')
+      ffmpeg('tmp/' + tmpName)
         .audioCodec('libfdk_aac')
         .audioQuality(2)
-        .output('test2.m4a')
+        .output("media/" + filename)
+        .on('error', function(err, stdout, stderr){
+          console.log(err)
+          console.log(stderr)
+          console.log(stdout)
+        })
         .on('end', function(){
-          console.log('finished processing!!')
+          console.log('transcode finished')
           response.send('finished processing')
+
+          fs.unlink('tmp/' + tmpName)
+
+          var format = 0
+          if(url.indexOf('youtube') != -1) format = 1
+          if(url.indexOf('soundcloud') != -1) format = 2
+
+          var duration = 0
+          var hms = fileinfo.duration.split(':')
+          if(hms.length == 1)
+            duration = parseInt(hms[0])
+          if(hms.length == 2)
+            duration = parseInt(60 * hms[0]) + parseInt(hms[1])
+          if(hms.length == 3)
+            duration = parseInt(3600 * hms[0]) + parseInt(60 * hms[1]) + parseInt(hms[2])
+
+          var params = [
+            null,
+            fileinfo.display_id,
+            fileinfo.thumbnails[0].url,
+            fileinfo.title,
+            fileinfo.uploader,
+            format,
+            duration,
+            filename
+          ]
+          console.log(params)
+          db.query(
+            'INSERT INTO "song" ("plugId", cid, image, title, author, format, duration, path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+            params
+          ).then((songInsertResult) => {
+            console.log(songInsertResult)
+          })
+
         })
         .run()
-      /*
-      try {
-        var process = new ffmpeg('/home/j/projects/mashupfm/test.m4a')
-        process.then(function(audio) {
-          audio
-            .addCommand('-acodec', 'libfdk_aac')
-            .addCommand('-vbr', '2')
-            .save('test2.m4a', function(error, file) {
-              if(!error)
-                console.log('audio transcoded: ' + file)
-              else
-                console.log(error)
-            })
-        })
-      } catch (e) {
-        console.log('ffmpeg error')
-      }
-      */
     })
-    /*
-    //this is gonnnnnnna be sooooo insecure
-    exec('./scripts/downloadSong.sh ' + url, (err, stdout, stderr) => {
-      if(err){
-        console.error(`exer error: ${err}`)
-
-        //we could probably regex it to see if it's invalid, but lets let youtube-dl decide because i'm lazy
-        if(err.toString().indexOf('valid URL') != -1)
-          response.send('invalid url')
-        else
-          response.send('error')
-        return
-      }
-
-      console.log(`stdout: ${stdout}`)
-      response.json(JSON.parse(stdout))
-      response.status(300)
-      
-    })
-    */
   }
 )
 
