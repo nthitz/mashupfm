@@ -3,6 +3,7 @@ import request from 'superagent'
 import _ from 'lodash'
 
 import Icon from '../Icon'
+import PlaylistStore from '../stores/PlaylistStore.js'
 
 export default class AddSong extends React.Component {
   constructor(props) {
@@ -28,8 +29,9 @@ export default class AddSong extends React.Component {
 
     var url = document.getElementById('add-song-input').value
 
+
     if(url != undefined)
-    request.post('/uploadSong/' + 5)
+    request.post('/uploadSong/' + 188)
       .set('Content-Type', 'application/json')
       .send('{"url":"' + url + '"}')
       .end((error, result) => {

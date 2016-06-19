@@ -19,8 +19,6 @@ router.post('/uploadSong/:playlistId',
     let playlistId = request.params.playlistId
     let userId = request.user.id
     let url = request.body.url
-    console.log(playlistId)
-    console.log(userId)
 
     if (! (playlistId && userId && url) ) {
       response.status(500)
@@ -89,14 +87,21 @@ router.post('/uploadSong/:playlistId',
             fileinfo.uploader,
             format,
             duration,
-            filename
+            filename,
+            'converted'
           ]
-          console.log(params)
+
           db.query(
-            'INSERT INTO "song" ("plugId", cid, image, title, author, format, duration, path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+            'INSERT INTO "song" ("plugId", cid, image, title, author, format, duration, path, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
             params
           ).then((songInsertResult) => {
-            console.log(songInsertResult)
+            console.log(songInsertResult.rows[0].id)
+            let songId = songInsertResult.rows[0].id
+
+            db.query(
+              'INSERT INTO playlist_has_song (playlist_id, song_id) VALUES ($1, $2)',
+              [playlistId, songId]
+            )
           })
 
         })
