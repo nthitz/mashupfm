@@ -42,9 +42,10 @@ export default class PlaylistList extends React.Component {
     this.setState(newState)
   }
 
-  _selectPlaylist(index) {
+  _selectPlaylist(index, id) {
     this.setState({
-      selectedPlaylistIndex: index
+      selectedPlaylistIndex: index,
+      selectedPlaylistId: id
     })
   }
 
@@ -76,9 +77,10 @@ export default class PlaylistList extends React.Component {
       }
       return (
         <li
-          onClick={this._selectPlaylist.bind(this, index)}
+          onClick={this._selectPlaylist.bind(this, index, playlist.id)}
           className={liClassName}
           key={index}
+          data-id={playlist.id}
         >
           <span style={{right: 'auto'}}>{playlist.name}</span>
           <span>

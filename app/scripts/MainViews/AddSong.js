@@ -14,9 +14,12 @@ export default class AddSong extends React.Component {
 
   }
   componentDidMount() {
+    this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
+    this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
   }
 
   componentWillUnmount() {
+    this._playlistStoreListener()
   }
 
   _uploadSong(){
@@ -27,10 +30,16 @@ export default class AddSong extends React.Component {
       return 0
     }
 
+    if(e.target.id == 'add-song-input'){
+      return 0
+    }
+
     var url = document.getElementById('add-song-input').value
+    if(url == ''){
+      icon.classList.remove('active')
+      return 0
+    }
 
-
-    if(url != undefined)
     request.post('/uploadSong/' + 188)
       .set('Content-Type', 'application/json')
       .send('{"url":"' + url + '"}')
