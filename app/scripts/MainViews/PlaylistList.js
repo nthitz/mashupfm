@@ -43,9 +43,9 @@ export default class PlaylistList extends React.Component {
   }
 
   _selectPlaylist(index, id) {
+    PlaylistStore.setSelectedPlaylist(id)
     this.setState({
-      selectedPlaylistIndex: index,
-      selectedPlaylistId: id
+      selectedPlaylistIndex: index
     })
   }
 
@@ -80,7 +80,6 @@ export default class PlaylistList extends React.Component {
           onClick={this._selectPlaylist.bind(this, index, playlist.id)}
           className={liClassName}
           key={index}
-          data-id={playlist.id}
         >
           <span style={{right: 'auto'}}>{playlist.name}</span>
           <span>

@@ -6,6 +6,8 @@ import userAuth from '../userAuth'
 import RefluxActions from '../RefluxActions'
 
 var playlists = []
+var selected = null
+var active = null
 
 var playlistStore = Reflux.createStore({
   init: function(){
@@ -19,6 +21,15 @@ var playlistStore = Reflux.createStore({
             }
             playlists = JSON.parse(result.text)
             this.trigger(playlists)
+
+            active = playlists[_.findIndex(playlists, (playlist) => {
+              return playlist.active
+            })].id
+
+            selected = selected == null ? active : selected
+
+            this.trigger(selected)
+            this.trigger(active)
         })
       })
 
@@ -28,6 +39,14 @@ var playlistStore = Reflux.createStore({
 
   getUserPlaylists: function(){
     return playlists
+  },
+
+  getSelectedPlaylist: function(){
+    return selected
+  },
+
+  setSelectedPlaylist: function(playlist){
+    selected = playlist
   },
 
   onAddPlaylist: function(playlist){

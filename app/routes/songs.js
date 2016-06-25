@@ -20,6 +20,10 @@ router.post('/uploadSong/:playlistId',
     let userId = request.user.id
     let url = request.body.url
 
+    console.log(url)
+    console.log(userId)
+    console.log(playlistId)
+
     if (! (playlistId && userId && url) ) {
       response.status(500)
       return
@@ -30,6 +34,8 @@ router.post('/uploadSong/:playlistId',
     var song = ytdl(url, 
       ['-f', 'bestaudio'], 
       {cwd: __dirname})
+
+    console.log(song)
 
     var fileinfo = {
       _filename: 'tmp.m4a',

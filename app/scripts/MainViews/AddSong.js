@@ -10,19 +10,33 @@ export default class AddSong extends React.Component {
     super(props)
 
     this.state = {
+      playlists: [],
+      selectedPlaylistId: -1
     }
+
 
   }
   componentDidMount() {
     this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
     this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
+
   }
 
   componentWillUnmount() {
     this._playlistStoreListener()
   }
 
-  _uploadSong(){
+  _playlistDataUpdated(playlists, selected) {
+    let newState = {
+      playlists: playlists,
+      selectedPlaylistId: selected == undefined ? 0 : selected
+    }
+    this.setState(newState)
+  }
+
+  
+
+  _uploadSong(e){
     var icon = document.getElementById('add-song')
     if(!icon.classList.contains('active')){
       icon.classList.add('active')
@@ -30,7 +44,7 @@ export default class AddSong extends React.Component {
       return 0
     }
 
-    if(e.target.id == 'add-song-input'){
+    if(e && e.target.id == 'add-song-input'){
       return 0
     }
 
@@ -40,7 +54,7 @@ export default class AddSong extends React.Component {
       return 0
     }
 
-    request.post('/uploadSong/' + 188)
+    request.post('/uploadSong/' + PlaylistStore.getSelectedPlaylist())
       .set('Content-Type', 'application/json')
       .send('{"url":"' + url + '"}')
       .end((error, result) => {
