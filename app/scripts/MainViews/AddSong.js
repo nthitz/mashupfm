@@ -61,6 +61,16 @@ export default class AddSong extends React.Component {
         if (error) {
           throw error;
         }
+        if(result.statusCode == 200){
+          document.getElementById('add-song').classList.add('complete')
+          document.getElementById('add-song-input').blur()
+          document.getElementById('add-song-input').value = ''
+
+          setTimeout(function(){
+            document.getElementById('add-song').classList.remove('complete', 'active')
+          }, 300)
+          console.log(result)
+        }
       })
   }
 

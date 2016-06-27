@@ -1,5 +1,6 @@
 $topbar-height: 48px
 $sidebar-width: 320px
+$swoop: cubic-bezier(.51, .14, .27, .94)
 
 #loader, .loader
   position: absolute
@@ -156,6 +157,7 @@ $sidebar-width: 320px
         font-size: 22px
         position: absolute
         top: 14px
+        transition: all 0.4s $swoop
         right: 16px
       &:hover
         background-color: $panel-shadow + #050505
