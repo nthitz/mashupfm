@@ -14,27 +14,7 @@ export default class AddSong extends React.Component {
       selectedPlaylistId: -1
     }
 
-
   }
-  componentDidMount() {
-    this._playlistStoreListener = PlaylistStore.listen(this._playlistDataUpdated)
-    this._playlistDataUpdated(PlaylistStore.getUserPlaylists())
-
-  }
-
-  componentWillUnmount() {
-    this._playlistStoreListener()
-  }
-
-  _playlistDataUpdated(playlists, selected) {
-    let newState = {
-      playlists: playlists,
-      selectedPlaylistId: selected == undefined ? 0 : selected
-    }
-    this.setState(newState)
-  }
-
-  
 
   _uploadSong(e){
     var icon = document.getElementById('add-song')
