@@ -141,6 +141,22 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
       font-weight: 700
       text-align: center
       padding-right: 50px
+    #add-song-progress
+      width: 50px
+      height: 96px
+      background-color: $panel-shadow
+      transition: all 0.2s $swoop
+      position: absolute
+      padding-top: 64px
+      box-sizing: border-box
+      top: 48px
+      right: 0
+      padding-left: 16px
+      img
+        position: absolute
+        width: 30px
+        left: 10px
+        top: 10px
     #add-song
       position: absolute
       right: 0
@@ -152,12 +168,13 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
       box-sizing: border-box
       padding-right: 50px
       padding-left: 0px
-      transition: all 0.2s ease-in-out
+      transition: all 0.2s $swoop
+      overflow: hidden
       &::after
         font-size: 22px
         position: absolute
         top: 14px
-        transition: all 0.4s $swoop
+        transition: all 0.4s $swoop, top 0.2s $swoop
         right: 16px
       &:hover
         background-color: $panel-shadow + #050505
@@ -169,6 +186,18 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
         background-color: $green
         input
           border-left: 4px solid $panel-gray
+        #add-song-progress
+          background-color: $green
+      &.progress
+        &:after
+          top: -34px
+        #add-song-progress
+          top: 0px
+      &.complete
+        &:after
+          top: -82px
+        #add-song-progress
+          top: -48px
       input
         height: $topbar-height
         width: 100%

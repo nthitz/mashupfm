@@ -34,6 +34,8 @@ export default class AddSong extends React.Component {
       return 0
     }
 
+    icon.classList.add('progress')
+
     request.post('/uploadSong/' + PlaylistStore.getSelectedPlaylist())
       .set('Content-Type', 'application/json')
       .send('{"url":"' + url + '"}')
@@ -47,7 +49,7 @@ export default class AddSong extends React.Component {
           document.getElementById('add-song-input').value = ''
 
           setTimeout(function(){
-            document.getElementById('add-song').classList.remove('complete', 'active')
+            document.getElementById('add-song').classList.remove('complete', 'progress', 'active')
           }, 300)
           console.log(result)
         }
@@ -58,6 +60,9 @@ export default class AddSong extends React.Component {
     return (
       <Icon icon='add-song' id='add-song' onClick={this._uploadSong}>
         <input id='add-song-input' placeholder='paste song url here' type='text' />
+        <div id='add-song-progress' className='song-added-icon'>
+          <img src='/assets/images/loader.svg'></img>
+        </div>
       </Icon>
     )
   }
