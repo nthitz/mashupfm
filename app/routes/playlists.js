@@ -6,6 +6,7 @@ var credential = require('credential')
 var _ = require('lodash')
 
 var db = require('../db')
+var playlistHelper = require('../helpers/playlistHelper')
 
 router.get(
   '/getUserPlaylists',
@@ -116,28 +117,14 @@ router.post('/updatePlaylistSort/:id',
       response.status(500)
       return
     }
-    db.query(
-      'SELECT COUNT(*) AS count FROM playlist WHERE id = $1 AND user_id=$2',
-      [playlistId, userId]
-    ).then((result) => {
-      return new Promise((resolve, reject) => {
-        if (result.rows[0].count == 1) { //count returns as a string so `==`
-          resolve()
-        }
-        reject('not a playlist of logged in user')
+
+    playlistHelper.updateOrder(userId, playlistId, order)
+      .error(() => {
+        response.status(500)
       })
-    }).then(() => {
-      let orderString = order.map((songId) => {
-        return parseInt(songId, 10)
-      }).join(',')
-      return db.query(
-        `UPDATE playlist SET sort='{${orderString}}' WHERE id=$1`,
-        [playlistId]
-      )
-    }).catch((error) => {
-      console.log(error)
-      response.status(500)
-    })
+      .success(() => {
+        response.send('playlist order updated')
+      })
   }
 )
 

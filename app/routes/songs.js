@@ -103,6 +103,7 @@ router.post('/uploadSong/:playlistId',
             ).then((songInsertResult) => {
               console.log(songInsertResult.rows[0].id)
               let songId = songInsertResult.rows[0].id
+              console.log(songId)
 
               db.query(
                 'INSERT INTO playlist_has_song (playlist_id, song_id) VALUES ($1, $2)',

@@ -50,7 +50,7 @@ export default class AddSong extends React.Component {
 
           setTimeout(function(){
             document.getElementById('add-song').classList.remove('complete', 'progress', 'active')
-          }, 300)
+          }, 750)
           console.log(result)
         }
       })
