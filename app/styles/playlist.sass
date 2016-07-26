@@ -184,6 +184,8 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
         width: 100%
         padding-left: $sidebar-width
         background-color: $green
+        &:hover
+          background-color: $green + #111
         input
           border-left: 4px solid $panel-gray
         #add-song-progress
@@ -198,22 +200,6 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
           top: -82px
         #add-song-progress
           top: -48px
-      input
-        height: $topbar-height
-        width: 100%
-        text-align: center
-        background-color: $panel-shadow
-        outline: none
-        border: none
-        color: $text-white
-        &::-webkit-input-placeholder
-          opacity: 0.3
-        &:-moz-placeholder
-          opacity: 0.3
-        &::-moz-placeholder
-          opacity: 0.3
-        &:-ms-input-placeholder
-          opacity: 0.3
     #add-playlist
       z-index: 10
       background-color: $panel-shadow
@@ -226,10 +212,42 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
       position: absolute
       top: 0
       left: 0
+      overflow: hidden
+      &:hover
+        background-color: $panel-shadow + #080808
       &::after
         position: absolute
         top: 16px
         right: 18px
+      input
+        position: absolute
+        left: 100%
+        top: 0
+        width: 320px - 48px
+        transition: left 0.2s $swoop
+        z-index: 11
+        border-bottom: 1px solid $panel-gray
+      #add-playlist-input-submit
+        background-color: $green
+        z-index: 11
+        width: 48px
+        height: 48px
+        position: absolute
+        left: (320px * 2) - 48px
+        top: 0
+        padding: 15px
+        box-sizing: border-box
+        transition: left 0.2s $swoop
+        &:hover
+          background-color: $green + #111
+      &.active
+        #add-playlist-input-submit
+          left: 320px - 48px
+        input
+          left: 0
+
+
+
   #playlist-sidebar
     position: absolute
     left: 0
@@ -318,3 +336,19 @@ $swoop: cubic-bezier(.51, .14, .27, .94)
     li.song.drag-element
       .hover-controls
 
+#add-song-input, #add-playlist-input
+  height: $topbar-height
+  width: 100%
+  text-align: center
+  background-color: $panel-shadow
+  outline: none
+  border: none
+  color: $text-white
+  &::-webkit-input-placeholder
+    opacity: 0.3
+  &:-moz-placeholder
+    opacity: 0.3
+  &::-moz-placeholder
+    opacity: 0.3
+  &:-ms-input-placeholder
+    opacity: 0.3

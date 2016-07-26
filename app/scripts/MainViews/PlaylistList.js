@@ -62,6 +62,13 @@ export default class PlaylistList extends React.Component {
     })
   }
 
+  _createNewPlaylist(){
+    document.getElementById('add-playlist').classList.add('active')
+    setTimeout(function(){
+      document.getElementById('add-playlist-input').focus()
+    }, 200)
+  }
+
   componentWillUnmount() {
     this._playlistStoreListener()
   }
@@ -100,8 +107,20 @@ export default class PlaylistList extends React.Component {
     return (
       <div id='playlists'>
         <div id='playlist-topbar'>
-          <Icon icon='grab' id='add-playlist'>
+          <Icon 
+            icon='grab' 
+            id='add-playlist'
+            onClick={this._createNewPlaylist}
+          >
             Add New Playlist
+            <input type='text' id='add-playlist-input' placeholder='playlist name'></input>
+            <Icon 
+              icon='checkmark' 
+              id='add-playlist-input-submit'
+              onClick={this._createNewPlaylist}
+            >
+            </Icon>
+              
           </Icon>
           <div id='playlist-name'>
             {selectedPlaylist ? selectedPlaylist.name : ''}
