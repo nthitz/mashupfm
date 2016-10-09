@@ -128,6 +128,25 @@ router.post('/updatePlaylistSort/:id',
   }
 )
 
+router.post('/createPlaylist',
+  (request, response) => {
+    if(!request.user) {
+      return response.status(401).json({error: 'unauthorized'})
+    }
+    let name = request.body.name
+    if(name){
+      db.query(
+        'INSERT INTO playlist (name, user_id, sort) VALUES ($1, $2, $3)',
+        [name, request.user.id, []]
+      ).then((result) => {
+        console.log(result)
+        response.json({status: 'playlist created'})
+      }).catch((error) => {
+        response.status(500)
+      })
+    }
+  })
+
 router.post('/addSongToPlaylist/:songId/:playlistId',
   (request, response) => {
     if (!request.user) {

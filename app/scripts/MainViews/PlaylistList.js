@@ -62,11 +62,31 @@ export default class PlaylistList extends React.Component {
     })
   }
 
-  _createNewPlaylist(){
-    document.getElementById('add-playlist').classList.add('active')
-    setTimeout(function(){
-      document.getElementById('add-playlist-input').focus()
-    }, 200)
+  _createNewPlaylist(e){
+    let dom = document.getElementById('add-playlist')
+    if(dom.classList.contains('active')){
+      if(e.target.id == 'add-playlist-input-submit'){
+        request.post('/createPlaylist')
+          .set('Content-Type', 'application/json')
+          .send('{"name":"' + document.getElementById('add-playlist-input').value + '"}')
+          .end((error, result) => {
+            if (error) {
+              throw error;
+            }
+            if(result.statusCode == 200){
+              dom.classList.remove('active')
+              PlaylistStore.init()
+
+            }
+          })
+      }
+    }
+    else {
+      dom.classList.add('active')
+      setTimeout(function(){
+        document.getElementById('add-playlist-input').focus()
+      }, 200)
+    }
   }
 
   componentWillUnmount() {
@@ -117,7 +137,6 @@ export default class PlaylistList extends React.Component {
             <Icon 
               icon='checkmark' 
               id='add-playlist-input-submit'
-              onClick={this._createNewPlaylist}
             >
             </Icon>
               
