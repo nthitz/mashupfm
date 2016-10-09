@@ -109,6 +109,24 @@ router.post('/uploadSong/:playlistId',
                 'INSERT INTO playlist_has_song (playlist_id, song_id) VALUES ($1, $2)',
                 [playlistId, songId]
               )
+
+              db.query(
+                'select sort from playlist where id=$1', 
+                [playlistId]
+              )
+              .then((result) => {
+                let sort = result.rows[0].sort
+                sort.push(songId)
+                let orderString = sort.join(',')
+                return db.query(
+                  `UPDATE playlist SET sort='{${orderString}}' WHERE id=$1`,
+                  [playlistId]
+                )
+              })
+              .catch((error) => {
+                console.log(error)
+                response.send('error')
+              })
             })
 
           })
